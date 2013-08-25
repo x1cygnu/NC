@@ -1,0 +1,24 @@
+.orbitcolumn
+{
+    width : 50pt;
+}
+.numbercolumn
+{
+    width : 50pt;
+}
+.freeplanet
+{
+    background-color : #ddffdd;
+}
+.takenplanet
+{
+    background-color : #ffffff;
+}
+.unknownplanet
+{
+    background-color : #eeeeee;
+}
+.siegedplanet
+{
+    background-color : #ffdddd;
+}

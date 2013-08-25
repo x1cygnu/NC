@@ -1,0 +1,46 @@
+.newstype0
+{
+    background-color: #808005;
+    font-weight : bold;
+    width : 150px;
+}
+.newstype1
+{
+    background-color: #080880;
+    font-weight : bold;
+    width : 150px;
+}
+.newstype2
+{
+    background-color: #804008;
+    font-weight : bold;
+    width : 150px;
+}
+.newstype3
+{
+    background-color: #088008;
+    font-weight : bold;
+    width : 150px;
+}
+.newstype4
+{
+    background-color: #106000;
+    font-weight : bold;
+    width : 150px;
+}
+.newstype5
+{
+    background-color: #a03000;
+    font-weight : bold;
+    width : 150px;
+}
+.newsnew
+{
+    background-color: #4d1808;
+    width : 480px;
+}
+.normtext
+{
+    text-align : left;
+    width : 480px;
+}

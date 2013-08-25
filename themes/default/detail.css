@@ -1,0 +1,48 @@
+.orbitcolumn
+{
+    width : 30pt;
+}
+.numbercolumn
+{
+    width : 30pt;
+}
+.freeplanet
+{
+    background-color : #103820;
+}
+.takenplanet
+{
+    background-color : #182830;
+}
+.unknownplanet
+{
+    background-color : #282828;
+}
+.siegedplanet
+{
+    background-color : #503838;
+}
+.freeplanetnocul
+{
+    background-color : #285020;
+}
+.takenplanetnocul
+{
+    background-color : #303830;
+}
+.unknownplanetnocul
+{
+    background-color : #404028;
+}
+.siegedplanetnocul
+{
+    background-color : #604038;
+}
+.lackofplanet
+{
+  background-color : #111111;
+}
+b
+{
+    color : #c0c0c0;
+}

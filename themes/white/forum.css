@@ -1,0 +1,96 @@
+.forumtable
+{
+    text-align : left;
+    font-size : 10pt;
+}
+.forumtable TD
+{
+    padding : 5px;
+}
+.forummaintitle
+{
+    background : #fff0c0;
+    color : #604020;
+    font-size : xx-large;
+    width : 800px;
+    text-align : center;
+}
+.forumtitle
+{
+    background : #fff0c0;
+    align : left;
+}
+.forumdir
+{
+    width : 670px;
+    
+}
+H5
+{
+    font-size : large;
+    font-weight : bold;
+    margin : 0px;
+}
+H6
+{
+    font-size : small;
+    font-weight : normal;
+    margin : 0px;
+}
+
+.forumtext
+{
+    font-size : small;
+    background : #ffffe0;
+    border-top: solid #202060 3px;
+    border-bottom: solid #202060 3px;
+    border-left: solid #202060 2px;
+    border-right: solid #202060 2px;
+    vertical-align: top;
+    
+}
+
+.warningmark
+{
+    background : #f0e0d0;
+}
+
+.permYes
+{
+    background : #004000;
+}
+
+.permNo
+{
+    background : #400000;
+}
+
+.rread
+{
+    background : #ffffff;
+}
+.unrread
+{
+    background : #ffffd0;
+}
+
+.uncensure
+{
+    font-size : 8pt;
+}
+
+.censure
+{
+    background : #ffe0d0;
+}
+
+.qa
+{
+    background : #f0f0f0;
+    font-size : 8pt
+}
+.q
+{
+    background : #ffffff;
+    font-size : 8pt;
+}

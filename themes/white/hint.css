@@ -1,0 +1,45 @@
+.hinted1, .hinted2, .hinted3, .hinted4
+{
+    display : block;
+    position : relative;
+}
+.hinted1 DIV, .hinted2 DIV, .hinted3 DIV, .hinted4 DIV, .hinted5 DIV
+{
+    display : none;
+    background-color : #ffffff;
+    border: 1px solid #307856;
+    font-size : 8pt;
+    width : 256px;
+    position : absolute;
+    z-index: 500;
+    text-align: left;
+}
+.hinted1 DIV
+{
+    top : 22px;
+    left : 0px;
+}
+.hinted2 DIV
+{
+    top : 0px;
+    left : -256px;
+}
+.hinted3 DIV
+{
+    top : 0px;
+    right : -256px;
+}
+.hinted4 DIV
+{
+    top : 22px;
+    right : -256px;
+}
+.hinted5 DIV
+{
+    top : 0px;
+    left : 0px;
+}
+.hinted1:hover DIV, .hinted2:hover DIV, .hinted3:hover DIV, .hinted4:hover DIV, .hinted5:hover DIV
+{
+    display : block;
+}

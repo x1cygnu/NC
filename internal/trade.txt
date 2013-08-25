@@ -1,0 +1,4 @@
+1 - Helium Seed - 600 - Growth +8%
+2 -  - 1750 - Culture +6%
+3 -  - 3400 - Growth +6%, Culture +4%
+4 -  - 

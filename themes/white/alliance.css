@@ -1,0 +1,49 @@
+.dec
+{
+    color : #e03030;
+}
+.pend
+{
+    color : #c0c020;
+}
+.acc
+{
+    color : #30e030;
+}
+.numb
+{
+    width : 20pt;
+}
+.dev
+{
+    color # 707000;
+}
+.nick
+{
+    width : 80pt;
+    background-color : #101040;
+}
+.p
+{
+    background-color : #103010;
+}
+.pl
+{
+    background-color : #301010;
+}
+.s
+{
+    background-color : #080830;
+}
+.e
+{
+    background-color : #101030;
+}
+.l
+{
+    background-color : #103010;
+}
+.z
+{
+    background-color : #104010;
+}

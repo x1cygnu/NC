@@ -1,0 +1,206 @@
+body, h1, a, table, input, textarea
+{
+    font-family : Verdana, Arial, Helvetica, sans-serif;
+    color : #e0e0e0;
+    text-decoration: none;
+}
+body, table
+{
+    text-align : center;
+    margin : auto;
+}
+p
+{
+    margin : auto;
+}
+pre
+{
+    font-size : 9pt;
+    color : #afaf10;
+}
+a
+{
+    color : #8888ff;
+}
+body, table
+{
+    font-size: 10pt;
+    background-color : black;
+    border : 0;
+}
+table.standard
+{
+    width : 630px;
+}
+h1
+{
+    font-size: 10pt;
+    font-weight: bold;
+}
+img
+{
+    border : 0;
+}
+table
+{
+    text-align: center;
+    border : 0;
+    padding : 0px;
+    border-spacing: 0px;
+}
+td
+{
+    border: 1px solid #000000;
+    padding: 0;
+    margin: 0;
+}
+table.nullspace td
+{
+    border: 0px;
+    border-collapse : collapse;
+    padding: 0;
+    margin: 0;
+}
+tr.nullspace td
+{
+    border: 0px;
+    padding: 0;
+    margin: 0;
+}
+.text, select
+{
+    border : #131c13 1px solid;
+    font-size : 10pt;
+    color: #000000;
+    font-family: Verdana, Helvetica, sans-serif;
+    background-color: #777777
+}
+input.name
+{
+    width : 90pt;
+}
+.number
+{
+    width : 32pt;
+}
+
+input.smbutton
+{
+    border-right: #80a080 1px solid;
+    border-top: #a0c0a0 1px solid;
+    border-left: #90b090 1px solid;
+    border-bottom: #709070 1px solid;
+    font-weight: bold;
+    font-size: 9pt;
+    background-color: #304030;
+}
+table.menu
+{
+    background-color: #202020;
+    width: 630px;
+    padding : 2px;
+    border-spacing: 1px;
+}
+.menu a
+{
+    color : #e0e0e0;
+}
+table.menu tr
+{
+    background-color: #303030;
+}
+tr.menu
+{
+    background-color: #404040;
+}
+.legend
+{
+    background-color: #181840;
+}
+.sublegend
+{
+    background-color: #101030;
+}
+.block
+{
+    background-color: #303030;
+}
+.menuselected
+{
+    background-color: #304060;
+}
+.error
+{
+    width : 600px;
+    background-color : #703030;
+    font-weight : bold;
+    border : 10px;
+    margin-top : 5px;
+    margin-bottom : 5px;
+}
+table.error td
+{
+    padding : 10px;
+}
+.suggestion
+{
+    width : 600px;
+    background-color : #000000;
+    border : 10px;
+    margin-top : 5px;
+    margin-bottom : 5px;
+    text-align: left;
+}
+table.suggestion td
+{
+    background-color : #606030;
+    padding : 10px;
+}
+.suggestioncaption
+{
+    background-color : #707030;
+    text-align: center;
+    font-weight: bold;
+}
+.info
+{
+    width : 600px;
+    background-color : #205820;
+    font-weight : bold;
+    border : 10px;
+    margin-top : 5px;
+    margin-bottom : 5px;
+}
+table.info td
+{
+    padding : 10px;
+}
+.help
+{
+    font-size : 7pt;
+    font-weight : normal;
+    color : #40b080;
+}
+.title
+{
+    background-color : #402010;
+}
+a:hover
+{
+    color : #aaaaff;
+}
+input:hover
+{
+    background-color: #676799
+}
+.selectablebg:hover
+{
+    background-color: #303090
+}
+
+.explain
+{
+    vertical-align : top;
+    text-align : left;
+    font-size : 7pt;
+}
