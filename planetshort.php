@@ -4,7 +4,6 @@ error_reporting(E_ALL);
 ob_start("ob_gzhandler");
 include_once("internal/html.php");
 include_once("internal/common.php");
-include_once("internal/security/config.php");
 include_once("internal/security/validator.php");
 include_once("internal/planet.php");
 include_once("internal/progress.php");

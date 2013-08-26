@@ -3,7 +3,6 @@
 // Account semi-class
 
 include_once("./internal/common.php");
-include_once("./internal/security/config.php");
 include_once("./internal/security/validator.php");
 include_once("./internal/player.php");
 include_once("./internal/forumfunc.php");
