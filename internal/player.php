@@ -53,7 +53,7 @@ function player_get_artefact_use(&$sql, $pid)
     if (count($Arts)==1)
 	return $Arts[0];
     else
-	return array('Biology' => 0, 'Science' => 0, 'Culture' => 0, 'Production' => 0, 'Speed' => 0, 'Attack' => 0, 'Defence' => 0);
+	return array('Growth' => 0, 'Science' => 0, 'Culture' => 0, 'Production' => 0, 'Speed' => 0, 'Attack' => 0, 'Defence' => 0);
 }
 
 function player_get_full_race(&$sql, $pid)

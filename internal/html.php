@@ -427,9 +427,11 @@ class Table extends NamedContainer
   function SetRows($iNumRows)
   {
     if ($iNumRows>$this->iRows)
-      for ($i=$this->iRows+1; $i<=$iNumRows; ++$i)
+      for ($i=$this->iRows+1; $i<=$iNumRows; ++$i) {
+        $this->aLines[$i] = array();
         for ($j=1; $j<=$this->iCols; ++$j)
           $this->aLines[$i][$j]=new Cell();
+      }
     elseif ($iNumRows<$this->iRows)
       for ($i=$iNumCols+1; $i<=$this->iRows; ++$i)
         unset($this->aLines[$i]);
@@ -454,7 +456,7 @@ class Table extends NamedContainer
       $this->SetRows($iY);
     if (!isset($this->aLines[$iY][$iX]))
     {
-      echo "Error: Cell [$iX,$iY] not accessible<br>\n";
+      echo "Error: Table::Insert - Cell [$iX,$iY] not accessible<br>\n";
       return false;
     }
     $DUPA=$this->aLines[$iY][$iX]->Insert($oEntity);
@@ -557,8 +559,18 @@ class Table extends NamedContainer
       return NULL;
   }    
 
-  function Set($iX, $iY, $oCell)
+  function Set(/*$iX, $iY, $oCell*/)
   {
+    $args = func_get_args();
+    if (count($args)==2) {
+      $iX = $args[0]->x;
+      $iY = $args[0]->y;
+      $oCell = $args[1];
+    } else {
+      $iX = $args[0];
+      $iY = $args[1];
+      $oCell = $args[2];
+    }
     if (get_class($oCell)!="Cell")
     {
       echo "Error: Parameter oCell is not a Cell object, but " . get_class($oCell);

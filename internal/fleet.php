@@ -14,6 +14,8 @@ function get_AV($ship)
     elseif (($ship=="Bs") or ($ship=="Battleship")) return 48;
     elseif (($ship=="Vpr") or ($ship=="Viper")) return 1;
     elseif (($ship=="Drn") or ($ship=="Dreadnought")) return 158;
+    elseif (($ship=="Sol") or ($ship=="Solar")) return 0;
+    elseif (($ship=="SB") or ($ship=="Starbase")) return 40;
     else return 0;
 }
 
@@ -24,6 +26,8 @@ function get_DV($ship)
     elseif (($ship=="Bs") or ($ship=="Battleship")) return 37;
     elseif (($ship=="Vpr") or ($ship=="Viper")) return 1;
     elseif (($ship=="Drn") or ($ship=="Dreadnought")) return 156;
+    elseif (($ship=="Sol") or ($ship=="Solar")) return 1;
+    elseif (($ship=="SB") or ($ship=="Starbase")) return 40;
     else return 0;
 }
 

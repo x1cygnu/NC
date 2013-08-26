@@ -16,7 +16,7 @@
 }
 .smallcell
 {
-    height : 10px;
+    height : 60px;
     vertical-align : middle;
 }
 .shipnum
@@ -64,7 +64,7 @@
 }
 .object
 {
-    height : 120px;
+    height : 70px;
 }
 .incbutton
 {
@@ -95,4 +95,40 @@
     padding-left : 0;
     padding-right : 0;
     width : 12pt;
+}
+.typeexpl
+{
+    font-size: 8pt;
+}
+.planetrow
+{
+width : 706px;
+}
+.restitle
+{
+width : 200px;
+}
+.resourceslabel
+{
+width : 180px;
+}
+.fresourceslabel
+{
+width : 104px;
+}
+.resourcesgap
+{
+width : 128px;
+}
+.lowlabel
+{
+width : 180px;
+}
+.lowgap
+{
+width : 380px;
+}
+.highlabel
+{
+width : 130px;
 }

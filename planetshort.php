@@ -15,6 +15,16 @@ session_start();
 
 include_once("part/planetcommon.php");
 
+//Check if one of the rows should be detailed with all the buttons
+get("exp",'string');
+$expandResources = $expandBuildings = $expandLowOrbit = $expandHighOrbit = false;
+if (isset($GET['exp'])) {
+if ($GET['exp'] == 'b') { $expandResources=true; $expandBuildings = true; }
+if ($GET['exp'] == 'l') { $expandResources=true; $expandLowOrbit = true; }
+if ($GET['exp'] == 'h') { $expandResources=true; $expandHighOrbit = true; }
+}
+
+
 if ($makeChanges)
 {
 post("newname","string");
@@ -139,6 +149,23 @@ $Table->SetClass(1,3,"additional");
 $Table->Join(1,3,2,1);
 $Table->SetClass(1,4,"additional");
 
+function prepTable($rows, $cols, $short, $name) {
+  $T = new Table();
+  $T->SetRows($rows);
+  if ($cols>0) {
+    $cols = $cols + 1;
+      $T->SetCols($cols);
+      $T->Insert($cols,1," ");
+      $T->SetClass($cols,1,$short . 'gap');
+  } else {
+      $T->SetCols(1);
+  }
+  $T->Insert(1,1,$name);
+  $T->sClass = 'planetrow';
+  $T->SetClass(1,1,'legend '.$short.'label');
+  $T->Join(1,1,1,$rows);
+  return $T;
+}
 
 $T = new EntryConfig();
 $T->table = $Table;
@@ -148,13 +175,49 @@ $T->progressXY = new V2D(1,3);
 $T->timeremXY = new V2D(2,4);
 $T->incomeXY = new V2D(1,4);
 
+$ObjTTemplate=new Table();
+$ObjTTemplate->SetCols(3);
+$ObjTTemplate->SetRows(4);
+$ObjTTemplate->sClass='block object';
+$ObjTTemplate->SetClass(1,1,"legend restitle");
+$ObjTTemplate->Join(1,1,3,1);
+$ObjTTemplate->SetClass(1,2,"levelnum");
+$ObjTTemplate->Join(1,2,2,1);
+$ObjTTemplate->SetClass(1,4,"additional");
+$ObjTTemplate->Join(3,2,1,2);
+$ObjTTemplate->SetClass(1,3,"additional");
+$ObjTTemplate->Join(1,3,2,1);
 
 
+$TF = new EntryConfig();
+$TF->table = $ObjTTemplate;
+$TF->titleXY = new V2D(1,1);
+$TF->valueXY = new V2D(1,2);
+$TF->progressXY = new V2D(1,3);
+$TF->timeremXY = new V2D(2,4);
+$TF->incomeXY = new V2D(3,4);
+$TF->detailXY = new V2D(3,2);
+$TF->buildboxXY = new V2D(1,5);
 
-$H->Insert(planetResources($PData,$T));
+//$expandResources = true;
+if ($expandResources)
+        $H->Insert(planetResources(prepTable(1,0,"fresources", "Resources"), new V2D(2,1), $PData,$TF));
+else
+        $H->Insert(planetResources(prepTable(1,4,"resources", "Resources"), new V2D(2,1), $PData,$T));
+
 $F=new Form("planet.php?id={$GET['id']}" . $sitAddition,true);
 
-$F->Insert(planetBuildings($P,$T));
+$F->Insert(planetBuildings(prepTable(1,0,"buildings", "Buildings"), new V2D(2,1), $P,$T));
+$F->Insert(planetLowOrbit(prepTable(1,2,"low", "Low Orbit"), new V2D(2,1), $P,$T));
+
+$HighOrbitTable = prepTable(2,5,"high", "High Orbit");
+if ($Siege) {
+       $Table->SetClass(1,2,"levelnum smallcell negative");
+       $Enemy=account_get_name_from_pid($sql, $P['FleetOwner']);
+       $HighOrbitTable->Insert(1,1,new Br());
+       $HighOrbitTable->Insert(1,1,"($Enemy)");
+}
+$F->Insert(planetHighOrbit($HighOrbitTable, new V2D(2,1), $P,$T));
 $H->Insert($F);
 $H->Draw();
 //////////////////////////////////

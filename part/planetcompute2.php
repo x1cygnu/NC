@@ -37,20 +37,22 @@ function InfoBoxCell($field)
 }
 
 
+$Siege=false;
 function planetCompute($P) {
   global $sql;
   global $WorkSTx;
+  global $Siege;
 
 $InfoBox=array();
 $Return=array();
 
-$Siege=false;
 if ($P['FleetOwner']!=0 and $P['FleetOwner']!=$P['Owner'])
     $Siege=true;
 
 // P = planet_get_all
 $Pl=player_get_all($sql, $_SESSION['PID']);
 $Art=player_get_artefact_use($sql, $_SESSION['PID']);
+print_r($Art);
 
 ///////////////////////////////////////////
 //Pollution (Toxic)

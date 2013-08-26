@@ -120,4 +120,12 @@ function Tr_points($eco)
     return 60;
 }
 
+function Sol_points() {
+    return 100;
+}
+function SB_points()
+{
+    return 500;
+}
+
 ?>
