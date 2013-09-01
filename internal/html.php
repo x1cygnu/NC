@@ -45,9 +45,26 @@ class Container
     }
   }
 
+  function Place($oEntity,$iPos=-1)
+  {
+    if (!is_object($oEntity))
+      $oEntity=new Text($oEntity);
+    if ($iPos<0)
+    {
+      $this->aLines[]=$oEntity;
+      end($this->aLines);
+      return key($this->aLines);
+    }
+    else
+    {
+      $this->aLines[$iPos]=$oEntity;
+      return $iPos;
+    }
+  }
+
   function Br($iPos=-1)
   {
-    return $this->Insert(new Br(), $iPos);
+    return $this->Place(new Br(), $iPos);
   }    
 
   function Remove($iPos)
@@ -148,6 +165,18 @@ class Div extends NamedContainer
     echo ">";
     Container::Draw();
     echo "</div>";	
+  }
+}
+
+class Span extends NamedContainer
+{
+  function Draw()
+  {
+    echo "<span";
+    NamedContainer::Draw();
+    echo ">";
+    Container::Draw();
+    echo "</span>";	
   }
 }
 
@@ -460,6 +489,30 @@ class Table extends NamedContainer
       return false;
     }
     $DUPA=$this->aLines[$iY][$iX]->Insert($oEntity);
+    //	echo "$iX $iY {$this->iCols} {$this->iRows}";
+  }
+  function Place(/*$iX, $iY, $oEntity*/)
+  {
+    $args = func_get_args();
+    if (count($args)==2) {
+      $iX = $args[0]->x;
+      $iY = $args[0]->y;
+      $oEntity = $args[1];
+    } else {
+      $iX = $args[0];
+      $iY = $args[1];
+      $oEntity = $args[2];
+    }
+    if ($iX>$this->iCols)
+      $this->SetCols($iX);
+    if ($iY>$this->iRows)
+      $this->SetRows($iY);
+    if (!isset($this->aLines[$iY][$iX]))
+    {
+      echo "Error: Table::Insert - Cell [$iX,$iY] not accessible<br>\n";
+      return false;
+    }
+    $DUPA=$this->aLines[$iY][$iX]->Place($oEntity);
     //	echo "$iX $iY {$this->iCols} {$this->iRows}";
   }
 

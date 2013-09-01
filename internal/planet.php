@@ -772,7 +772,8 @@ function planet_index(&$sql, $pid, $id)
 	{
 	$R['prev']=$A[0]['PLID'];
 	$R['here']=$A[1]['PLID'];
-	$R['next']=$A[2]['PLID'];
+        if (isset($A[2]))
+            $R['next']=$A[2]['PLID'];
 	}
     else
 	{

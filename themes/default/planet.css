@@ -104,22 +104,6 @@
 {
 width : 706px;
 }
-.restitle
-{
-width : 200px;
-}
-.resourceslabel
-{
-width : 180px;
-}
-.fresourceslabel
-{
-width : 104px;
-}
-.resourcesgap
-{
-width : 128px;
-}
 .lowlabel
 {
 width : 180px;
@@ -131,4 +115,139 @@ width : 380px;
 .highlabel
 {
 width : 130px;
+}
+.buildbox
+{
+  position : absolute;
+  left : 100px;
+  top : 5px;
+  background-color : #339900;
+}
+
+
+.resourceslabel
+{
+width : 110px;
+}
+.resourcesgap
+{
+width : 110px;
+}
+.resobject
+{
+  position : relative; 
+  width : 160px;
+  height : 120px;
+  background-color : #333333;
+}
+.resvalue
+{
+width : 160px;
+height : 80px;
+display: table-cell;
+vertical-align: middle;
+}
+.resprogress
+{
+  position : absolute;
+  bottom : 8pt;
+  left : 0px;
+  width : 160px;
+}
+.resincome
+{
+  position : absolute;
+  bottom : 0pt;
+  left : 0px;
+  width : 80px;
+}
+.restimerem
+{
+  position : absolute;
+  bottom : 0pt;
+  left : 80px;
+  width : 80px;
+}
+
+.resdetail
+{
+  position : absolute;
+  left : 10px;
+  top : 80px;
+  width : 120px;
+  display : none;
+  background-color : #335333;
+  padding : 4px 8px;
+  border-right: #a0a0a0 1px solid;
+  border-top: #c0c0c0 1px solid;
+  border-left: #b0b0b0 1px solid;
+  border-bottom: #909090 1px solid;
+  z-index : 400;
+}
+.resobject:hover div.resdetail
+{
+display : block;
+}
+
+
+
+.buildingslabel
+{
+width : 94px;
+}
+.bldobject
+{
+  position : relative; 
+  width : 120px;
+  height : 100px;
+  background-color : #333333;
+}
+.bldvalue
+{
+width : 120px;
+height : 70px;
+display: table-cell;
+vertical-align: middle;
+}
+.bldprogress
+{
+  position : absolute;
+  bottom : 0pt;
+  left : 0px;
+  width : 120px;
+}
+.bldspend
+{
+position : absolute;
+left : 40px;
+bottom : 10pt;
+width : 40px;
+display : none;
+}
+.bldobject:hover div.bldspend
+{
+display : block;
+}
+.bldbuild
+{
+position : absolute;
+right : 4px;
+top : 20px;
+display : none;
+}
+.bldobject:hover div.bldbuild
+{
+display : block;
+}
+.bldbuild input
+{
+width : 24px;
+height : 24px;
+  background-color : #228000;
+  color : #44bb00;
+}
+.bldbuild input:hover
+{
+  background-color : #44a800;
+  color : #55ff00;
 }

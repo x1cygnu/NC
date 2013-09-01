@@ -163,26 +163,27 @@ include("part/planetcompute2.php");
 $RP=makeinteger(player_get_RP($sql,$MainPID));
 
 class EntryConfig {
-  var $table;
-  var $titleXY;
-  var $valueXY;
-  var $progressXY;
-  var $hourXY;
-  var $incomeXY;
-  var $detailXY;
-  var $PPremXY;
-  var $RPremXY;
-  var $buildboxXY;
+  var $objectDiv;
+  var $titleDiv;
+  var $valueDiv;
+  var $progressDiv;
+  var $incomeDiv;
+  var $timeremDiv;
+  var $detailDiv;
+
+  var $buildDiv;
+  var $spendDiv;
 }
 
 $hintstr="hinted" . $_SESSION['Hint'];
 $subhint="sublegend " . $hintstr;
 
-function planetResources($ResT, $offset, $P,$Config) {
+function planetResources($ResT, $offset, $P, $ConfigGen) {
   global $hintstr;
   global $subhint;
 
-  $ObjT=clone $Config->table;
+
+  $Config = call_user_func($ConfigGen,'res');
 
   $DO=new Div();
   $DO->Insert("Population");
@@ -195,38 +196,38 @@ function planetResources($ResT, $offset, $P,$Config) {
     $D->Insert("* 1 science point per hour"); $D->Br();
     $DO->Insert($D);
   }
-  if (isset($Config->titleXY)) $ObjT->Insert($Config->titleXY,$DO);
-  if (isset($Config->valueXY)) $ObjT->Insert($Config->valueXY,$P['Pop']);
+  if (isset($Config->titleDiv)) $Config->titleDiv->Insert($DO); 
+  if (isset($Config->valueDiv)) $Config->valueDiv->Insert($P['Pop']);
 
-  if (isset($Config->progressXY)) $ObjT->Insert($Config->progressXY,$P['PopGo'] . '/' . $P['PopMax']);
-  if (isset($Config->incomeXY)) {
-    $ObjT->Insert($Config->incomeXY,'+'.sprintf("%.1f",$P['PopH']).'/h');
-    $ObjT->SetClass($Config->incomeXY,"additional " . ($P['PopH']>0?"positive":"negative"));
+  if (isset($Config->progressDiv)) $Config->progressDiv->Insert($P['PopGo'] . '/' . $P['PopMax']);
+  if (isset($Config->incomeDiv)) {
+    $Config->incomeDiv->Insert('+'.sprintf("%.1f",$P['PopH']).'/h');
+    $Config->incomeDiv->sClass .= " additional " . ($P['PopH']>0?"positive":"negative");
   }
-  if (isset($Config->timeremXY)) {
+  if (isset($Config->timeremDiv)) {
     if ($P['PopH']>0)
     {
       $PopTRemainReadable=time_period_short($P['PopTRemain']);
-      $ObjT->Insert($Config->timeremXY,$PopTRemainReadable);
-      $ObjT->SetClass($Config->timeremXY,"additional positive");
+      $Config->timeremDiv->Insert($PopTRemainReadable);
+      $Config->timeremDiv->sClass .= ' additional positive';
     }
     else
     {
-      $ObjT->Insert($Config->timeremXY,"infinity");
-      $ObjT->SetClass($Config->timeremXY,"additional negative");
+      $Config->timeremDiv->Insert("infinity");
+      $Config->timeremDiv->sClass .= ' additional negative';
     }
   }
-  if (isset($Config->detailXY)) {
-    $ObjT->Set($Config->detailXY, InfoBoxCell('Population'));
+  if (isset($Config->detailDiv)) {
+    $Config->detailDiv->Insert(InfoBoxCell('Population'));
   }
 
-  $ResT->Insert($offset->x,$offset->y,$ObjT);
+  $ResT->Insert($offset->x,$offset->y,$Config->objectDiv);
 
   ///////////////////////////////////////
   // Toxic
   ///////////////////////////////////////
 
-  $ObjT=clone $Config->table;
+  $Config = call_user_func($ConfigGen,'res');
 
   $DO=new Div();
   $DO->Insert("Toxic");
@@ -240,41 +241,41 @@ function planetResources($ResT, $offset, $P,$Config) {
     $D->Insert("Constructing refineries and developping urban science will help you reducing pollution");
     $DO->Insert($D);
   }
-  if (isset($Config->titleXY)) $ObjT->Insert($Config->titleXY,$DO);
-  if (isset($Config->valueXY)) $ObjT->Insert($Config->valueXY,$P['Tx']);
+  if (isset($Config->titleDiv)) $Config->titleDiv->Insert($DO);
+  if (isset($Config->valueDiv)) $Config->valueDiv->Insert($P['Tx']);
 
-  if (isset($Config->progressXY)) $ObjT->Insert($Config->progressXY,$P['TxGo'] . '/1000');
-  if (isset($Config->incomeXY)) {
-    $ObjT->Insert($Config->incomeXY,'+'.sprintf("%.1f",$P['TxH']).'/h');
-    $ObjT->SetClass($Config->incomeXY,"additional " . ($P['TxH']>0?"positive":"negative"));
+  if (isset($Config->progressDiv)) $Config->progressDiv->Insert($P['TxGo'] . '/1000');
+  if (isset($Config->incomeDiv)) {
+    $Config->incomeDiv->Insert('+'.sprintf("%.1f",$P['TxH']).'/h');
+    $Config->incomeDiv->sClass .= " additional " . ($P['TxH']>0?"positive":"negative");
   }
-  if (isset($Config->timeremXY)) {
+  if (isset($Config->timeremDiv)) {
     if ($P['TxTRemain']!=0)
     {
       $TxTRemainReadable=time_period_short($P['TxTRemain']);
-      $ObjT->Insert($Config->timeremXY,$TxTRemainReadable);
+      $Config->timeremDiv->Insert($TxTRemainReadable);
       if ($P['TxH']>0)
-        $ObjT->SetClass($Config->timeremXY,"additional negative");
+        $Config->timeremDiv->sClass .= ' additional negative';
       else
-        $ObjT->SetClass($Config->timeremXY,"additional positive");
+        $Config->timeremDiv->sClass .= ' additional positive';
     }
     else
     {
-      $ObjT->Insert($Config->timeremXY,"balanced");
-      $ObjT->SetClass($Config->timeremXY,"additional positive");
+      $Config->timeremDiv->Insert('balanced');
+      $Config->timeremDiv->sClass .= ' additional positive';
     }
   }
-  if (isset($Config->detailXY)) {
-    $ObjT->Set($Config->detailXY, InfoBoxCell('Toxic'));
+  if (isset($Config->detailDiv)) {
+    $Config->detailDiv->Insert(InfoBoxCell('Toxic'));
   }
 
-  $ResT->Insert($offset->x+1,$offset->y,$ObjT);
+  $ResT->Insert($offset->x+1,$offset->y,$Config->objectDiv);
 
   ///////////////////////////////////////
   // Production Points
   ///////////////////////////////////////
 
-  $ObjT=clone $Config->table;
+  $Config = call_user_func($ConfigGen,'res');
 
   $DO=new Div();
   $DO->Insert("Production Points");
@@ -285,40 +286,38 @@ function planetResources($ResT, $offset, $P,$Config) {
     $D->Insert("Production Points is 'money' which you can spend on various buildings and ships on this planet"); $D->Br();
     $DO->Insert($D);
   }
-  if (isset($Config->titleXY)) $ObjT->Insert($Config->titleXY,$DO);
-  if (isset($Config->valueXY)) {
-    $ObjT->Insert($Config->valueXY,$P['PP']);
-    $ObjT->Get($Config->valueXY)->sId="PPbx";
+  if (isset($Config->titleDiv)) $Config->titleDiv->Insert($DO);
+  if (isset($Config->valueDiv)) {
+    $Config->valueDiv->Insert($P['PP']);
+    $Config->valueDiv->sId='PPbx';
   }
-
-  if (isset($Config->progressXY)) {
-    $ObjT->Insert($Config->progressXY,$P['PP']);
-    $ObjT->Get($Config->progressXY)->sId="PPprgbx";
+  if (isset($Config->progressDiv)) {
+    $Config->progressDiv->Insert($P['PP']);
+    $Config->progressDiv->sId = 'PPprgbx';
   }
-  if (isset($Config->incomeXY)) {
-    $ObjT->Insert($Config->incomeXY,'+'.sprintf("%.1f",$P['PPH']).'/h');
-    $ObjT->SetClass($Config->incomeXY,"additional " . ($P['PPH']>0?"positive":"negative"));
-    $ObjT->Get($Config->incomeXY)->sId="PPHbx";
+  if (isset($Config->incomeDiv)) {
+    $Config->incomeDiv->Insert('+'.sprintf("%.1f",$P['PPH']).'/h');
+    $Config->incomeDiv->sClass .= " additional " . ($P['PPH']>0?"positive":"negative");
+    $Config->incomeDiv->sId = 'PPHbx';
   }
-  if (isset($Config->timeremXY)) {
+  if (isset($Config->timeremDiv)) {
     if (isset($P['PP1Time']))
     {
-      $ObjT->Insert($Config->timeremXY,time_period_short($P['PP1Time']));
-      $ObjT->SetClass($Config->timeremXY,"additional positive");
+      $PP1Readable=time_period_short($P['PP1Time']);
+      $Config->timeremDiv->Insert($PP1Readable);
     }
     else
     {
-      $ObjT->Insert($Config->timeremXY,"infinity");
-      $ObjT->SetClass($Config->timeremXY,"additional negative");
+      $Config->timeremDiv->Insert('infinity');
+      $Config->timeremDiv->sClass .= ' additional negative';
     }
-    $ObjT->Get($Config->timeremXY)->sId="PPtimebx";
+    $Config->timeremDiv->sId='PPtimebx';
   }
-  if (isset($Config->detailXY)) {
-    $ObjT->Set($Config->detailXY, InfoBoxCell('PP'));
+  if (isset($Config->detailDiv)) {
+    $Config->detailDiv->Insert(InfoBoxCell('PP'));
   }
 
-  $ResT->Insert($offset->x+2,$offset->y,$ObjT);
-
+  $ResT->Insert($offset->x+2,$offset->y,$Config->objectDiv);
 
   $ResT->Get($offset->x,$offset->y)->sStyle='vertical-align : top';
   $ResT->Get($offset->x+1,$offset->y)->sStyle='vertical-align : top';
@@ -352,21 +351,23 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMess
     $BaseCost=10;
   else
     $BaseCost=$P['BaseCost'];
-  $ObjT=clone $Config->table;
-  $DO=new Div();
-  $DO->Insert($ObjName);
-  global $hintstr;
-  $DO->sClass=$hintstr;
-  if ($_SESSION['Hint']>0)
-  {
-    $D=new Div();
-    $D->Insert($HintMessage);
-    $DO->Insert($D);
+  if (isset($Config->titleDiv)) {
+    $DO=new Div();
+    $DO->Insert($ObjName);
+    global $hintstr;
+    $DO->sClass=$hintstr;
+    if ($_SESSION['Hint']>0)
+    {
+      $D=new Div();
+      $D->Insert($HintMessage);
+      $DO->Insert($D);
+    }
+    $Config->titleDiv->Place($DO);
   }
-  $ObjT->Insert($Config->titleXY,$DO);
-
-  $ObjT->Insert($Config->valueXY,'' . $P[$ObjDBName]);
-  $ObjT->Get($Config->valueXY)->sId=$ObjDBName . 'bx';
+  if (isset($Config->valueDiv)) {
+    $Config->valueDiv->Insert($P[$ObjDBName]);
+    $Config->valueDiv->sId=$ObjDBName . 'bx';
+  }
 
   if (!isset($Max))
   {
@@ -381,40 +382,25 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMess
   if (!$Max || !$Siege)
   {
     if ($FMax<100000)
-      $ObjT->Insert($Config->progressXY,($FMax-$FRemain).'/'.$FMax);
+      $Config->progressDiv->Insert(($FMax-$FRemain).'/'.$FMax);
     else
-      $ObjT->Insert($Config->progressXY,floor(100*($FMax-$FRemain)/$FMax).'%');
-    $ObjT->Get($Config->progressXY)->sId=$ObjDBName . 'prgbx';
-    if (isset($Config->PPremXY)) {
-      if ($FRemain<100000 || !$UseRP)
-        $ObjT->Insert($Config->PPremXY,'+'.$FRemain);
-      else
-        $ObjT->Insert($Config->PPremXY,'a lot');
-    }
-    if (isset($Config->RPremXY))
-      if ($UseRP)
-        $ObjT->Insert($Config->RPremXY,ceil($FRemain*10/$FMax) . 'RP');
+      $Config->progressDiv->Insert(floor(100*($FMax-$FRemain)/$FMax).'%');
+    $Config->progressDiv->sId = $ObjDBName . 'prgbx';
   }
-  if (isset($Config->PPremXY)) $ObjT->Get($Config->PPremXY)->sId=$ObjDBName . 'rbx';
-  if (isset($Config->RPremXY)) $ObjT->Get($Congig->RPremXY)->sId=$ObjDBName . 'RPbx';
 
-  if (!$Siege and isset($Config->buildboxXY))
+  if (!$Siege and isset($Config->buildDiv))
   {
-    $Inc=new Input("button","","I","incbutton");
+    $Inc=new Input("button","","+","incbutton");
     $IncX=new Input("button","","X","incbutton");
     $IncC=new Input("button","","C","incbutton");
     $IncM=new Input("button","","M","incbutton");
     $AllB=new Input("button","","A","allbutton");
-    $Field=new Input("text","","0","text number");
-    $Field->onChange("checkPrice(); count(); show()");
     if ($showButtons)
     {
       if (!isset($Max))
       {
         SmartButton($Inc,$ObjShortName);
-        AllButton($AllB,$ObjShortName);
-        $ObjT->Insert(1,5,$Inc);
-        $ObjT->Insert(1,5,$AllB);
+        $Config->buildDiv->Place($Inc);
       }
       else
       {
@@ -429,35 +415,35 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMess
       }
       $Field->sStyle='';
     }
-    else
-    {
-      $Field->sStyle='display : none;';
-      $ObjT->Insert(1,5,"Prototype required");
-      $ObjT->SetClass(1,5,'negative');
-    }
-    $Field->sName=$Field->sId=$ObjDBName . "v";
-    $ObjT->Insert(1,5,$Field);
   }
-
-  return $ObjT;
+  if (!$Siege and isset($Config->spendDiv)) {
+    $Field=new Input("text","","0","text number");
+    $Field->onChange("checkPrice(); count(); show()");
+    $Field->sName=$Field->sId=$ObjDBName . "v";
+    $Config->spendDiv->Place($Field);
+  }
+  return $Config->objectDiv;
 }
 
 /////////////////////////////////////
 // Buildings
 /////////////////////////////////////
-function planetBuildings($BuildT,$offset,$P,$Config) {
-
-  $BuildT->Insert($offset->x,$offset->y,
+function planetBuildings($BuildT,$offset,$P,$ConfigGen) {
+  $Config = call_user_func($ConfigGen,'bld');
+  $BuildT->Place($offset->x,$offset->y,
       BuildingInfoBox($Config,"Farm","Farm",'f',"Increases growth - population grows faster",true));
-  $BuildT->Insert($offset->x+1,$offset->y,
+  $Config = call_user_func($ConfigGen,'bld');
+  $BuildT->Place($offset->x+1,$offset->y,
       BuildingInfoBox($Config,"Factory","Factory",'r',"Produces Production Points",true));
-  $BuildT->Insert($offset->x+2,$offset->y,
+  $Config = call_user_func($ConfigGen,'bld');
+  $BuildT->Place($offset->x+2,$offset->y,
       BuildingInfoBox($Config,"Cybernet","Cybernet",'c',"Increases culture level which will allow you to control more planets",true));
-  $BuildT->Insert($offset->x+3,$offset->y,
+  $Config = call_user_func($ConfigGen,'bld');
+  $BuildT->Place($offset->x+3,$offset->y,
       BuildingInfoBox($Config,"Laboratory","Lab",'l',"Increases speed of your research",true));
-  $BuildT->Insert($offset->x+4,$offset->y,
+  $Config = call_user_func($ConfigGen,'bld');
+  $BuildT->Place($offset->x+4,$offset->y,
       BuildingInfoBox($Config,"Refinery","Refinery",'e',"Depollutes your planet",true));
-
   return $BuildT;
 }
 

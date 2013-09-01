@@ -15,7 +15,7 @@ function InfoBoxAdd($field,$source,$value,$good)
 function InfoBoxCell($field)
 {
     global $InfoBox;
-    $C=new Cell();
+    $C=new Div();
     $C->sClass='explain';
     if (!isset($InfoBox[$field]))
     {
@@ -52,7 +52,6 @@ if ($P['FleetOwner']!=0 and $P['FleetOwner']!=$P['Owner'])
 // P = planet_get_all
 $Pl=player_get_all($sql, $_SESSION['PID']);
 $Art=player_get_artefact_use($sql, $_SESSION['PID']);
-print_r($Art);
 
 ///////////////////////////////////////////
 //Pollution (Toxic)
