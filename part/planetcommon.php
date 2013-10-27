@@ -408,10 +408,10 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMess
         IncreaseButton($IncX,$ObjShortName,10);
         IncreaseButton($IncC,$ObjShortName,100);
         IncreaseButton($IncM,$ObjShortName,1000);
-        $ObjT->Insert(1,5,$Inc);
-        $ObjT->Insert(1,5,$IncX);
-        $ObjT->Insert(1,5,$IncC);
-        $ObjT->Insert(1,5,$IncM);
+        $Config->buildDiv->Place($Inc);
+        $Config->buildDiv->Place($IncX);
+        $Config->buildDiv->Place($IncC);
+        $Config->buildDiv->Place($IncM);
       }
       $Field->sStyle='';
     }
@@ -450,7 +450,8 @@ function planetBuildings($BuildT,$offset,$P,$ConfigGen) {
 /////////////////////////////////////
 // Low Orbit 
 /////////////////////////////////////
-function planetLowOrbit($BuildT,$offset,$P,$Config) {
+function planetLowOrbit($BuildT,$offset,$P,$ConfigGen) {
+  $Config = call_user_func($ConfigGen,'bld');
 
   $BuildT->Insert($offset->x,$offset->y,
       BuildingInfoBox($Config,"Starbase","Starbase",'sb',"Cheap yet stationary defence",false,SB_points()));
@@ -462,24 +463,31 @@ function planetLowOrbit($BuildT,$offset,$P,$Config) {
 // ORBIT
 //////////////////////////////////
 
-function planetHighOrbit($BuildT, $offset, $P, $Config) {
+function planetHighOrbit($BuildT, $offset, $P, $ConfigGen) {
   global $Pl; //Player data
   global $Techs; //Player tech data
   global $Siege; //siege status
   global $sql;
 
+  $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Insert($offset->x,$offset->y,
       BuildingInfoBox($Config,"Vipers","Vpr",'vprs',"Manurevalbe and fast light fighter",false,$VprMax=Vpr_points($Pl['Engineering']),tech_check_name($Techs,'Vpr')));
+  $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Insert($offset->x+1,$offset->y,
       BuildingInfoBox($Config,"Interceptors","Int",'ints',"Standard light fighter",false,$IntMax=Int_points($Pl['Engineering'])));
+  $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Insert($offset->x,$offset->y+1,
       BuildingInfoBox($Config,"Frigates","Fr",'frs',"Well-armoured warship",false,$FrMax=Fr_points($Pl['Engineering']),tech_check_name($Techs,'Fr')));
+  $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Insert($offset->x+1,$offset->y+1,
       BuildingInfoBox($Config,"Battleships","Bs",'bss',"Big, overpowered ship",false,$BsMax=Bs_points($Pl['Engineering']),tech_check_name($Techs,'Bs')));
+  $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Insert($offset->x+2,$offset->y+1,
       BuildingInfoBox($Config,"Dreadnoughts","Drn",'drns',"Strongest of all warhips, yet relatively slow",false,$DrnMax=Drn_points($Pl['Engineering']),tech_check_name($Techs,'Drn')));
+  $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Insert($offset->x+3,$offset->y,
       BuildingInfoBox($Config,"Transporters","Tr",'trs',"Defenceless ship carrying infrantry for onground desant.<br>Use these to conquer enemy planets.",false,$TrMax=Tr_points($Pl['Engineering'])));
+  $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Insert($offset->x+3,$offset->y+1,
       BuildingInfoBox($Config,"Colony Ships","CS",'css',"Defenceless ship carrying settlers for new worlds.<br>Use these to take over free planets",false,$CSMax=CS_points($Pl['Engineering'])));
 

@@ -167,8 +167,8 @@ $H->Insert(planetResources(prepTable(1,4,"resources", "Resources"), new V2D(2,1)
 $F=new Form("planet.php?id={$GET['id']}" . $sitAddition,true);
 
 $F->Insert(planetBuildings(prepTable(1,0,"buildings", "Buildings"), new V2D(2,1), $P,'prepBld'));
-/*
-$F->Insert(planetLowOrbit(prepTable(1,2,"low", "Low Orbit"), new V2D(2,1), $P,$T));
+
+$F->Insert(planetLowOrbit(prepTable(1,2,"low", "Low Orbit"), new V2D(2,1), $P,'prepBld'));
 
 $HighOrbitTable = prepTable(2,5,"high", "High Orbit");
 if ($Siege) {
@@ -177,8 +177,7 @@ if ($Siege) {
        $HighOrbitTable->Insert(1,1,new Br());
        $HighOrbitTable->Insert(1,1,"($Enemy)");
 }
-$F->Insert(planetHighOrbit($HighOrbitTable, new V2D(2,1), $P,$T));
-*/
+$F->Insert(planetHighOrbit($HighOrbitTable, new V2D(2,1), $P,'prepBld'));
 $H->Insert($F);
 $H->Draw();
 //////////////////////////////////
