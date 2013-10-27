@@ -112,10 +112,6 @@ width : 180px;
 {
 width : 380px;
 }
-.highlabel
-{
-width : 130px;
-}
 .buildbox
 {
   position : absolute;
@@ -250,4 +246,120 @@ height : 20px;
 {
   background-color : #44a800;
   color : #55ff00;
+}
+
+
+
+.constructlabel
+{
+width : 180px;
+}
+.cnstrobject
+{
+  position : relative; 
+  width : 172px;
+  height : 30px;
+}
+.cnstrtitle
+{
+height : 30px;
+}
+.cnstryes
+{
+  background-color : #224422;
+}
+.cnstrno
+{
+  background-color : #331111;
+}
+.cnstrvalue
+{
+width : 172px;
+height : 20px;
+position : absolute;
+bottom : 0pt;
+left : 0pt;
+display : none;
+}
+.cnstrobject:hover div.cnstrvalue
+{
+display : block;
+}
+
+
+
+.highlabel
+{
+width : 130px;
+}
+.highobject
+{
+  position : relative; 
+  width : 150px;
+  height : 100px;
+  background-color : #333333;
+}
+.highvalue
+{
+width : 150px;
+height : 70px;
+display: table-cell;
+vertical-align: middle;
+}
+.highprogress
+{
+  position : absolute;
+  bottom : 0pt;
+  left : 0px;
+  width : 150px;
+}
+.highspend
+{
+position : absolute;
+left : 50px;
+bottom : 10pt;
+width : 50px;
+display : none;
+}
+.highobject:hover div.highspend
+{
+display : block;
+}
+.highbuild
+{
+position : absolute;
+right : 4px;
+top : 20px;
+display : none;
+}
+.highobject:hover div.highbuild
+{
+display : block;
+}
+.highbuild input
+{
+width : 20px;
+height : 20px;
+  background-color : #228000;
+  color : #44bb00;
+}
+.highbuild input:hover
+{
+  background-color : #44a800;
+  color : #55ff00;
+}
+
+.ppspend {
+  border-right: #a08080 3px solid;
+  border-top: #c0a0a0 3px solid;
+  border-left: #b09090 3px solid;
+  border-bottom: #907070 3px solid;
+  font-weight: bold;
+  font-size: 11pt;
+  background-color : #553333;
+width : 700px;
+}
+.ppspend:hover
+{
+  background-color : #856303;
 }

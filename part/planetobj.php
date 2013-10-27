@@ -50,5 +50,19 @@ function prepBld($prefx) {
   return $Config;
 }
 
+function prepCnstr($prefx) {
+  $Config = new EntryConfig();
+  $Config->objectDiv = $main = new Div();
+  $main->sClass = "{$prefx}object";
+  $Config->titleDiv = $title = new Div();
+  $title->sClass = "{$prefx}title";
+  $main->Place($title);
+  $Config->valueDiv = $value = new Div();
+  $value->sClass = "{$prefx}value";
+  $main->Place($value);
+  $Config->spendDiv = $value;
+  return $Config;
+}
+
 ?>
 

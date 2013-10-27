@@ -425,6 +425,60 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMess
   return $Config->objectDiv;
 }
 
+function ConstructInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMessage, $showButtons=true)
+{
+  global $Siege;
+  global $P;
+  if (isset($Config->titleDiv)) {
+    if ($P[$ObjDBName]==1)
+      $Config->titleDiv->sClass .= " cnstryes";
+    else
+      $Config->titleDiv->sClass .= " cnstrno";
+    $DO=new Div();
+    $DO->Insert($ObjName);
+    global $hintstr;
+    $DO->sClass=$hintstr;
+    if ($_SESSION['Hint']>0)
+    {
+      $D=new Div();
+      $D->Insert($HintMessage);
+      $DO->Insert($D);
+    }
+    $Config->titleDiv->Place($DO);
+  }
+  if (isset($Config->valueDiv)) {
+    if ($P[$ObjDBName]==1)
+        $Config->valueDiv->Insert("present");
+  }
+
+  if (!$Siege and isset($Config->spendDiv) and $showButtons and $P[$ObjDBName]==0)
+  {
+    $Field=new Input("checkbox",$ObjShortName,"1","chbx");
+    $Field->onChange("checkPrice(); count(); show()");
+    $Field->sName=$Field->sId=$ObjDBName . "v";
+    $Config->spendDiv->Place($Field);
+    $Config->spendDiv->Insert(" build");
+  }
+  return $Config->objectDiv;
+}
+/////////////////////////////////////
+// Constructs
+/////////////////////////////////////
+
+function planetConstructs($BuildT,$offset,$P,$ConfigGen) {
+  $Config = call_user_func($ConfigGen,'cnstr');
+  $BuildT->Place($offset->x,$offset->y,
+      ConstructInfoBox($Config,"Space Station","SpaceStation",'sps',"Landing base for your and ally fleets. May reduce travel times even further when equipped with Arrestor Field generator",true));
+  $Config = call_user_func($ConfigGen,'cnstr');
+  $BuildT->Place($offset->x+1,$offset->y,
+      ConstructInfoBox($Config,"Embassy","Embassy",'emb',"Representative building, allowing you to form or join an alliance and have access to alliance screen. You need only one embassy on any of your planets",true));
+  $Config = call_user_func($ConfigGen,'cnstr');
+  $BuildT->Place($offset->x+2,$offset->y,
+      ConstructInfoBox($Config,"Gateway","Gateway",'gtw',"Hi-tech nearly-instant travel device based on artifically created wormholes.",true));
+  return $BuildT;
+}
+
+
 /////////////////////////////////////
 // Buildings
 /////////////////////////////////////
@@ -469,25 +523,25 @@ function planetHighOrbit($BuildT, $offset, $P, $ConfigGen) {
   global $Siege; //siege status
   global $sql;
 
-  $Config = call_user_func($ConfigGen,'bld');
+  $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x,$offset->y,
       BuildingInfoBox($Config,"Vipers","Vpr",'vprs',"Manurevalbe and fast light fighter",false,$VprMax=Vpr_points($Pl['Engineering']),tech_check_name($Techs,'Vpr')));
-  $Config = call_user_func($ConfigGen,'bld');
+  $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+1,$offset->y,
       BuildingInfoBox($Config,"Interceptors","Int",'ints',"Standard light fighter",false,$IntMax=Int_points($Pl['Engineering'])));
-  $Config = call_user_func($ConfigGen,'bld');
+  $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x,$offset->y+1,
       BuildingInfoBox($Config,"Frigates","Fr",'frs',"Well-armoured warship",false,$FrMax=Fr_points($Pl['Engineering']),tech_check_name($Techs,'Fr')));
-  $Config = call_user_func($ConfigGen,'bld');
+  $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+1,$offset->y+1,
       BuildingInfoBox($Config,"Battleships","Bs",'bss',"Big, overpowered ship",false,$BsMax=Bs_points($Pl['Engineering']),tech_check_name($Techs,'Bs')));
-  $Config = call_user_func($ConfigGen,'bld');
+  $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+2,$offset->y+1,
       BuildingInfoBox($Config,"Dreadnoughts","Drn",'drns',"Strongest of all warhips, yet relatively slow",false,$DrnMax=Drn_points($Pl['Engineering']),tech_check_name($Techs,'Drn')));
-  $Config = call_user_func($ConfigGen,'bld');
+  $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+3,$offset->y,
       BuildingInfoBox($Config,"Transporters","Tr",'trs',"Defenceless ship carrying infrantry for onground desant.<br>Use these to conquer enemy planets.",false,$TrMax=Tr_points($Pl['Engineering'])));
-  $Config = call_user_func($ConfigGen,'bld');
+  $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+3,$offset->y+1,
       BuildingInfoBox($Config,"Colony Ships","CS",'css',"Defenceless ship carrying settlers for new worlds.<br>Use these to take over free planets",false,$CSMax=CS_points($Pl['Engineering'])));
 
