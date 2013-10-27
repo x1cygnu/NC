@@ -36,229 +36,232 @@ function InfoBoxCell($field)
     return $C;
 }
 
+$Pl=player_get_all($sql, $_SESSION['PID']);
+$Art=player_get_artefact_use($sql, $_SESSION['PID']);
 
 $Siege=false;
 function planetCompute($P) {
   global $sql;
   global $WorkSTx;
   global $Siege;
+  global $Pl;
+  global $Art;
 
-$InfoBox=array();
-$Return=array();
+  $InfoBox=array();
+  $Return=array();
 
-if ($P['FleetOwner']!=0 and $P['FleetOwner']!=$P['Owner'])
+  if ($P['FleetOwner']!=0 and $P['FleetOwner']!=$P['Owner'])
     $Siege=true;
 
-// P = planet_get_all
-$Pl=player_get_all($sql, $_SESSION['PID']);
-$Art=player_get_artefact_use($sql, $_SESSION['PID']);
+  // P = planet_get_all
 
-///////////////////////////////////////////
-//Pollution (Toxic)
-///////////////////////////////////////////
+  ///////////////////////////////////////////
+  //Pollution (Toxic)
+  ///////////////////////////////////////////
 
-$Tx=floor($P['STx']/1000);
-$TxGo=$P['STx']%1000;
-$TxRemain=1000-$TxGo;
+  $Tx=floor($P['STx']/1000);
+  $TxGo=$P['STx']%1000;
+  $TxRemain=1000-$TxGo;
 
-$TxH=0;
+  $TxH=0;
 
-$TxHPop=$WorkSTx['Population']*$P['Population'];
-$TxH+=$TxHPop;
-InfoBoxAdd('Toxic','population '.$P['Population'].'x'.$WorkSTx['Population'],'+'.$TxHPop,false);
+  $TxHPop=$WorkSTx['Population']*$P['Population'];
+  $TxH+=$TxHPop;
+  InfoBoxAdd('Toxic','population '.$P['Population'].'x'.$WorkSTx['Population'],'+'.$TxHPop,false);
 
-$TxHFrm=$WorkSTx['Farm']*$P['Farm'];
-$TxH+=$TxHFrm;
-if ($TxHFrm>0)
+  $TxHFrm=$WorkSTx['Farm']*$P['Farm'];
+  $TxH+=$TxHFrm;
+  if ($TxHFrm>0)
     InfoBoxAdd('Toxic','farm '.$P['Farm'].'x'.$WorkSTx['Farm'],'+'.$TxHFrm,false);
 
-$TxHFct=$WorkSTx['Factory']*$P['Factory'];
-$TxH+=$TxHFct;
-if ($TxHFct>0)
+  $TxHFct=$WorkSTx['Factory']*$P['Factory'];
+  $TxH+=$TxHFct;
+  if ($TxHFct>0)
     InfoBoxAdd('Toxic','factory '.$P['Factory'].'x'.$WorkSTx['Factory'],'+'.$TxHFct,false);
 
-$TxHCyb=$WorkSTx['Cybernet']*$P['Cybernet'];
-$TxH+=$TxHCyb;
-if ($TxHCyb>0)
+  $TxHCyb=$WorkSTx['Cybernet']*$P['Cybernet'];
+  $TxH+=$TxHCyb;
+  if ($TxHCyb>0)
     InfoBoxAdd('Toxic','cybernet '.$P['Cybernet'].'x'.$WorkSTx['Cybernet'],'+'.$TxHCyb,false);
 
-$TxHLab=$WorkSTx['Lab']*$P['Lab'];
-$TxH+=$TxHLab;
-if ($TxHLab>0)
+  $TxHLab=$WorkSTx['Lab']*$P['Lab'];
+  $TxH+=$TxHLab;
+  if ($TxHLab>0)
     InfoBoxAdd('Toxic','lab '.$P['Lab'].'x'.$WorkSTx['Lab'],'+'.$TxHLab,false);
 
-if ($Pl['Urban']>0)
-{
+  if ($Pl['Urban']>0)
+  {
     $TxHUrb=pow(0.9995,$Pl['Urban']*$Pl['Urban']);
     $TxH*=$TxHUrb;
     InfoBoxAdd('Toxic','urban '.$Pl['Urban'],'*'.ceil($TxHUrb*100).'%',true);    
-}
+  }
 
-$TxHRef=$WorkSTx['Refinery']*$P['Refinery'];
-$TxH+=$TxHRef;
-if ($TxHRef<0)
+  $TxHRef=$WorkSTx['Refinery']*$P['Refinery'];
+  $TxH+=$TxHRef;
+  if ($TxHRef<0)
     InfoBoxAdd('Toxic','refinery '.$P['Refinery'].'x'.$WorkSTx['Refinery'],''.$TxHRef,true);
 
-$TxH-=40;    
-InfoBoxAdd('Toxic','biosphere','-40',true);
+  $TxH-=40;    
+  InfoBoxAdd('Toxic','biosphere','-40',true);
 
 
-if ($P['ToxicStability']!=100)
-{
-$TxH*=$P['ToxicStability']/100.0;
-InfoBoxAdd('Toxic','planet','*'.$P['ToxicStability'].'%',$P['ToxicStability']<100);
-}
+  if ($P['ToxicStability']!=100)
+  {
+    $TxH*=$P['ToxicStability']/100.0;
+    InfoBoxAdd('Toxic','planet','*'.$P['ToxicStability'].'%',$P['ToxicStability']<100);
+  }
 
-$TxHRef2=-1*$P['Refinery'];
-$TxH+=$TxHRef2;
-if ($TxHRef<0)
+  $TxHRef2=-1*$P['Refinery'];
+  $TxH+=$TxHRef2;
+  if ($TxHRef<0)
     InfoBoxAdd('Toxic','refinery '.$P['Refinery'].'x -1',''.$TxHRef2,true);
 
 
-if ($TxH>0.1)
+  if ($TxH>0.1)
     $TxTRemain=floor($TxRemain*3600/$TxH);
-elseif ($TxH<-0.1)
+  elseif ($TxH<-0.1)
     $TxTRemain=floor($TxGo*3600/(-$TxH));
-else
+  else
     $TxTRemain=0;
 
-$TxImpact=pow(0.995,$Tx);
-///////////////////////////////////////////
-// Population
-///////////////////////////////////////////
+  $TxImpact=pow(0.995,$Tx);
+  ///////////////////////////////////////////
+  // Population
+  ///////////////////////////////////////////
 
-$Pop=$P['Population'];
-$PopRemain=ceil($P['PopulationRemain']);
-$PopMax=growth_points_for_lvl($Pop+1);
-$PopGo=$PopMax-$PopRemain;
+  $Pop=$P['Population'];
+  $PopRemain=ceil($P['PopulationRemain']);
+  $PopMax=growth_points_for_lvl($Pop+1);
+  $PopGo=$PopMax-$PopRemain;
 
-if ($Siege)
-{
+  if ($Siege)
+  {
     $PopH=0;
     InfoBoxAdd('Population','siege','0',false);
     $PopTRemain=-1;
-}
-else
-{
-$PopH=1;
-InfoBoxAdd('Population','natural','+1',true);
+  }
+  else
+  {
+    $PopH=1;
+    InfoBoxAdd('Population','natural','+1',true);
 
-$PopHFrm=makeinteger($P['Farm']);
-$PopH+=$PopHFrm;
-if ($PopHFrm>0)
-    InfoBoxAdd('Population','farm '.$P['Farm'],'+'.$PopHFrm,true);
+    $PopHFrm=makeinteger($P['Farm']);
+    $PopH+=$PopHFrm;
+    if ($PopHFrm>0)
+      InfoBoxAdd('Population','farm '.$P['Farm'],'+'.$PopHFrm,true);
 
-$PopBase=$PopH;
+    $PopBase=$PopH;
 
-$PopHGr=Growth($Pl['Growth']);
-$PopH*=$PopHGr/100.0;
-if ($PopHGr!=100)
-    InfoBoxAdd('Population','growth '.sprintf("%+d",$Pl['Growth']),'*'.$PopHGr.'%',$PopHGr>100);
+    $PopHGr=Growth($Pl['Growth']);
+    $PopH*=$PopHGr/100.0;
+    if ($PopHGr!=100)
+      InfoBoxAdd('Population','growth '.sprintf("%+d",$Pl['Growth']),'*'.$PopHGr.'%',$PopHGr>100);
 
-$PopH*=$TxImpact;
-if ($Tx>0)
-    InfoBoxAdd('Population','toxic '.$Tx,'*'.floor($TxImpact*100).'%',false);
+    $PopH*=$TxImpact;
+    if ($Tx>0)
+      InfoBoxAdd('Population','toxic '.$Tx,'*'.floor($TxImpact*100).'%',false);
 
-$TA=floor($Pl['TA']);
-$PopH*=(1+$Pl['TA']/100);
-if ($TA>0)
-    InfoBoxAdd('Population','TA '.$TA,'*'.(100+$TA).'%',true);
+    $TA=floor($Pl['TA']);
+    $PopH*=(1+$Pl['TA']/100);
+    if ($TA>0)
+      InfoBoxAdd('Population','TA '.$TA,'*'.(100+$TA).'%',true);
 
-if ($Pl['Urban']!=$Pop)
-{
-    $PopHUrb=$Pl['Urban']-$Pop;
-    $PopH*=(1+$PopHUrb/100.0);
-    InfoBoxAdd('Population','urban '.$Pl['Urban'],sprintf("*%d%%",100+$PopHUrb),$PopHUrb>0);    
-}
+    if ($Pl['Urban']!=$Pop)
+    {
+      $PopHUrb=$Pl['Urban']-$Pop;
+      $PopH*=(1+$PopHUrb/100.0);
+      InfoBoxAdd('Population','urban '.$Pl['Urban'],sprintf("*%d%%",100+$PopHUrb),$PopHUrb>0);    
+    }
 
-$PopH+=$PopBase*($Art['Growth']/100);
-if ($Art['Growth']!=0)
-    InfoBoxAdd('Population','artefact','+'.$Art['Growth'].'%',$Art['Growth']>0);
+    $PopH+=$PopBase*($Art['Growth']/100);
+    if ($Art['Growth']!=0)
+      InfoBoxAdd('Population','artefact','+'.$Art['Growth'].'%',$Art['Growth']>0);
 
-if ($P['Growth']!=100) {
-$PopH*=$P['Growth']/100.0;
-InfoBoxAdd('Population','planet','*'.$P['Growth'].'%',$P['Growth']>=100);
-}
+    if ($P['Growth']!=100) {
+      $PopH*=$P['Growth']/100.0;
+      InfoBoxAdd('Population','planet','*'.$P['Growth'].'%',$P['Growth']>=100);
+    }
 
-$PopTRemain=ceil($PopRemain*3600/$PopH);
-}
+    $PopTRemain=ceil($PopRemain*3600/$PopH);
+  }
 
-/////////////////////////////////////////
-// Production Points
-/////////////////////////////////////////
-$PP=floor($P['PP']);
+  /////////////////////////////////////////
+  // Production Points
+  /////////////////////////////////////////
+  $PP=floor($P['PP']);
 
-$ProdMod=1.0;
+  $ProdMod=1.0;
 
-if ($Siege)
-{
+  if ($Siege)
+  {
     $PPH=0;
     InfoBoxAdd('PP','siege','0',false);
-}
-else
-{
-$PPH=$Pop;
-InfoBoxAdd('PP','population','+'.$Pop,true);
+  }
+  else
+  {
+    $PPH=$Pop;
+    InfoBoxAdd('PP','population','+'.$Pop,true);
 
-$PPFct=makeinteger($P['Factory']);
-if ($PPFct>0)
-{
-    $PPH+=$PPFct;
-    InfoBoxAdd('PP','factory','+'.$PPFct,true);
-}
+    $PPFct=makeinteger($P['Factory']);
+    if ($PPFct>0)
+    {
+      $PPH+=$PPFct;
+      InfoBoxAdd('PP','factory','+'.$PPFct,true);
+    }
 
-$PPBase=$PPH;
+    $PPBase=$PPH;
 
-$PPHPrd=Production($Pl['Production']);
-$PPH*=$PPHPrd/100.0;
-$ProdMod*=$PPHPrd/100.0;
-if ($PPHPrd!=100)
-    InfoBoxAdd('PP','production '.sprintf("%+d",$Pl['Production']),'*'.$PPHPrd.'%',$PPHPrd>100);
+    $PPHPrd=Production($Pl['Production']);
+    $PPH*=$PPHPrd/100.0;
+    $ProdMod*=$PPHPrd/100.0;
+    if ($PPHPrd!=100)
+      InfoBoxAdd('PP','production '.sprintf("%+d",$Pl['Production']),'*'.$PPHPrd.'%',$PPHPrd>100);
 
-if ($Tx>0)
-{
-    $PPH*=$TxImpact;
-    $ProdMod*=$TxImpact;
-    InfoBoxAdd('PP','toxic '.$Tx,'*'.floor($TxImpact*100).'%',false);
-}
+    if ($Tx>0)
+    {
+      $PPH*=$TxImpact;
+      $ProdMod*=$TxImpact;
+      InfoBoxAdd('PP','toxic '.$Tx,'*'.floor($TxImpact*100).'%',false);
+    }
 
-$PPH*=(1+$Pl['TA']/100);
-$ProdMod*=(1+$Pl['TA']/100);
-if ($TA>0)
-    InfoBoxAdd('PP','TA '.$TA,'*'.(100+$TA).'%',true);
+    $PPH*=(1+$Pl['TA']/100);
+    $ProdMod*=(1+$Pl['TA']/100);
+    if ($TA>0)
+      InfoBoxAdd('PP','TA '.$TA,'*'.(100+$TA).'%',true);
 
-$PPH+=$PPBase*($Art['Production']/100);
-$ProdMod+=($Art['Production']/100);
-if ($Art['Production']!=0)
-    InfoBoxAdd('PP','artefact','+'.$Art['Production'].'%',$Art['Production']>0);
+    $PPH+=$PPBase*($Art['Production']/100);
+    $ProdMod+=($Art['Production']/100);
+    if ($Art['Production']!=0)
+      InfoBoxAdd('PP','artefact','+'.$Art['Production'].'%',$Art['Production']>0);
 
-if ($P['Production']!=100) {
-$PPH*=$P['Production']/100.0;
-InfoBoxAdd('PP','planet','*'.$P['Production'].'%',$P['Production']>100);
-}
-if ($PPH>0)
-    $Return['PP1Time']=ceil(3600/$PPH);
+    if ($P['Production']!=100) {
+      $PPH*=$P['Production']/100.0;
+      InfoBoxAdd('PP','planet','*'.$P['Production'].'%',$P['Production']>100);
+    }
+    if ($PPH>0)
+      $Return['PP1Time']=ceil(3600/$PPH);
 
-}//end not siege case
+  }//end not siege case
 
-planet_mark_output($sql, $P['PLID'], $PopH, $PPH);
+  planet_mark_output($sql, $P['PLID'], $PopH, $PPH);
 
-$Return['Pop'] = $Pop;
-$Return['PopGo'] = $PopGo;
-$Return['PopMax'] = $PopMax;
-$Return['PopH'] = $PopH;
-$Return['PopTRemain'] = $PopTRemain;
+  $Return['Pop'] = $Pop;
+  $Return['PopGo'] = $PopGo;
+  $Return['PopMax'] = $PopMax;
+  $Return['PopH'] = $PopH;
+  $Return['PopTRemain'] = $PopTRemain;
 
-$Return['Tx'] = $Tx;
-$Return['TxGo'] = $TxGo;
-$Return['TxH'] = $TxH;
-$Return['TxTRemain'] = $TxTRemain;
+  $Return['Tx'] = $Tx;
+  $Return['TxGo'] = $TxGo;
+  $Return['TxH'] = $TxH;
+  $Return['TxTRemain'] = $TxTRemain;
 
-$Return['PP'] = $PP;
-$Return['PPH'] = $PPH;
+  $Return['PP'] = $PP;
+  $Return['PPH'] = $PPH;
+  $Return['PPMod'] = $ProdMod;
 
 
-return $Return;
+  return $Return;
 }
 
 ?>

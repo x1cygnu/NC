@@ -197,7 +197,10 @@ function planetResources($ResT, $offset, $P, $ConfigGen) {
     $DO->Insert($D);
   }
   if (isset($Config->titleDiv)) $Config->titleDiv->Insert($DO); 
-  if (isset($Config->valueDiv)) $Config->valueDiv->Insert($P['Pop']);
+  if (isset($Config->valueDiv)) {
+    $Config->valueDiv->Insert($P['Pop']);
+    $Config->valueDiv->sId='Popbx';
+  }
 
   if (isset($Config->progressDiv)) $Config->progressDiv->Insert($P['PopGo'] . '/' . $P['PopMax']);
   if (isset($Config->incomeDiv)) {
@@ -242,7 +245,10 @@ function planetResources($ResT, $offset, $P, $ConfigGen) {
     $DO->Insert($D);
   }
   if (isset($Config->titleDiv)) $Config->titleDiv->Insert($DO);
-  if (isset($Config->valueDiv)) $Config->valueDiv->Insert($P['Tx']);
+  if (isset($Config->valueDiv)) {
+    $Config->valueDiv->Insert($P['Tx']);
+    $Config->valueDiv->sId='Txbx';
+  }
 
   if (isset($Config->progressDiv)) $Config->progressDiv->Insert($P['TxGo'] . '/1000');
   if (isset($Config->incomeDiv)) {
@@ -333,9 +339,9 @@ function SmartButton(&$Inc,$sn)
   $Inc->onClick("increase{$sn}()");
 }
 
-function IncreaseButton(&$Inc,$sn,$v)
+function IncreaseButton(&$Inc,$jsname,$v)
 {
-  $Inc->onClick("increase{$sn}($v)");
+  $Inc->onClick($jsname.".increase($v)");
 }
 
 function AllButton(&$AllB,$sn)
@@ -343,10 +349,11 @@ function AllButton(&$AllB,$sn)
   $AllB->onClick("all{$sn}();");
 }
 
-function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMessage, $UseRP, $Max=NULL, $showButtons=true)
+function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjJSName, $ObjShortName, $HintMessage, $UseRP, $Max=NULL, $showButtons=true)
 {
   global $Siege;
   global $P;
+  global $H;
   if ($ObjDBName=="Starbase")
     $BaseCost=10;
   else
@@ -388,6 +395,12 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMess
     $Config->progressDiv->sId = $ObjDBName . 'prgbx';
   }
 
+  if (!isset($Max))
+    $JSCost = $BaseCost;
+  else
+    $JSCost = $FMax;
+  $H->addonLoad($ObjJSName.".init(".($FMax-$FRemain).",".$JSCost.")");
+
   if (!$Siege and isset($Config->buildDiv))
   {
     $Inc=new Input("button","","+","incbutton");
@@ -404,10 +417,10 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMess
       }
       else
       {
-        IncreaseButton($Inc,$ObjShortName,1);
-        IncreaseButton($IncX,$ObjShortName,10);
-        IncreaseButton($IncC,$ObjShortName,100);
-        IncreaseButton($IncM,$ObjShortName,1000);
+        IncreaseButton($Inc,$ObjJSName,1);
+        IncreaseButton($IncX,$ObjJSName,10);
+        IncreaseButton($IncC,$ObjJSName,100);
+        IncreaseButton($IncM,$ObjJSName,1000);
         $Config->buildDiv->Place($Inc);
         $Config->buildDiv->Place($IncX);
         $Config->buildDiv->Place($IncC);
@@ -418,7 +431,7 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMess
   }
   if (!$Siege and isset($Config->spendDiv)) {
     $Field=new Input("text","","0","text number");
-    $Field->onChange("checkPrice(); count(); show()");
+    $Field->onChange($ObjJSName.'.checkSpend()');
     $Field->sName=$Field->sId=$ObjDBName . "v";
     $Config->spendDiv->Place($Field);
   }
@@ -485,30 +498,31 @@ function planetConstructs($BuildT,$offset,$P,$ConfigGen) {
 function planetBuildings($BuildT,$offset,$P,$ConfigGen) {
   $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Place($offset->x,$offset->y,
-      BuildingInfoBox($Config,"Farm","Farm",'f',"Increases growth - population grows faster",true));
+      BuildingInfoBox($Config,"Farm","Farm",'farm','f',"Increases growth - population grows faster",true));
   $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Place($offset->x+1,$offset->y,
-      BuildingInfoBox($Config,"Factory","Factory",'r',"Produces Production Points",true));
+      BuildingInfoBox($Config,"Factory","Factory",'factory','r',"Produces Production Points",true));
   $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Place($offset->x+2,$offset->y,
-      BuildingInfoBox($Config,"Cybernet","Cybernet",'c',"Increases culture level which will allow you to control more planets",true));
+      BuildingInfoBox($Config,"Cybernet","Cybernet",'cybernet','c',"Increases culture level which will allow you to control more planets",true));
   $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Place($offset->x+3,$offset->y,
-      BuildingInfoBox($Config,"Laboratory","Lab",'l',"Increases speed of your research",true));
+      BuildingInfoBox($Config,"Laboratory","Lab",'laboratory','l',"Increases speed of your research",true));
   $Config = call_user_func($ConfigGen,'bld');
   $BuildT->Place($offset->x+4,$offset->y,
-      BuildingInfoBox($Config,"Refinery","Refinery",'e',"Depollutes your planet",true));
+      BuildingInfoBox($Config,"Refinery","Refinery",'refinery','e',"Depollutes your planet",true));
   return $BuildT;
 }
 
 /////////////////////////////////////
 // Low Orbit 
 /////////////////////////////////////
-function planetLowOrbit($BuildT,$offset,$P,$ConfigGen) {
+function planetLowOrbit($BuildT,$offset,$P,$ConfigGen, $H) {
   $Config = call_user_func($ConfigGen,'bld');
+  $SBCost = SB_points();
 
   $BuildT->Insert($offset->x,$offset->y,
-      BuildingInfoBox($Config,"Starbase","Starbase",'sb',"Cheap yet stationary defence",false,SB_points()));
+      BuildingInfoBox($Config,"Starbase","Starbase",'starbase','sb',"Cheap yet stationary defence",false,$SBCost));
 
   return $BuildT;
 }
@@ -517,7 +531,7 @@ function planetLowOrbit($BuildT,$offset,$P,$ConfigGen) {
 // ORBIT
 //////////////////////////////////
 
-function planetHighOrbit($BuildT, $offset, $P, $ConfigGen) {
+function planetHighOrbit($BuildT, $offset, $P, $ConfigGen, $H) {
   global $Pl; //Player data
   global $Techs; //Player tech data
   global $Siege; //siege status
@@ -525,25 +539,25 @@ function planetHighOrbit($BuildT, $offset, $P, $ConfigGen) {
 
   $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x,$offset->y,
-      BuildingInfoBox($Config,"Vipers","Vpr",'vprs',"Manurevalbe and fast light fighter",false,$VprMax=Vpr_points($Pl['Engineering']),tech_check_name($Techs,'Vpr')));
+      BuildingInfoBox($Config,"Vipers","Vpr",'viper','vprs',"Manurevalbe and fast light fighter",false,$VprMax=Vpr_points($Pl['Engineering']),tech_check_name($Techs,'Vpr')));
   $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+1,$offset->y,
-      BuildingInfoBox($Config,"Interceptors","Int",'ints',"Standard light fighter",false,$IntMax=Int_points($Pl['Engineering'])));
+      BuildingInfoBox($Config,"Interceptors","Int",'interceptor','ints',"Standard light fighter",false,$IntMax=Int_points($Pl['Engineering'])));
   $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x,$offset->y+1,
-      BuildingInfoBox($Config,"Frigates","Fr",'frs',"Well-armoured warship",false,$FrMax=Fr_points($Pl['Engineering']),tech_check_name($Techs,'Fr')));
+      BuildingInfoBox($Config,"Frigates","Fr",'frigate','frs',"Well-armoured warship",false,$FrMax=Fr_points($Pl['Engineering']),tech_check_name($Techs,'Fr')));
   $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+1,$offset->y+1,
-      BuildingInfoBox($Config,"Battleships","Bs",'bss',"Big, overpowered ship",false,$BsMax=Bs_points($Pl['Engineering']),tech_check_name($Techs,'Bs')));
+      BuildingInfoBox($Config,"Battleships","Bs",'battleship','bss',"Big, overpowered ship",false,$BsMax=Bs_points($Pl['Engineering']),tech_check_name($Techs,'Bs')));
   $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+2,$offset->y+1,
-      BuildingInfoBox($Config,"Dreadnoughts","Drn",'drns',"Strongest of all warhips, yet relatively slow",false,$DrnMax=Drn_points($Pl['Engineering']),tech_check_name($Techs,'Drn')));
+      BuildingInfoBox($Config,"Dreadnoughts","Drn",'dreadnought','drns',"Strongest of all warhips, yet relatively slow",false,$DrnMax=Drn_points($Pl['Engineering']),tech_check_name($Techs,'Drn')));
   $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+3,$offset->y,
-      BuildingInfoBox($Config,"Transporters","Tr",'trs',"Defenceless ship carrying infrantry for onground desant.<br>Use these to conquer enemy planets.",false,$TrMax=Tr_points($Pl['Engineering'])));
+      BuildingInfoBox($Config,"Transporters","Tr",'transporter','trs',"Defenceless ship carrying infrantry for onground desant.<br>Use these to conquer enemy planets.",false,$TrMax=Tr_points($Pl['Engineering'])));
   $Config = call_user_func($ConfigGen,'high');
   $BuildT->Insert($offset->x+3,$offset->y+1,
-      BuildingInfoBox($Config,"Colony Ships","CS",'css',"Defenceless ship carrying settlers for new worlds.<br>Use these to take over free planets",false,$CSMax=CS_points($Pl['Engineering'])));
+      BuildingInfoBox($Config,"Colony Ships","CS",'colonyship','css',"Defenceless ship carrying settlers for new worlds.<br>Use these to take over free planets",false,$CSMax=CS_points($Pl['Engineering'])));
 
   return $BuildT;
 }

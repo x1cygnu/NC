@@ -123,6 +123,7 @@ if ($buy)
     $P=planet_get_all($sql, $Index['here']);
 
 
+$H->AddJavascriptFile("js/planetshort.js");
 $H->Insert(planetSummary($P));
 
 //////////////////////////////////////
@@ -160,16 +161,17 @@ function prepTable($rows, $cols, $short, $name) {
   return $T;
 }
 
-
-//$expandResources = true;
 $H->Insert(planetResources(prepTable(1,4,"resources", "Resources"), new V2D(2,1), $PData, 'prepObj'));
+$H->onLoad("pop.init({$PData['PopH']},1.0)");
+$H->addonLoad("tx.init({$PData['TxH']},1.0)");
+$H->addonLoad("pp.init({$PData['PPH']},{$PData['PPMod']})");
 
 $F=new Form("planet.php?id={$GET['id']}" . $sitAddition,true);
 
-$F->Insert(planetBuildings(prepTable(1,0,"buildings", "Buildings"), new V2D(2,1), $P,'prepBld'));
+$F->Insert(planetBuildings(prepTable(1,0,"buildings", "Buildings"), new V2D(2,1), $P,'prepBld', $H));
 $F->Insert(planetConstructs(prepTable(1,3,"construct", "Constructs"), new V2D(2,1), $P,'prepCnstr'));
 
-$F->Insert(planetLowOrbit(prepTable(1,2,"low", "Low Orbit"), new V2D(2,1), $P,'prepBld'));
+$F->Insert(planetLowOrbit(prepTable(1,2,"low", "Low Orbit"), new V2D(2,1), $P,'prepBld', $H));
 
 $HighOrbitTable = prepTable(2,5,"high", "High Orbit");
 if ($Siege) {
@@ -178,7 +180,7 @@ if ($Siege) {
        $HighOrbitTable->Insert(1,1,new Br());
        $HighOrbitTable->Insert(1,1,"($Enemy)");
 }
-$F->Insert(planetHighOrbit($HighOrbitTable, new V2D(2,1), $P,'prepBld'));
+$F->Insert(planetHighOrbit($HighOrbitTable, new V2D(2,1), $P,'prepBld', $H));
 
 //Ultimate spend PP button
 $F->Place(new Input("submit","spend","spend PP","ppspend"));

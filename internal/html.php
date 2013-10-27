@@ -102,6 +102,16 @@ class EventContainer extends Container
   function onKeyPress($sEvent) {$this->aEvent["onkeypress"]=$sEvent;}
   function onKeyUp($sEvent) {$this->aEvent["onkeyup"]=$sEvent;}
   function onSubmit($sEvent) {$this->aEvent["onsubmit"]=$sEvent;}
+
+  function addonClick($sEvent) {$this->aEvent["onclick"].=';'.$sEvent;}
+  function addonLoad($sEvent) {$this->aEvent["onload"].=';'.$sEvent;}
+  function addonMouseOver($sEvent) {$this->aEvent["onmouseover"].=';'.$sEvent;}
+  function addonMouseOut($sEvent) {$this->aEvent["onmouseout"].=';'.$sEvent;}
+  function addonMouseMove($sEvent) {$this->aEvent["onmousemove"].=';'.$sEvent;}
+  function addonChange($sEvent) {$this->aEvent["onchange"].=';'.$sEvent;}
+  function addonKeyPress($sEvent) {$this->aEvent["onkeypress"].=';'.$sEvent;}
+  function addonKeyUp($sEvent) {$this->aEvent["onkeyup"].=';'.$sEvent;}
+  function addonSubmit($sEvent) {$this->aEvent["onsubmit"].=';'.$sEvent;}
   //dodac wiecej funkcji...
 
   function Draw()
