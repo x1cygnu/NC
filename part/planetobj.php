@@ -45,7 +45,7 @@ function prepBld($prefx) {
   $build->sClass = "additional {$prefx}build";
   $main->Place($build);
   $Config->spendDiv = $spend = new Div();
-  $spend->sClass = "additional {$prefx}spend";
+  $spend->sClass = "additional {$prefx}spend hiding";
   $main->Place($spend);
   return $Config;
 }
@@ -58,7 +58,7 @@ function prepCnstr($prefx) {
   $title->sClass = "{$prefx}title";
   $main->Place($title);
   $Config->valueDiv = $value = new Div();
-  $value->sClass = "{$prefx}value";
+  $value->sClass = "{$prefx}value hiding";
   $main->Place($value);
   $Config->spendDiv = $value;
   return $Config;

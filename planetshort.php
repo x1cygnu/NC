@@ -123,6 +123,7 @@ if ($buy)
     $P=planet_get_all($sql, $Index['here']);
 
 
+$H->AddJavascriptFile("js/common.js");
 $H->AddJavascriptFile("js/planetshort.js");
 $H->Insert(planetSummary($P));
 

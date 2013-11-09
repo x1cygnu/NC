@@ -334,9 +334,9 @@ function planetResources($ResT, $offset, $P, $ConfigGen) {
 /////////////////////////////////////
 // Building info box
 /////////////////////////////////////
-function SmartButton(&$Inc,$sn)
+function SmartButton(&$Inc,$jsname)
 {
-  $Inc->onClick("increase{$sn}()");
+  $Inc->onClick($jsname.".increase()");
 }
 
 function IncreaseButton(&$Inc,$jsname,$v)
@@ -412,7 +412,7 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjJSName, $ObjShortNam
     {
       if (!isset($Max))
       {
-        SmartButton($Inc,$ObjShortName);
+        SmartButton($Inc,$ObjJSName);
         $Config->buildDiv->Place($Inc);
       }
       else
@@ -432,18 +432,25 @@ function BuildingInfoBox($Config, $ObjName, $ObjDBName, $ObjJSName, $ObjShortNam
   if (!$Siege and isset($Config->spendDiv)) {
     $Field=new Input("text","","0","text number");
     $Field->onChange($ObjJSName.'.checkSpend()');
+    $Field->onFocus($ObjJSName.'.alwaysShow()');
     $Field->sName=$Field->sId=$ObjDBName . "v";
     $Config->spendDiv->Place($Field);
   }
   return $Config->objectDiv;
 }
 
-function ConstructInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMessage, $showButtons=true)
+function ConstructInfoBox($Config, $ObjName, $ObjDBName, $ObjJSName, $ObjShortName, $HintMessage, $showButtons=true)
 {
   global $Siege;
   global $P;
+  global $H;
+  if ($P[$ObjDBName]=='0' or $P[$ObjDBName]=="")
+    $present = 0;
+  else
+    $present = 1;
+
   if (isset($Config->titleDiv)) {
-    if ($P[$ObjDBName]==1)
+    if ($present)
       $Config->titleDiv->sClass .= " cnstryes";
     else
       $Config->titleDiv->sClass .= " cnstrno";
@@ -460,18 +467,20 @@ function ConstructInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMes
     $Config->titleDiv->Place($DO);
   }
   if (isset($Config->valueDiv)) {
-    if ($P[$ObjDBName]==1)
+    if ($present)
         $Config->valueDiv->Insert("present");
   }
 
-  if (!$Siege and isset($Config->spendDiv) and $showButtons and $P[$ObjDBName]==0)
+  if (!$Siege and isset($Config->spendDiv) and $showButtons and !$present)
   {
     $Field=new Input("checkbox",$ObjShortName,"1","chbx");
-    $Field->onChange("checkPrice(); count(); show()");
-    $Field->sName=$Field->sId=$ObjDBName . "v";
+    $Field->onChange($ObjJSName.".change()");
+    $Field->onFocus($ObjJSName.'.alwaysShow()');
+    $Field->sName=$Field->sId=$ObjShortName . "v";
     $Config->spendDiv->Place($Field);
     $Config->spendDiv->Insert(" build");
   }
+  $H->addonLoad($ObjJSName.".init(".$present.",".construct_cost($ObjShortName).")");
   return $Config->objectDiv;
 }
 /////////////////////////////////////
@@ -481,13 +490,13 @@ function ConstructInfoBox($Config, $ObjName, $ObjDBName, $ObjShortName, $HintMes
 function planetConstructs($BuildT,$offset,$P,$ConfigGen) {
   $Config = call_user_func($ConfigGen,'cnstr');
   $BuildT->Place($offset->x,$offset->y,
-      ConstructInfoBox($Config,"Space Station","SpaceStation",'sps',"Landing base for your and ally fleets. May reduce travel times even further when equipped with Arrestor Field generator",true));
+      ConstructInfoBox($Config,"Space Station","SpaceStation",'spacestation','sps',"Landing base for your and ally fleets. May reduce travel times even further when equipped with Arrestor Field generator",true));
   $Config = call_user_func($ConfigGen,'cnstr');
   $BuildT->Place($offset->x+1,$offset->y,
-      ConstructInfoBox($Config,"Embassy","Embassy",'emb',"Representative building, allowing you to form or join an alliance and have access to alliance screen. You need only one embassy on any of your planets",true));
+      ConstructInfoBox($Config,"Embassy","Embassy",'embassy','emb',"Representative building, allowing you to form or join an alliance and have access to alliance screen. You need only one embassy on any of your planets",true));
   $Config = call_user_func($ConfigGen,'cnstr');
   $BuildT->Place($offset->x+2,$offset->y,
-      ConstructInfoBox($Config,"Gateway","Gateway",'gtw',"Hi-tech nearly-instant travel device based on artifically created wormholes.",true));
+      ConstructInfoBox($Config,"Gateway","Gateway",'gateway','gtw',"Hi-tech nearly-instant travel device based on artifically created wormholes.",true));
   return $BuildT;
 }
 

@@ -1,3 +1,7 @@
+.hiding
+{
+        display : none;
+}
 .planetcell
 {
     width : 140px;
@@ -218,7 +222,6 @@ position : absolute;
 left : 40px;
 bottom : 10pt;
 width : 40px;
-display : none;
 }
 .bldobject:hover div.bldspend
 {
@@ -319,7 +322,6 @@ position : absolute;
 left : 50px;
 bottom : 10pt;
 width : 50px;
-display : none;
 }
 .highobject:hover div.highspend
 {

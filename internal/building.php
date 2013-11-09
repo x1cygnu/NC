@@ -51,6 +51,12 @@ function building_points_for_lvl($lvl,$baseCost=10)
 //    return round(5*pow(1.5,$lvl-1));
 }
 
+function construct_cost($constructName) {
+  if ($constructName == "sps") return 256;
+  if ($constructName == "emb") return 512;
+  if ($constructName == "gtw") return 6144;
+}
+
 function pl_points_for_lvl($lvl)
 {
     return round(5*(pow($lvl,2.7)-pow($lvl-1,2.7)));

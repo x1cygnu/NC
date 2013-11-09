@@ -261,13 +261,13 @@ while(1) {
       {
         $AttackerWon=true;
         if ($roll == 'DU') {
-          news_set($sql,$Attacker['PID'],sprintf("We were victorious at %s!<br/>We destroyed %d%% of %s fleet before it was forced to retreat.<br/>XP gained: %d<br/>%s",
-                $Name,$DLooseResult['Killed'],$DefenderName,$Defender['CV'],$ReportString),4);
-          news_set($sql,$Defender['PID'],sprintf("We were defeated at %s!<br/>%s lost about %d%% of his fleet before ours was forced to retreat.",
-                $Name,$AttackerName,$AWinResult['Killed']),5);
+          news_set($sql,$Attacker['PID'],sprintf("We were victorious at %s!<br/>We destroyed %d%% of %s fleet before it was forced to retreat.<br/>We lost %d%% of our ships and gained %d XP<br/>%s",
+                $Name,$DLooseResult['Killed'],$DefenderName,$AWinResult['Killed'],$Defender['CV'],$ReportString),4);
+          news_set($sql,$Defender['PID'],sprintf("We were defeated at %s!<br/>%s lost about %d%% of his fleet before ours was forced to retreat. We lost %d%% of our ships.",
+                $Name,$AttackerName,$AWinResult['Killed'],$DLooseResult['Killed']),5);
         } else {
-          news_set($sql,$Attacker['PID'],sprintf("We were victorious at %s!<br/>We crushed %s fleet.<br/>XP gained: %d<br/>%s",
-                $Name,$DefenderName,$Defender['CV'],$ReportString),4);
+          news_set($sql,$Attacker['PID'],sprintf("We were victorious at %s!<br/>We crushed %s fleet, while lost %d%% on our side.<br/>XP gained: %d<br/>%s",
+                $Name,$DefenderName,$AWinResult['Killed'],$Defender['CV'],$ReportString),4);
           news_set($sql,$Defender['PID'],sprintf("We were defeated at %s!<br/>%s lost about %d%% of his fleet before blowing ours away.",
                 $Name,$AttackerName,$AWinResult['Killed']),5);
         }
@@ -287,13 +287,13 @@ while(1) {
       }	else if ($roll == 'AE' || $roll == 'AU') {
         $AttackerWon=false;
         if ($roll == 'AU') {
-          news_set($sql,$Defender['PID'],sprintf("We defended %s!<br/>We destroyed %d%% of %s fleet before it was forced to retreat.<br/>XP gained: %d<br/>%s",
-                $Name,$ALooseResult['Killed'],$AttackerName,$Attacker['CV'],$ReportString),4);
-          news_set($sql,$Attacker['PID'],sprintf("Our attack at %s was stopped!<br/>%s lost about %d%% of his fleet before ours was forced to retreat.",
-                $Name,$DefenderName,$DWinResult['Killed']),5);
+          news_set($sql,$Defender['PID'],sprintf("We defended %s!<br/>We destroyed %d%% of %s fleet before it was forced to retreat.<br/>We lost %d%% of our defences and gained %d XP<br/>%s",
+                $Name,$ALooseResult['Killed'],$AttackerName,$DWinResult['Killed'],$Attacker['CV'],$ReportString),4);
+          news_set($sql,$Attacker['PID'],sprintf("Our attack at %s was stopped!<br/>%s lost about %d%% of his fleet before ours was forced to retreat. We lost %d%% of our ships.",
+                $Name,$DefenderName,$DWinResult['Killed'],$ALooseResult['Killed']),5);
         } else {
-          news_set($sql,$Defender['PID'],sprintf("We defended %s!<br/>We crushed %s fleet.<br/>XP gained: %d<br/>%s",
-                $Name,$AttackerName,$Attacker['CV'],$ReportString),4);
+          news_set($sql,$Defender['PID'],sprintf("We defended %s!<br/>We crushed %s fleet, while lost %d%% on our side.<br/>XP gained: %d<br/>%s",
+                $Name,$AttackerName,$DWinResult['Killed'],$Attacker['CV'],$ReportString),4);
           news_set($sql,$Attacker['PID'],sprintf("Our attack at %s was stopped!<br/>%s lost about %d%% of his fleet before blowing ours away.",
                 $Name,$DefenderName,$DWinResult['Killed']),5);
         }
@@ -322,10 +322,10 @@ while(1) {
         news_set($sql,$Attacker['PID'],sprintf("[IGNORE THIS]The opponent raided %s!<br/>We destroyed %d%% of %s fleet before it was forced to retreat, but some damage to the surface of our planet was inflicted.<br/>XP gained: %d<br/>%s",
               $Name,$ALooseResult['Killed'],$AttackerName,$Attacker['CV'],$ReportString),4);*/
 
-	news_set($sql,$Defender['PID'],sprintf("After a short fire exchange %s withdrew from further attacking %s.<br/>We destroyed %d%% of their fleet<br/>XP gained: %d<br/>%s",
-				$AttackerName,$Name,$AWinResult['Killed'],makeinteger($Attacker['CV']/2),$ReportString),4);
-	news_set($sql,$Attacker['PID'],sprintf("After a short fire exchange with %s we withdrew from further attacking %s.<br/>We destroyed %d%% of their fleet<br/>XP gained: %d<br/>%s",
-				$DefenderName,$Name,$DWinResult['Killed'],makeinteger($Defender['CV']/2),$ReportString),4);
+	news_set($sql,$Defender['PID'],sprintf("After a short fire exchange %s withdrew from further attacking %s.<br/>We destroyed %d%% of their fleet and lost %d%% on our side<br/>XP gained: %d<br/>%s",
+				$AttackerName,$Name,$AWinResult['Killed'],$DWinResult['Killed'],makeinteger($Attacker['CV']/2),$ReportString),4);
+	news_set($sql,$Attacker['PID'],sprintf("After a short fire exchange with %s we withdrew from further attacking %s.<br/>We destroyed %d%% of their fleet and lost %d%% on our side<br/>XP gained: %d<br/>%s",
+				$DefenderName,$Name,$DWinResult['Killed'],$AWinResult['Killed'],makeinteger($Defender['CV']/2),$ReportString),4);
         foreach ($fightships as $S) {
           DamageResolve($DWinResult[$S]);
           DamageResolve($AWinResult[$S]);
@@ -345,10 +345,10 @@ while(1) {
               $PLID, $retreatPLID, 0, 9999, missionID("Retreat"));
       } else if ($roll == 'R') {
         $AttackerWon=false;
-        news_set($sql,$Defender['PID'],sprintf("The opponent raided %s!<br/>We destroyed %d%% of %s fleet before it was forced to retreat, but some damage to the surface of our planet was inflicted.<br/>XP gained: %d<br/>%s",
-              $Name,$ALooseResult['Killed'],$AttackerName,$Attacker['CV'],$ReportString),4);
-        news_set($sql,$Attacker['PID'],sprintf("We managed to raid the surface of %s, but ultimately we were forced to retreat!<br/>%s lost about %d%% of his fleet in the process.",
-              $Name,$DefenderName,$DWinResult['Killed']),5);
+        news_set($sql,$Defender['PID'],sprintf("The opponent raided %s!<br/>We destroyed %d%% of %s fleet before it was forced to retreat, but some damage to the surface of our planet was inflicted. Our defences were diminished by %d%%<br/>XP gained: %d<br/>%s",
+              $Name,$ALooseResult['Killed'],$AttackerName,$DWinResult['Killed'],$Attacker['CV'],$ReportString),4);
+        news_set($sql,$Attacker['PID'],sprintf("We managed to raid the surface of %s, but ultimately we were forced to retreat!<br/>%s lost about %d%% of his fleet, and we lost %d%% in the process.",
+              $Name,$DefenderName,$DWinResult['Killed'],$ALooseResult['Killed']),5);
         foreach ($fightships as $S) {
           DamageResolve($DWinResult[$S]);
           DamageResolve($ALooseResult[$S]);
