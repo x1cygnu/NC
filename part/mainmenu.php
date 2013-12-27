@@ -41,8 +41,6 @@ if (CheckPlayer())
   if ($menuselected=="BC") $U->SetClass(3,4,"menuselected");
   $U->Insert(4,4,new Link("settings.php","Settings"));
   if ($menuselected=="Settings") $U->SetClass(4,4,"menuselected");
-  $U->Insert(5,4,new Link("logout.php","Logout"));
-  if ($menuselected=="Logout") $U->SetClass(5,4,"menuselected");
 }
 
 if ($_SESSION['IsAdmin'])
@@ -83,9 +81,16 @@ if ($_SESSION['SitPID']>0)
 	$U->SetClass($ajhfg,8,'sublegend');
 }
 $U->Insert(1,1,"Northern Cross");
-$U->Join(1,1,5,1);
 $U->SetClass(1,1,'title');
 
+if (CheckPlayer())
+{
+  $U->Join(1,1,4,1);
+  $U->Insert(5,1,new Link("logout.php","Logout"));
+  $U->SetClass(5,1,'title');
+} else {
+  $U->Join(1,1,5,1);
+}
 
 $H->Insert($U);
 ?>
