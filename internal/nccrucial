@@ -1,0 +1,2 @@
+mysqldump --no-create-db --no-create-info --order-by-primary -umy3470_nc -p my3470_nc NC_ArtefactList NC_NewBackground NC_NewBackgroundList NC_PlanetType NC_Starsystemnames NC_TechList NC_globalsettings > nccrucial.sql
+
