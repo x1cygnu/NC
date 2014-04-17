@@ -164,7 +164,7 @@ foreach ($detail as $planet)
 		if ($planet['Population']==0)
 		{
 			$T->aRowClass[$i]="freeplanet";
-			if ($planet['PTID']<21)
+			if ($planet['PTID']!=22)
 				$T->Insert(6,$i,"Free Planet");
 			if ($GET['tf']==1)
 				$I->Insert(1,5,"--- free ---");

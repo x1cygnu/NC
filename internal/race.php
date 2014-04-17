@@ -5,21 +5,30 @@
 $Attributes = array("Growth", "Science", "Culture", "Production", "Speed", "Attack", "Defence");
 
 /* race modifiers:
- * Ans*(1+race%*(1-0.11*raceLvl)) */
+   1 - 3.4 race
+   1 - 2.7 race
+   1 - 1.9 race
+   1 - 1.0 race
+   1
+   1 + 1.0 race
+   1 + 1.8 race
+   1 + 2.4 race
+   1 + 3.0 race
+ */
 
-function Growth($mod) /* 12 */
+function Growth($mod) /* 14 */
 {
     switch ($mod)
     {
-    case -4:return 57;
-    case -3:return 66;
-    case -2:return 78;
-    case -1:return 88;
+    case -4:return 52;
+    case -3:return 62;
+    case -2:return 73;
+    case -1:return 86;
     case 0:return 100;
-    case 1:return 111;
-    case 2:return 121;
-    case 3:return 131;
-    case 4:return 140;
+    case 1:return 114;
+    case 2:return 125;
+    case 3:return 134;
+    case 4:return 142;
     default:return 100;
     }
 }
@@ -28,32 +37,32 @@ function Science($mod) /* 7 */
 {
     switch ($mod)
     {
-    case -4:return 71;
-    case -3:return 78;
-    case -2:return 85;
+    case -4:return 76;
+    case -3:return 81;
+    case -2:return 87;
     case -1:return 93;
     case 0:return 100;
-    case 1:return 106;
-    case 2:return 112;
+    case 1:return 107;
+    case 2:return 113;
     case 3:return 117;
-    case 4:return 122;
+    case 4:return 121;
     default:return 100;
     }
 }
 
-function Culture($mod) /* 6 */
+function Culture($mod) /* 8 */
 {
     switch ($mod)
     {
-    case -4:return 74;
-    case -3:return 81;
-    case -2:return 87;
-    case -1:return 94;
+    case -4:return 73;
+    case -3:return 78;
+    case -2:return 85;
+    case -1:return 92;
     case 0:return 100;
-    case 1:return 105;
-    case 2:return 110;
-    case 3:return 115;
-    case 4:return 119;
+    case 1:return 108;
+    case 2:return 114;
+    case 3:return 119;
+    case 4:return 124;
     default:return 100;
     }
 }
@@ -62,9 +71,9 @@ function Production($mod) /* 4 */
 {
     switch ($mod)
     {
-    case -4:return 82;
-    case -3:return 87;
-    case -2:return 91;
+    case -4:return 86;
+    case -3:return 89;
+    case -2:return 92;
     case -1:return 96;
     case 0:return 100;
     case 1:return 104;
@@ -75,65 +84,54 @@ function Production($mod) /* 4 */
     }
 }
 
-function Speed($mod)
+function Speed($mod) /* 18 */
 {
     switch ($mod)
     {
-    case -4:return 40;
-    case -3:return 52;
+    case -4:return 39;
+    case -3:return 51;
     case -2:return 66;
     case -1:return 82;
     case 0:return 100;
     case 1:return 118;
-    case 2:return 136;
-    case 3:return 154;
-    case 4:return 172;
-    default:return 100;
-    }
-}
-
-function Attack($mod)
-{
-    switch ($mod)
-    {
-    case -4:return 66;
-    case -3:return 73;
-    case -2:return 81;
-    case -1:return 90;
-    case 0:return 100;
-    case 1:return 110;
-    case 2:return 120;
-    case 3:return 128;
-    case 4:return 136;
-    default:return 100;
-    }
-}
-
-function Defence($mod)
-{
-    switch ($mod)
-    {
-    case -4:return 66;
-    case -3:return 73;
-    case -2:return 81;
-    case -1:return 90;
-    case 0:return 100;
-    case 1:return 110;
-    case 2:return 120;
-    case 3:return 128;
-    case 4:return 136;
-    default:return 100;
-			/*
-    case -4:return 44;
-    case -3:return 55;
-    case -2:return 68;
-    case -1:return 83;
-    case 0:return 100;
-    case 1:return 116;
     case 2:return 132;
-    case 3:return 148;
-    case 4:return 163;
-    default:return 100;*/
+    case 3:return 143;
+    case 4:return 154;
+    default:return 100;
+    }
+}
+
+function Attack($mod) /* 10 */
+{
+    switch ($mod)
+    {
+    case -4:return 66;
+    case -3:return 73;
+    case -2:return 81;
+    case -1:return 90;
+    case 0:return 100;
+    case 1:return 110;
+    case 2:return 118;
+    case 3:return 124;
+    case 4:return 130;
+    default:return 100;
+    }
+}
+
+function Defence($mod) /* 14 */
+{
+    switch ($mod)
+    {
+    case -4:return 52;
+    case -3:return 62;
+    case -2:return 73;
+    case -1:return 86;
+    case 0:return 100;
+    case 1:return 114;
+    case 2:return 125;
+    case 3:return 134;
+    case 4:return 142;
+    default:return 100;
     }
 }
 

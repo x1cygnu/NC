@@ -74,7 +74,7 @@ function growth_points_for_lvl($lvl)
 
 function culture_points_for_lvl($lvl)
 {
-    return 80*pow($lvl,2.2)+100*$lvl-400;
+    return 1.1*(80*pow($lvl,2.2)+100*$lvl)-400;
 }
 
 function science_points_for_lvl($lvl)

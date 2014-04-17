@@ -102,7 +102,7 @@ else //don't have to be colonisable
 	$a[19]=array(0,  0,  0,  0,  0,  0,  1,  1,  0,  0,  1,  0,  0,  0, 35,  1, 14,  0,  0,  2, 15,  0,  0,  6,  0,  0, 11);
     }
     $random = 0;
-    foreach ($a[$rung] as $v)
+    foreach ($a[$ring] as $v)
         $random += $v; 
     $random=mt_rand(0,$random - 1);
     log_update($sql, $Log, 3, $random);
