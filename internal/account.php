@@ -16,8 +16,8 @@ function account_create(&$sql, $nick, $password, $email, $regcode)
 	$Log=log_entry($sql,"acc create", $_SERVER['REMOTE_ADDR'],
 			$_SERVER['REMOTE_HOST'],
 			$_SERVER['REMOTE_PORT'], $nick, $email);
-	if (ipban_block_check(&$sql, $_SERVER['REMOVE_ADDR']) ||
-			ipban_block_check(&$sql, $_SERVER['HTTP_X_FORWARDED_FOR'])) {
+	if (ipban_block_check($sql, $_SERVER['REMOVE_ADDR']) ||
+			ipban_block_check($sql, $_SERVER['HTTP_X_FORWARDED_FOR'])) {
 		log_result($sql, $Log, "ipban");
 		print("Error 404\n");
 		die;

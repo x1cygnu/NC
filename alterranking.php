@@ -44,13 +44,13 @@ if ($GET['type']==0)
 {
 switch ($GET['ord'])
 {
-case 0: $order="Rank"; $R=ranking_players_rank(&$sql, $GET['from'], $GET['to']); break;
-case 1: $order="Points"; $R=ranking_players_points(&$sql, $GET['from'], $GET['to']); break;
-case 2: $order="Science"; $R=ranking_players_science(&$sql, $GET['from'], $GET['to']); break;
-case 3: $order="Culture"; $R=ranking_players_culture(&$sql, $GET['from'], $GET['to']); break;
-case 4: $order="Player Level"; $R=ranking_players_pl(&$sql, $GET['from'], $GET['to']); break;
-case 5: $order="Violence Level"; $R=ranking_players_vl(&$sql, $GET['from'], $GET['to']); break;
-case 6: $order="Trade Revenue"; $R=ranking_players_ta(&$sql, $GET['from'], $GET['to']); break;
+case 0: $order="Rank"; $R=ranking_players_rank($sql, $GET['from'], $GET['to']); break;
+case 1: $order="Points"; $R=ranking_players_points($sql, $GET['from'], $GET['to']); break;
+case 2: $order="Science"; $R=ranking_players_science($sql, $GET['from'], $GET['to']); break;
+case 3: $order="Culture"; $R=ranking_players_culture($sql, $GET['from'], $GET['to']); break;
+case 4: $order="Player Level"; $R=ranking_players_pl($sql, $GET['from'], $GET['to']); break;
+case 5: $order="Violence Level"; $R=ranking_players_vl($sql, $GET['from'], $GET['to']); break;
+case 6: $order="Trade Revenue"; $R=ranking_players_ta($sql, $GET['from'], $GET['to']); break;
 }
 
 
@@ -117,8 +117,8 @@ elseif ($GET['type']==1)
 {
 switch ($GET['ord'])
 {
-case 0: $order="Points"; $R=ranking_alliance_points(&$sql, $GET['from'], $GET['to']); break;
-case 1: $order="Members"; $R=ranking_alliance_members(&$sql, $GET['from'], $GET['to']); break;
+case 0: $order="Points"; $R=ranking_alliance_points($sql, $GET['from'], $GET['to']); break;
+case 1: $order="Members"; $R=ranking_alliance_members($sql, $GET['from'], $GET['to']); break;
 }
 
 

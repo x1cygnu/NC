@@ -30,7 +30,7 @@ if ($POST['freeze']=="Freeze")
     $H->Insert("Freezing the game");
     post("ftime","string");
     post("ttime","string");
-    round_freeze(&$sql, $POST['ftime'], $POST['ttime']);
+    round_freeze($sql, $POST['ftime'], $POST['ttime']);
 }
 
 include("part/mainmenu.php");

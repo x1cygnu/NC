@@ -65,7 +65,7 @@ if (($defender['Vpr']>0 or $defender['Drn']>0 or $defender['Int']>0 or $defender
 		$AWinResult[$i]=array();
 		$ALooseResult[$i]=array();
 		$Result[$i]=array();
-		fleet_battle(&$Result[$i], &$attacker,&$defender,$AWinResult[$i],$DWinResult[$i],$ALooseResult[$i],$DLooseResult[$i],
+		fleet_battle($Result[$i], $attacker,$defender,$AWinResult[$i],$DWinResult[$i],$ALooseResult[$i],$DLooseResult[$i],
 				$GET['AAtt'],$GET['ADef'],$GET['APhy'],$GET['AMat'],$GET['APL'],
 				$GET['DAtt'],$GET['DDef'],$GET['DPhy'],$GET['DMat'],$GET['DPL'],$i,
 				$ps[$GET['ptype']-1]['Attack'],$ps[$GET['ptype']-1]['Defense']);

@@ -1,7 +1,7 @@
 <?php
 
-//print("We are temporarily unavailable. Be right back! A frozen time will be scheduled so you don't crash your fleets");
-//die;
+print("We are temporarily unavailable. Be right back! A frozen time will be scheduled so you don't crash your fleets");
+die;
 include_once("internal/html.php");
 include_once("internal/common.php");
 include_once("internal/security/validator.php");
@@ -103,8 +103,8 @@ $T->aRowClass[5]="legend";
 $T->aRowClass[6]="legend";
 
 $F=new Form("login.php");
-$F->Insert(&$T);
-$H->Insert(&$F);
+$F->Insert($T);
+$H->Insert($F);
 
 /*
 $H->Insert(new Info("This is RED vs BLUE round"));

@@ -42,27 +42,27 @@ if ($POST['restart']=="Restart")
     {
 	post("round","string");
         post("time","string");
-	round_restart(&$sql, $POST['round'], $POST['time'], $POST['sendmail']);
+	round_restart($sql, $POST['round'], $POST['time'], $POST['sendmail']);
     }
 }
 
 get("fill","string");
 if ($GET['fill']=="Fill")
 {
-    starsystem_fill(&$sql);
+    starsystem_fill($sql);
 }
 
 get('prand','string');
 if ($GET['prand']=="Rand")
 {
-	planet_add_random(&$sql);
+	planet_add_random($sql);
 }
 
 get("ring","string");
 if ($GET['ring']=="Ring")
 {
 	echo "Ring create!";
-	starsystem_ring_create(&$sql);
+	starsystem_ring_create($sql);
 }
 
 $menuselected="Armageddon";
