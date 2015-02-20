@@ -1,0 +1,42 @@
+body, h1, a, table, input, textarea {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  color: #e0e0e0;
+  text-decoration: none;
+}
+
+body, table {
+  text-align: center;
+  margin: auto;
+}
+
+body, table {
+  font-size: 10pt;
+  background-color: black;
+  border: 0;
+}
+
+input[type=text],
+input[type=password]
+{
+  background-color: #607060;
+  border : #131c13 1px solid;
+  color: black;
+}
+
+input[type=submit] {
+  border-right: #80a080 1px solid;
+  border-top: #a0c0a0 1px solid;
+  border-left: #90b090 1px solid;
+  border-bottom: #709070 1px solid;
+  font-weight: bold;
+  font-size: 9pt;
+  background-color: #304030;
+}
+
+a:hover {
+  color: #aaaaff;
+}
+
+input:hover {
+  background-color: #676799;
+}
