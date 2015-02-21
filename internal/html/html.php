@@ -71,5 +71,6 @@ END;
 
 
 }
+function HTML($title) { return new HTML($title); }
 
 ?>

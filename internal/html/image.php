@@ -7,7 +7,7 @@ class Image extends Node {
   public $width;
   public $height;
 
-  public function __construct($image, $alt='', $title='') {
+  public function __construct($image, $alt='') {
     parent::__construct('img');
     $this->image = $image;
     $this->alt = $alt;
@@ -17,7 +17,7 @@ class Image extends Node {
 
   protected function prepare() {
     $this->addAttribute('src',$this->image);
-    if ($alt!='')
+    if ($this->alt!='')
       $this->addAttribute('alt',$this->alt);
     if ($this->width > 0)
       $this->addAttribute('width',$this->width);
@@ -26,4 +26,5 @@ class Image extends Node {
   }
 
 }
+function Image($image, $alt='') { return new Image($image, $alt); }
 ?>

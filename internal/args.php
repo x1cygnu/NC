@@ -2,26 +2,16 @@
 
 $FieldMap = array(
     'login' => 'l',
-    'password' => 'p'
-    );
-
-$SubmitMap = array(
+    'password' => 'p',
     'login' => 'sl'
     );
+
 
 function field($name) {
   global $FieldMap;
   $S = $FieldMap[$name];
   if (!$S)
     throw new Exception("Field $name not found");
-  return $S;
-}
-
-function submit($name) {
-  global $SubmitMap;
-  $S = $SubmitMap[$name];
-  if (!$S)
-    throw new Exception("Submit $name not found");
   return $S;
 }
 
@@ -48,12 +38,12 @@ function post($name, $type) {
 }
 
 function getSubmitted($name) {
-  $s = submit($name);
+  $s = field($name);
   return isset($_GET[$s]);
 }
 
 function postSubmitted($name) {
-  $s = submit($name);
+  $s = field($name);
   return isset($_POST[$s]);
 }
 

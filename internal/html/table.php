@@ -1,6 +1,5 @@
 <?php
 include_once("node.php");
-include_once('../vector.php');
 
 class Cell extends Node {
   public $rowSpan = 1;
@@ -20,8 +19,10 @@ class Cell extends Node {
   public function span($dy, $dx) {
     $this->rowSpan = $dy;
     $this->colSpan = $dx;
+    return $this;
   }
 }
+function Cell() { return new Cell(); }
 
 class Table extends Node {
   public $maxRows = 0; //x coordinate
@@ -63,6 +64,7 @@ class Table extends Node {
 
   public function join($fromRow,$fromCol,$toRow,$toCol) {
     $this($fromRow,$fromCol)->span($toRow-$fromRow+1,$toCol-$fromCol+1);
+    return $this;
   }
 
   protected function getBody() {
@@ -91,8 +93,5 @@ class Table extends Node {
   }
   
 }
-
-
-
 
 ?>

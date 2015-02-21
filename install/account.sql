@@ -2,15 +2,17 @@ DELIMITER ;;
 
 USE cygnus_rootnode;;
 
-DROP PROCEDURE IF EXISTS NC_AccountCreate;
-CREATE PROCEDURE NC_AccountCreate(
-    IN loginName CHAR(30),
-    IN publicName CHAR(30),
-    IN password VARCHAR(100),
-    OUT AID INTEGER) LANGUAGE SQL
+DROP PROCEDURE IF EXISTS NC_AccountCreate;;
+DROP FUNCTION IF EXISTS NC_AccountCreate;;
+CREATE FUNCTION NC_AccountCreate(
+    loginName CHAR(30),
+    publicName CHAR(30),
+    password VARCHAR(100))
+  RETURNS INTEGER UNSIGNED
+  LANGUAGE SQL
   MODIFIES SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  INSERT INTO NC_Account VALUES(DEFAULT, loginName, publicName, UNHEX(SHA2(password,256)));
-  SET AID = LAST_INSERT_ID();
+  INSERT INTO NC_Account VALUES(DEFAULT, NULL, loginName, publicName, UNHEX(SHA2(password,256)));
+  RETURN LAST_INSERT_ID();
 END;;

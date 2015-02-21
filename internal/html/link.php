@@ -5,15 +5,14 @@ class Link extends Node {
   public $url;
   public $params;
 
-  public function __construct($url, $content=null) {
+  public function __construct($url) {
     parent::__construct('a');
     $this->url = $url;
     $params = array();
-    if (!is_null($content))
-      $this[] = $content;
   }
   public function addParam($key, $value) {
     $params[$key]=$value;
+    return $this;
   }
   protected function prepare() {
     $addr = $this->url;
@@ -30,5 +29,6 @@ class Link extends Node {
   }
 
 };
+function Link($url) { return new Link($url); }
 
 ?>

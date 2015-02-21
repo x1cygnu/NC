@@ -16,6 +16,7 @@ class Form extends Node {
     $this->setAttribute('method',$this->post?'post':'get');
   }
 }
+function Form($target, $post=true) { return new Form($target, $post); }
 
 class Input extends Node {
   protected $type;
@@ -38,30 +39,35 @@ class Input extends Node {
       $this->setAttribute('value',$this->value);
   }
 }
+function Input($type, $name, $value='') { return new Input($type, $name, $value); }
 
 class TextInput extends Input {
   public function __construct($name, $value='') {
     parent::__construct('text', $name, $value);
   }
 }
+function TextInput($name, $value='') { return new TextInput($name, $value); }
 
 class PasswordInput extends Input {
   public function __construct($name, $value='') {
     parent::__construct('password', $name, $value);
   }
 }
+function PasswordInput($name, $value='') { return new PasswordInput($name, $value); }
 
 class Submit extends Input {
   public function __construct($name, $value='') {
     parent::__construct('submit', $name, $value);
   }
 }
+function Submit($name, $value='') { return new Submit($name, $value); }
 
 class Button extends Input {
   public function __construct($value='') {
     parent::__construct('button', '', $value);
   }
 }
+function Button($value='') { return new Button($value); }
 
 class RadioInput extends Input {
   public $checked = false;
@@ -74,6 +80,7 @@ class RadioInput extends Input {
       $this->enableAttribute('checked');
   }
 }
+function RadioInput($name, $value='') { return new RadioInput($name, $value); }
 
 class CheckboxInput extends Input {
   public $checked = false;
@@ -86,6 +93,7 @@ class CheckboxInput extends Input {
       $this->enableAttribute('checked');
   }
 }
+function CheckboxInput($name, $value='') { return new CheckboxInput($name, $value); }
 
 class Select extends Node {
   public $name;
@@ -98,6 +106,7 @@ class Select extends Node {
 
   public function addOption($value, $description) {
     $this->content[$value] = $description;
+    return $this;
   }
 
   protected function getBody() {
@@ -112,6 +121,6 @@ class Select extends Node {
   }
 
 }
-
+function Select($name) { return new Select($name); }
 
 ?>
