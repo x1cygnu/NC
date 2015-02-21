@@ -32,4 +32,3 @@ class Link extends Node {
 };
 
 ?>
-

@@ -6,4 +6,3 @@ function load_theme($HTML) {
 
 
 ?>
-

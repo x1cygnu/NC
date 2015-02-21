@@ -26,4 +26,4 @@ class Image extends Node {
   }
 
 }
-
+?>
