@@ -12,7 +12,7 @@ class SQL extends mysqli {
 
   public function __call($name, $arguments) {
     $count = count($arguments);
-    $stmtstr = "SELECT $name(";
+    $stmtstr = "CALL $name(";
     $i = 0;
     foreach($arguments as $value) {
       if ($i>0)
@@ -28,8 +28,10 @@ class SQL extends mysqli {
     $resultobj = $this->store_result();
     $this->checkError($stmtstr);
     if ($resultobj) {
-      $result = $resultobj->fetch_row()[0];
+      $result = $resultobj->fetch_assoc();
       $resultobj->free();
+      if (count($result)==1 and isset($result['Result']))
+        $result = $result['Result'];
       return $result;
     } else
       return null;

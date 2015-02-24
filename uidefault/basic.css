@@ -8,7 +8,9 @@ body, table {
   text-align: center;
   margin: auto;
 }
-
+table tr {
+  text-align: left;
+}
 body, table {
   font-size: 10pt;
   background-color: black;

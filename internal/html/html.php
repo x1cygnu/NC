@@ -49,18 +49,18 @@ END;
 
 
   public function setMeta($key, $value) {
-    $enckey = htmlentities($key, ENT_QUOTES | ENT_HTML5);
-    $encvalue = htmlentities($key, ENT_QUOTES | ENT_HTML5);
+    $enckey = htmlspecialchars($key, ENT_COMPAT | ENT_HTML5);
+    $encvalue = htmlspecialchars($value, ENT_COMPAT | ENT_HTML5);
     $this->meta[$enckey] = $encvalue;
   }
 
   public function addStyle($filename) {
-    $encname = htmlentities($filename, ENT_QUOTES | ENT_HTML5);
+    $encname = htmlspecialchars($filename, ENT_COMPAT | ENT_HTML5);
     $this->style[] = $encname;
   }
 
   public function addScriptFile($filename) {
-    $encname = htmlentities($filename, ENT_QUOTES | ENT_HTML5);
+    $encname = htmlspecialchars($filename, ENT_COMPAT | ENT_HTML5);
     $this->scriptfile[] = $encname;
   }
 

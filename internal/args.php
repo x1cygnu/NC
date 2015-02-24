@@ -2,8 +2,13 @@
 
 $FieldMap = array(
     'login' => 'l',
+    'showname' => 'shn',
     'password' => 'p',
-    'login' => 'sl'
+    'password2' => 'p2',
+    'email' => 'spam_here',
+
+    'submit_login' => 'sl',
+    'submit_register' => 'sreg'
     );
 
 

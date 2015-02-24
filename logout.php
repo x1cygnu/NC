@@ -1,4 +1,4 @@
 <?php
-$go='';
+$go='logout';
 include('./go.php');
 ?>

@@ -70,9 +70,9 @@ class Table extends Node {
   protected function getBody() {
     $S = '';
     $exclusion = array();
-    for ($row = 0; $row<=$this->maxRows; ++$row) {
+    for ($row = 1; $row<=$this->maxRows; ++$row) {
       $S .= "<tr>";
-      for ($col = 0; $col<=$this->maxCols; ++$col) {
+      for ($col = 1; $col<=$this->maxCols; ++$col) {
         if (isset($exclution[$row][$col]))
           continue;
         if (!isset($this[$row][$col])) {

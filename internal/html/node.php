@@ -53,13 +53,15 @@ class Node implements ArrayAccess {
   }
 
   public function setAttribute($key, $value) {
-    $encvalue = htmlentities($value, ENT_QUOTES | ENT_HTML5);
+//    $encvalue = htmlentities($value, ENT_QUOTES | ENT_HTML5);
+    $encvalue = htmlspecialchars($value, ENT_COMPAT | ENT_HTML5);
     $this->attribute[$key] = $encvalue;
     return $this;
   }
 
   public function addAttribute($key, $value) {
-    $encvalue = htmlentities($value, ENT_QUOTES | ENT_HTML5);
+//    $encvalue = htmlentities($value, ENT_QUOTES | ENT_HTML5);
+    $encvalue = htmlspecialchars($value, ENT_COMPAT | ENT_HTML5);
     if (isset($this->attribute[$key]))
       $this->attribute[$key] .= ' '.$encvalue;
     else

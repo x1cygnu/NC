@@ -15,7 +15,7 @@ class Link extends Node {
     return $this;
   }
   protected function prepare() {
-    $addr = $this->url;
+    $addr = rawurlencode($this->url);
     $first = true;
     foreach($this->params as $key => $value) {
       if ($first)
@@ -23,7 +23,7 @@ class Link extends Node {
       else
         $addr .= '&';
       $first = false;
-      $addr .= $key.'='.$value;
+      $addr .= rawurlencode($key).'='.rawurlencode($value);
     }
     $this->setAttribute('href',$addr);
   }

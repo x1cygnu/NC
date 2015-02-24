@@ -1,4 +1,4 @@
 <?php
-$go='';
+$go='register';
 include('./go.php');
 ?>

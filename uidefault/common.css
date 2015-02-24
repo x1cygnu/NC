@@ -1,0 +1,21 @@
+table.nullspace {
+  border-collapse: collapse;
+}
+
+table.nullspace td {
+  border: 0px;
+  padding: 0;
+  margin: 0;
+}
+.title {
+  background-color: #402010;
+  text-align: center;
+}
+.legend {
+  background-color: #181840;
+  text-align: center;
+}
+.sublegend {
+  background-color: #101030;
+  text-align: center;
+}
