@@ -10,6 +10,36 @@ class SQL extends mysqli {
       throw new Exception("Failed to establish the database connection: " . $this->connect_error);
   }
 
+  public function get() {
+    $name = func_get_arg(0);
+    $stmtstr = "CALL $name(";
+    for($i=1; $i<func_num_args(); ++$i) {
+      if ($i>1)
+        $stmtstr.=',';
+      $value = func_get_arg($i);
+      if (is_string($value))
+        $value = '"'.$this->real_escape_string($value).'"';
+      $stmtstr.=$value;
+    }
+    $stmtstr.=')';
+    $this->real_query($stmtstr);
+    $this->checkError($stmtstr);
+    $resultobj = $this->store_result();
+    $this->checkError($stmtstr);
+    if ($resultobj) {
+      $result = array();
+      while(true) {
+        $row = $resultobj->fetch_assoc();
+        if (!isset($row))
+          break;
+        $result[] = $row;
+      }
+      $resultobj->free();
+      return $result;
+    } else
+      return null;
+  }
+
   public function __call($name, $arguments) {
     $count = count($arguments);
     $stmtstr = "CALL $name(";
