@@ -2,16 +2,6 @@ DELIMITER ;;
 
 USE cygnus_rootnode;;
 
-DROP TRIGGER IF EXISTS NC_ContainerRemove;;
-CREATE TRIGGER NC_ContainerRemove BEFORE DELETE ON NC_News
-FOR EACH ROW 
-  DELETE from NC_Container WHERE Container=OLD.Container;;
-
-DROP TRIGGER IF EXISTS NC_ContainerUpdate;;
-CREATE TRIGGER NC_ContainerUpdate BEFORE UPDATE ON NC_News
-FOR EACH ROW 
-  UPDATE NC_Container SET Container=NEW.Container WHERE Container=OLD.Container;;
-
 DROP PROCEDURE IF EXISTS NC_NewsCreate;;
 CREATE PROCEDURE NC_NewsCreate(
     p_owner INTEGER UNSIGNED,
@@ -21,8 +11,21 @@ CREATE PROCEDURE NC_NewsCreate(
   MODIFIES SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  INSERT INTO NC_News VALUES(p_owner, p_type, LAST_INSERT_ID(NC_NewContainer()), p_showtime);
-  SELECT LAST_INSERT_ID() AS `Return`;
+  INSERT INTO NC_News VALUES(DEFAULT, p_owner, p_type, p_showtime);
+  SELECT LAST_INSERT_ID() AS `Result`;
+END;;
+
+DROP PROCEDURE IF EXISTS NC_NewsSetItem;;
+CREATE PROCEDURE NC_NewsSetItem(
+    p_NID INTEGER UNSIGNED,
+    p_ItemType SMALLINT UNSIGNED,
+    p_ItemValue INTEGER)
+  LANGUAGE SQL
+  MODIFIES SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  INSERT INTO NC_NewsData VALUES(p_NID, p_ItemType, p_ItemValue)
+  ON DUPLICATE KEY UPDATE ItemValue=p_ItemValue;
 END;;
 
 DROP PROCEDURE IF EXISTS NC_NewsGet;;
@@ -35,7 +38,8 @@ CREATE PROCEDURE NC_NewsGet(
   READS SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  SELECT NewsType, Container, ShowTime FROM NC_News
+  SELECT N.NID, N.NewsType, N.ShowTime, I.ItemType, I.ItemValue FROM NC_News AS N
+  NATURAL LEFT JOIN NC_NewsData AS I
   WHERE Owner=p_owner AND ShowTime<=p_maxtime
   ORDER BY ShowTime DESC
   LIMIT p_from, p_count;

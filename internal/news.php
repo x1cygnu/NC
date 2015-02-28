@@ -1,20 +1,54 @@
 <?php
-define('NC_NEWS_WELCOME',1);
+const NEWS_WELCOME = 1;
 
-function news_insert($sql, $owner, $type) {
-  return $sql->NC_NewsCreate($owner, $type, now());
-}
+class News {
+  public $NID = null;
+  public $owner;
+  public $type;
+  public $showtime;
+  public $item = array();
 
-function news_insert_timed($sql, $owner, $type, $time) {
-  return $sql->NC_NewsCreate($owner, $type, $time);
+  static public function createTimed($owner, $type, $time) {
+    $n = new News();
+    $n->owner = $owner;
+    $n->type = $type;
+    $n->showtime = $time;
+    return $n;
+  }
+  static public function create($owner, $type) {
+    return self::createTimed($owner, $type, now());
+  }
+};
+
+function news_insert($sql, News $n) {
+  $n->NID = $sql->NC_NewsCreate($n->owner, $n->type, $n->showtime);
+  foreach ($n->item as $key=>$value) {
+    $sql->NC_NewsSetItem($n->NID, $key, $value);
+  }
 }
 
 function news_get($sql, $owner, $from, $count) {
-  return $sql->NC_NewsGet($owner, now(), $from, $count);
+  $n = null;
+  $result = array();
+  $data = $sql->NC_NewsGet($owner, now(), $from, $count);
+  foreach ($data as $row) {
+    if (isset($n) and $n->NID != $row['NID']) {
+      $n = new News();
+      $n->NID = $row['NID'];
+      $n->owner = $row['Owner'];
+      $n->type = $row['NewsType'];
+      $n->showtime = $row['ShowTime'];
+      $result[] = $n;
+    }
+    if (isset(row['ItemType']))
+      $n->item[intval(row['ItemType'])] = row['ItemValue'];
+  }
+  return $result;
 }
 
 function news_get_all($sql, $owner) {
-  return $sql->NC_NewsGet($owner, now(), 0, PHP_INT_MAX);
+  return news_get($sql, now(), 0, PHP_INT_MAX);
 }
+
 
 ?>
