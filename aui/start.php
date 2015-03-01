@@ -25,6 +25,5 @@ if (postSubmitted('submit_player_create')) {
   }
   $_SESSION['PID'] = $PID;
   $sql->close();
-
 }
 ?>

@@ -4,6 +4,7 @@ include_once("./internal/html/table.php");
 include_once("./internal/html/image.php");
 include_once("./internal/html/form.php");
 include_once("./internal/html/small.php");
+include_once("./internal/html/as.php");
 include_once("./internal/exception.php");
 include_once("./internal/util.php");
 include_once("./internal/args.php");

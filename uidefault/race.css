@@ -3,31 +3,59 @@ width: 60px;
 height: 60px;
 vertical-align: middle;
 text-align: center;
+font-size: 16pt;
 }
 td.neg4 {
-  background-color: #703000;
+  background-color: #381800;
 }
 td.neg3 {
-  background-color: #683800;
+  background-color: #341c00;
 }
 td.neg2 {
-  background-color: #604000;
+  background-color: #302000;
 }
 td.neg1 {
-  background-color: #584800;
+  background-color: #2c2400;
 }
 td.zero {
-  background-color: #505000;
+  background-color: #282800;
 }
 td.pos1 {
-  background-color: #485800;
+  background-color: #242c00;
 }
 td.pos2 {
-  background-color: #406000;
+  background-color: #203000;
 }
 td.pos3 {
-  background-color: #386800;
+  background-color: #1c3400;
 }
 td.pos4 {
+  background-color: #183800;
+}
+td.neg4[data-selected] {
+  background-color: #703000;
+}
+td.neg3[data-selected] {
+  background-color: #683800;
+}
+td.neg2[data-selected] {
+  background-color: #604000;
+}
+td.neg1[data-selected] {
+  background-color: #584800;
+}
+td.zero[data-selected] {
+  background-color: #505000;
+}
+td.pos1[data-selected] {
+  background-color: #485800;
+}
+td.pos2[data-selected] {
+  background-color: #406000;
+}
+td.pos3[data-selected] {
+  background-color: #386800;
+}
+td.pos4[data-selected] {
   background-color: #307000;
 }

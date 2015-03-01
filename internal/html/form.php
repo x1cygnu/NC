@@ -33,9 +33,9 @@ class Input extends Node {
 
   public function prepare() {
     $this->setAttribute('type',$this->type);
-    if ($this->name)
+    if ($this->name !== '')
       $this->setAttribute('name',$this->name);
-    if ($this->value)
+    if ($this->value !== '')
       $this->setAttribute('value',$this->value);
   }
 }
@@ -47,6 +47,13 @@ class TextInput extends Input {
   }
 }
 function TextInput($name, $value='') { return new TextInput($name, $value); }
+
+class HiddenInput extends Input {
+  public function __construct($name, $value='') {
+    parent::__construct('hidden', $name, $value);
+  }
+}
+function HiddenInput($name, $value='') { return new HiddenInput($name, $value); }
 
 class PasswordInput extends Input {
   public function __construct($name, $value='') {

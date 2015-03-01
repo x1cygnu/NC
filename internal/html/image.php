@@ -17,7 +17,7 @@ class Image extends Node {
 
   protected function prepare() {
     $this->addAttribute('src',$this->image);
-    if ($this->alt!='')
+    if ($this->alt!=='')
       $this->addAttribute('alt',$this->alt);
     if ($this->width > 0)
       $this->addAttribute('width',$this->width);
