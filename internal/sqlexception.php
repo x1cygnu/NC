@@ -22,7 +22,7 @@ function SQLThrowException($sql, $query) {
     case 1586:
       throw new SQLDuplicateKeyException($sql, $query);
     default:
-      throw new SQLExcpetion($sql, $query);
+      throw new SQLException($sql, $query);
   }
 }
 

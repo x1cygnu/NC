@@ -10,13 +10,24 @@ class SQL extends mysqli {
       throw new Exception("Failed to establish the database connection: " . $this->connect_error);
   }
 
-  public function get() {
-    $name = func_get_arg(0);
+  private function purge() {
+    while ($this->more_results()) {
+      $this->next_result();
+      $obj = $this->store_result();
+      if ($obj)
+        $obj->free();
+    }
+  }
+
+  
+  private function arrayget($args) {
+    $name = $args[0];
+    $argc = count($args);
     $stmtstr = "CALL $name(";
-    for($i=1; $i<func_num_args(); ++$i) {
+    for($i=1; $i<$argc; ++$i) {
       if ($i>1)
         $stmtstr.=',';
-      $value = func_get_arg($i);
+      $value = $args[$i];
       if (is_string($value))
         $value = '"'.$this->real_escape_string($value).'"';
       $stmtstr.=$value;
@@ -35,36 +46,27 @@ class SQL extends mysqli {
         $result[] = $row;
       }
       $resultobj->free();
+      $this->purge();
       return $result;
-    } else
-      return null;
+    }
+    $this->purge();
+    return null;
+  }
+
+  public function get() {
+    return $this->arrayget(func_get_args());
   }
 
   public function __call($name, $arguments) {
-    $count = count($arguments);
-    $stmtstr = "CALL $name(";
-    $i = 0;
-    foreach($arguments as $value) {
-      if ($i>0)
-        $stmtstr.=',';
-      ++$i;
-      if (is_string($value))
-        $value = '"'.$this->real_escape_string($value).'"';
-      $stmtstr.=$value;
-    }
-    $stmtstr.=')';
-    $this->real_query($stmtstr);
-    $this->checkError($stmtstr);
-    $resultobj = $this->store_result();
-    $this->checkError($stmtstr);
-    if ($resultobj) {
-      $result = $resultobj->fetch_assoc();
-      $resultobj->free();
-      if (count($result)==1 and isset($result['Result']))
+    $result = $this->arrayget(array_merge( array($name), $arguments));
+    if (isset($result)) {
+      //only first row
+      if (count($result)>0)
+        $result = $result[0];
+      if (isset($result['Result']))
         $result = $result['Result'];
       return $result;
-    } else
-      return null;
+    }
   }
 
   private function checkError($query) {

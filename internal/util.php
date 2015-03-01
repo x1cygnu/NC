@@ -14,7 +14,7 @@ function str_or_empty(&$val) {
 
 $now = time();
 function now() {
-  return $_GLOBALS['now'];
+  return $GLOBALS['now'];
 }
 
 ?>

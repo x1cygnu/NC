@@ -25,15 +25,15 @@ $classes = array(
 $F=new Form('start.php');
 $T=new Table();
 $F[]=$T;
-//$T->setClass("nullspace");
+$T->setClass("racetable");
 foreach($RACE as $name => $enum) {
   $F->_(HiddenInput(field($name),$$name));
   $T($enum,1)->_($name)->setClass('legend');
   for ($i=-4; $i<=4; ++$i) {
-    $cell = $T($enum,6+$i);
-    $cell->_(sprintf("%+d",$i))->
-      setClass('racevalue')->addClass($classes[$i]);
-    asRadio($cell, field($name), $i, $i == $$name);
+    $B = new Button(sprintf("%+d",$i));
+    $B->setClass('racevalue')->addClass($classes[$i]);
+    asRadio($B, field($name), $i, $i == $$name);
+    $T($enum,6+$i)[] = $B;
   }
 }
 $row = $T->maxRows;

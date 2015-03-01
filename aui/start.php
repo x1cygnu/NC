@@ -1,5 +1,6 @@
 <?php
 include_once('./internal/race.php');
+include_once('./internal/player.php');
 
 if (empty($_SESSION['AID']))
   throw new NCAIDMissException('You must log in first');
@@ -19,7 +20,7 @@ if (postSubmitted('submit_player_create')) {
 
   $sql = openSQL();
   $PID = player_create($sql, $_SESSION['AID']);
-  foreach ($RACE as $enum => $stat) {
+  foreach ($RACE as $stat => $enum) {
     if ($$stat != 0)
       player_set_race($sql, $PID, $enum, $$stat); 
   }
