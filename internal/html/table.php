@@ -73,7 +73,7 @@ class Table extends Node {
     for ($row = 1; $row<=$this->maxRows; ++$row) {
       $S .= "<tr>";
       for ($col = 1; $col<=$this->maxCols; ++$col) {
-        if (isset($exclution[$row][$col]))
+        if (isset($exclusion[$row][$col]))
           continue;
         if (!isset($this[$row][$col])) {
           $S .= '<td></td>';
