@@ -16,7 +16,7 @@ if ($savedPlayerName!='')
 else
   $H->onLoad("document.getElementsByName('login')[0].focus()");
 
-$T(5,1)->_(Submit(field('submit_login'),'Enter'))->span(1,2);
+$T(5,1)->_(Submit(field('submit_login'),'Enter'))->span(1,2)->setClass('buttons');
 
 $H[]=Form('login.php')->_($T);
 

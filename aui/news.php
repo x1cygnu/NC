@@ -1,8 +1,8 @@
 <?php
 
 if (!isset($_SESSION['AID']))
-  throw new NCException('You are not logged in');
+  throw new NCAIDMissException('You are not logged in');
 if (!isset($_SESSION['PID']))
-  throw new NCException('You are an inactive player');
+  throw new NCPIDMissException('You are an inactive player');
 
 ?>

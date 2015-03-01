@@ -1,0 +1,33 @@
+td.racevalue {
+width: 60px;
+height: 60px;
+vertical-align: middle;
+text-align: center;
+}
+td.neg4 {
+  background-color: #703000;
+}
+td.neg3 {
+  background-color: #683800;
+}
+td.neg2 {
+  background-color: #604000;
+}
+td.neg1 {
+  background-color: #584800;
+}
+td.zero {
+  background-color: #505000;
+}
+td.pos1 {
+  background-color: #485800;
+}
+td.pos2 {
+  background-color: #406000;
+}
+td.pos3 {
+  background-color: #386800;
+}
+td.pos4 {
+  background-color: #307000;
+}

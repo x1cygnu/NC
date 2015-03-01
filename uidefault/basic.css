@@ -3,18 +3,25 @@ body, h1, a, table, input, textarea {
   color: #e0e0e0;
   text-decoration: none;
 }
-
-body, table {
+body {
+  text-align: center;
+  font-size: 10pt;
+  background-color: black;
+  border: 0;
+}
+table {
   text-align: center;
   margin: auto;
+  font-size: 10pt;
+  background-color: black;
+  border-collapse: collapse;
+  border: 1px;
 }
 table tr {
   text-align: left;
 }
-body, table {
-  font-size: 10pt;
-  background-color: black;
-  border: 0;
+table td {
+padding: 8pt;
 }
 
 input[type=text],

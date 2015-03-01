@@ -7,8 +7,17 @@ $FieldMap = array(
     'password2' => 'p2',
     'email' => 'spam_here',
 
+    'growth' => 'rg',
+    'science' => 'rs',
+    'culture' => 'rc',
+    'production' => 'rp',
+    'speed' => 'rsp',
+    'attack' => 'ra',
+    'defence' => 'rd',
+
     'submit_login' => 'sl',
-    'submit_register' => 'sreg'
+    'submit_register' => 'sreg',
+    'submit_player_create' => 'spc'
     );
 
 

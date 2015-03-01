@@ -1,6 +1,7 @@
 <?php
 include_once('./internal/util.php');
 
+
 const RACE_GROWTH = 1;
 const RACE_SCIENCE = 2;
 const RACE_CULTURE = 3;
@@ -9,7 +10,16 @@ const RACE_SPEED = 5;
 const RACE_ATTACK = 6;
 const RACE_DEFENCE = 7;
 
-$race = array(
+$RACE = array(
+    'growth' => RACE_GROWTH,
+    'science' => RACE_SCIENCE,
+    'culture' => RACE_CULTURE,
+    'production' => RACE_PRODUCTION,
+    'speed' => RACE_SPEED,
+    'attack' => RACE_ATTACK,
+    'defence' => RACE_DEFENCE);
+
+$raceValue = array(
     RACE_GROWTH => array(
       -4 => 0.52,
       -3 => 0.62,
@@ -87,19 +97,27 @@ $race = array(
       +3 => 1.24,
       +4 => 1.30
       ) 
-    )
+    );
 
 function getRaceValue($raceType, $attribute) {
-  return get_or_default($GLOBALS['race'][$raceType][$attribute],1.00);
+  return get_or_default($GLOBALS['raceValue'][$raceType][$attribute],1.00);
 }
 
-function player_get_race($PID, $raceType) {
+function player_get_race($sql, $PID, $raceType) {
+  $result = $sql->NC_RaceGet($PID, $raceType);
+  if (isset($result))
+    return intval($result);
+  return 0;
+}
+
+function player_get_race_modifier($sql, $PID, $raceType) {
   $result = $sql->NC_RaceGet($PID, $raceType);
   if (isset($result))
     return getRaceValue($raceType, intval($result));
+  return 1.00;
 }
 
-function player_set_race($PID, $raceType, $attribute) {
+function player_set_race($sql, $PID, $raceType, $attribute) {
   $sql->NC_RaceSet($PID, $raceType, $attribute);
 }
 

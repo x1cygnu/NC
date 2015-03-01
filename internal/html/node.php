@@ -95,6 +95,7 @@ class Node implements ArrayAccess {
   function onFocus($action) {$this->setAttribute('onfocus',$action); return $this; }
 
   function setClass($class) {$this->setAttribute('class',$class); return $this; }
+  function addClass($class) {$this->addAttribute('class',$class); return $this; }
   function setId($id) {$this->setAttribute('id',$id); return $this; }
   function setStyle($style) {$this->setAttribute('style',$style); return $this; }
 
