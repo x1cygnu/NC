@@ -20,24 +20,7 @@ class SQL extends mysqli {
     }
   }
 
-  
-  private function arrayget($args) {
-    $name = $args[0];
-    $argc = count($args);
-    $stmtstr = "CALL $name(";
-    for($i=1; $i<$argc; ++$i) {
-      if ($i>1)
-        $stmtstr.=',';
-      $value = $args[$i];
-      if (is_string($value))
-        $value = '"'.$this->real_escape_string($value).'"';
-      $stmtstr.=$value;
-    }
-    $stmtstr.=')';
-    if ($this->debug)
-      print "<p>$stmtstr</p>";
-    $this->real_query($stmtstr);
-    $this->checkError($stmtstr);
+  private function getresult() {
     $resultobj = $this->store_result();
     $this->checkError($stmtstr);
     if ($resultobj) {
@@ -80,12 +63,7 @@ class SQL extends mysqli {
     return null;
   }
 
-  public function get() {
-    return $this->arrayget(func_get_args());
-  }
-
-  public function __call($name, $arguments) {
-    $result = $this->arrayget(array_merge( array($name), $arguments));
+  private function single($result) {
     if (!empty($result)) {
       //only first row
       if (count($result)>0)
@@ -96,15 +74,62 @@ class SQL extends mysqli {
     } else
       return null;
   }
+  
+  private function arrayget($args) {
+    $name = $args[0];
+    $argc = count($args);
+    $stmtstr = "CALL $name(";
+    for($i=1; $i<$argc; ++$i) {
+      if ($i>1)
+        $stmtstr.=',';
+      $value = $args[$i];
+      if (is_string($value))
+        $value = '"'.$this->real_escape_string($value).'"';
+      $stmtstr.=$value;
+    }
+    $stmtstr.=')';
+    if ($this->debug)
+      print "<p>$stmtstr</p>";
+    $this->real_query($stmtstr);
+    $this->checkError($stmtstr);
+    return $this->getresult();
+  }
+
+  public function get() {
+    return $this->arrayget(func_get_args());
+  }
+
+  public function __call($name, $arguments) {
+    $result = $this->arrayget(array_merge( array($name), $arguments));
+    return $this->single($result);
+  }
 
   private function checkError($query) {
     if ($this->errno)
       SQLThrowException($this,$query);
   }
+
+  public function setGlobal($name, $value) {
+    if (is_string($value))
+      $value = '"'.$this->real_escape_string($value).'"';
+    $stmtstr = "UPDATE $this->globalTable SET $name=$value";
+    $this->real_query($stmtstr);
+    $this->checkError($stmtstr);
+    $this->getresult(); //ignore result
+  }
+
+  public function getGlobal($name) {
+    $stmtstr = "SELECT $name AS Result FROM $this->globalTable";
+    $this->real_query($stmtstr);
+    $this->checkError($stmtstr);
+    $result = $this->getresult();
+    return $this->single($result);
+  }
 }
 
 function openSQL() {
   $sql = new SQL(SQL_HOST, SQL_USER, SQL_PASS, SQL_DATABASE);
+  $sql->globalTable = "NC_Config";
   return $sql;
 }
 

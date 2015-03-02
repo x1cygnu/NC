@@ -1,5 +1,7 @@
 <?php
 
+const PI = 3.141592;
+
 function get_or_default(&$val, $default) {
   if (isset($val))
     return $val;
