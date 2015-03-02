@@ -1,0 +1,29 @@
+p.msginfo {
+background-color: #102010;
+width: 630px;
+margin: auto;
+padding: 5px;
+text-align: left;
+}
+p.msgsucc {
+padding: 20px;
+background-color: #336033;
+font-weight: bold;
+width: 600px;
+margin: auto;
+}
+p.msgwarn {
+padding: 20px;
+background-color: #636033;
+font-weight: bold;
+width: 600px;
+margin: auto;
+}
+p.msgerr {
+padding: 20px;
+background-color: #633333;
+font-weight: bold;
+width: 600px;
+margin: auto;
+}
+

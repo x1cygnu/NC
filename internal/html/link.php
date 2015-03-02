@@ -1,7 +1,7 @@
 <?php
 include_once('node.php');
 
-class Link extends Node {
+class Ref extends Node {
   public $url;
   public $params;
 
@@ -29,6 +29,8 @@ class Link extends Node {
   }
 
 };
-function Link($url) { return new Link($url); }
+function Ref($url) {
+  return new Ref($url);
+}
 
 ?>

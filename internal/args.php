@@ -15,6 +15,10 @@ $FieldMap = array(
     'attack' => 'ra',
     'defence' => 'rd',
 
+    'news_from' => 'f',
+    'news_count' => 'c',
+    'news_fromtime' => 't',
+
     'submit_login' => 'sl',
     'submit_register' => 'sreg',
     'submit_player_create' => 'spc'

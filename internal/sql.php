@@ -3,6 +3,7 @@ include_once('sql.conf');
 include_once('sqlexception.php');
 
 class SQL extends mysqli {
+  public $debug = false;
 
   public function __construct($host, $user, $pass, $dbname) {
     parent::__construct($host, $user, $pass, $dbname);
@@ -33,6 +34,8 @@ class SQL extends mysqli {
       $stmtstr.=$value;
     }
     $stmtstr.=')';
+    if ($this->debug)
+      print "<p>$stmtstr</p>";
     $this->real_query($stmtstr);
     $this->checkError($stmtstr);
     $resultobj = $this->store_result();
@@ -47,9 +50,33 @@ class SQL extends mysqli {
       }
       $resultobj->free();
       $this->purge();
+      if ($this->debug) {
+        if (count($result)==0)
+          print "<p>empty table</p>";
+        else {
+          print "<table>";
+          print "<tr><td>row</td>";
+          foreach ($result[0] as $key => $value)
+            print "<td>$key</td>";
+          print "</tr>";
+          for ($i=0; $i<count($result); ++$i) {
+            print "<tr><td>$i</td>";
+            foreach ($result[$i] as $value) {
+              if (isset($value))
+                print "<td>$value</td>";
+              else
+                print "<td>null</td>";
+            }
+            print "</tr>\n";
+          }
+          print "</table>\n";
+        }
+      }
       return $result;
     }
     $this->purge();
+    if ($this->debug)
+      print "<p>null</p>";
     return null;
   }
 
@@ -59,14 +86,15 @@ class SQL extends mysqli {
 
   public function __call($name, $arguments) {
     $result = $this->arrayget(array_merge( array($name), $arguments));
-    if (isset($result)) {
+    if (!empty($result)) {
       //only first row
       if (count($result)>0)
         $result = $result[0];
       if (isset($result['Result']))
         $result = $result['Result'];
       return $result;
-    }
+    } else
+      return null;
   }
 
   private function checkError($query) {

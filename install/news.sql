@@ -45,3 +45,19 @@ BEGIN
   LIMIT p_from, p_count;
 END;;
 
+DROP PROCEDURE IF EXISTS NC_NewsGetTimed;;
+CREATE PROCEDURE NC_NewsGetTimed(
+    p_owner INTEGER UNSIGNED,
+    p_mintime INTEGER UNSIGNED,
+    p_maxtime INTEGER UNSIGNED
+    )
+  LANGUAGE SQL
+  READS SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  SELECT N.NID, N.NewsType, N.ShowTime, I.ItemType, I.ItemValue FROM NC_News AS N
+  NATURAL LEFT JOIN NC_NewsData AS I
+  WHERE Owner=p_owner AND ShowTime<=p_maxtime AND ShowTime>=p_mintime
+  ORDER BY ShowTime DESC;
+END;;
+

@@ -11,7 +11,7 @@ function account_create($sql, $loginname, $publicname, $password) {
 }
 
 function account_login($sql, $loginname, $password) {
-  $result = $sql->NC_AccountLogin($loginname, $password);
+  $result = $sql->NC_AccountLogin($loginname, $password, now());
   if (!isset($result))
     throw new NCLoginFailException('Login failed!');
   return $result;

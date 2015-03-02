@@ -27,12 +27,11 @@ function news_insert($sql, News $n) {
   }
 }
 
-function news_get($sql, $owner, $from, $count) {
+function process_news($data) {
   $n = null;
   $result = array();
-  $data = $sql->NC_NewsGet($owner, now(), $from, $count);
   foreach ($data as $row) {
-    if (isset($n) and $n->NID != $row['NID']) {
+    if (!isset($n) or $n->NID != $row['NID']) {
       $n = new News();
       $n->NID = $row['NID'];
       $n->owner = $row['Owner'];
@@ -40,14 +39,25 @@ function news_get($sql, $owner, $from, $count) {
       $n->showtime = $row['ShowTime'];
       $result[] = $n;
     }
-    if (isset(row['ItemType']))
-      $n->item[intval(row['ItemType'])] = row['ItemValue'];
+    if (isset($row['ItemType']))
+      $n->item[intval($row['ItemType'])] = $row['ItemValue'];
   }
   return $result;
 }
 
+function news_get($sql, $owner, $from, $count) {
+  $data = $sql->get('NC_NewsGet',$owner, now(), $from, $count);
+  return process_news($data);
+}
+
+function news_get_timed($sql, $owner, $fromtime) {
+  $data = $sql->get('NC_NewsGetTimed',$owner, $fromtime, now());
+  return process_news($data);
+
+}
+
 function news_get_all($sql, $owner) {
-  return news_get($sql, now(), 0, PHP_INT_MAX);
+  return news_get($sql, $owner, 0, PHP_INT_MAX);
 }
 
 

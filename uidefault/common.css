@@ -23,3 +23,10 @@ table.nullspace td {
   background-color: #444466;
   text-align: center;
 }
+.mainbutton {
+  border: 1px #444444 solid;
+  background-color: #204020;
+  text-align: center;
+  width: 60px;
+  height: 60px;
+}

@@ -9,7 +9,9 @@ if (postSubmitted('submit_login')) {
   $_SESSION['AID'] = intval($account['AID']);
   if (isset($account['PID']))
     $_SESSION['PID'] = intval($account['PID']);
-  info('Login succesfull');
+  $_SESSION['LastLogin'] = intval($account['LastLogin']);
+  success('Login succesfull');
+  info('Last login: ' . timedecode($_SESSION['LastLogin']));
   $sql->close();
 }
 ?>

@@ -1,8 +1,9 @@
 <?php
 
-define("MessageInfo",1);
+define("MessageSuccess",1);
 define('MessageWarning',2);
 define('MessageError',3);
+define("MessageInfo",4);
 
 class Message {
   public $type;
@@ -22,6 +23,10 @@ function error($msg) {
 function warning($msg) {
   global $Messages;
   $Messages[] = new Message(MessageWarning,$msg);
+}
+function success($msg) {
+  global $Messages;
+  $Messages[] = new Message(MessageSuccess,$msg);
 }
 function info($msg) {
   global $Messages;

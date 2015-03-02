@@ -1,6 +1,6 @@
 <?php
 if (isset($registerAID)) {
-  info('Account created');
+  success('Account created');
   $go="index";
   include('./gopart.php');
 } else {

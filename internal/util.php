@@ -12,9 +12,4 @@ function str_or_empty(&$val) {
   return '';
 }
 
-$now = time();
-function now() {
-  return $GLOBALS['now'];
-}
-
 ?>

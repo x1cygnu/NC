@@ -69,12 +69,12 @@ class Submit extends Input {
 }
 function Submit($name, $value='') { return new Submit($name, $value); }
 
-class Button extends Input {
+class ButtonInput extends Input {
   public function __construct($value='') {
     parent::__construct('button', '', $value);
   }
 }
-function Button($value='') { return new Button($value); }
+function ButtonInput($value='') { return new ButtonInput($value); }
 
 class RadioInput extends Input {
   public $checked = false;

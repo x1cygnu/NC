@@ -1,4 +1,4 @@
-body, h1, a, table, input, textarea {
+body, h1, a, table, input, textarea, button {
   font-family: Verdana, Arial, Helvetica, sans-serif;
   color: #e0e0e0;
   text-decoration: none;
@@ -48,4 +48,11 @@ a:hover {
 
 input:hover {
   background-color: #676799;
+}
+
+button {
+  border: 0px;
+}
+button:hover {
+  border: #676799 1px solid;
 }

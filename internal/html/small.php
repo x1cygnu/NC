@@ -29,4 +29,12 @@ class Span extends Node {
 }
 function Span() { return new Span(); }
 
+class Button extends Node {
+  public function __construct() {
+    parent::__construct('button');
+    $this->setAttribute('type','button');
+  }
+}
+function Button() { return new Button(); }
+
 ?>

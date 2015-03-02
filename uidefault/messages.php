@@ -1,9 +1,12 @@
 <?php
+if (count($Messages)>0)
+  $H->addStyle($UI.'/messages.css');
 foreach ($Messages as $Message) {
   switch ($Message->type) {
-    case MessageInfo: $H[] = Paragraph()->_("Info: $Message->msg"); break;
-    case MessageWarning: $H[] = Paragraph()->_("Warning: $Message->msg"); break;
-    case MessageError: $H[] = Paragraph()->_("Error: $Message->msg"); break;
+    case MessageInfo: $H[] = Paragraph()->_("$Message->msg")->setClass('msginfo'); break;
+    case MessageSuccess: $H[] = Paragraph()->_("$Message->msg")->setClass('msgsucc'); break;
+    case MessageWarning: $H[] = Paragraph()->_("$Message->msg")->setClass('msgwarn'); break;
+    case MessageError: $H[] = Paragraph()->_("$Message->msg")->setClass('msgerr'); break;
     default:
   }
 }
