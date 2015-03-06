@@ -1,5 +1,5 @@
 <?php
-include_once('sql.conf');
+include_once('sqlconf.php');
 include_once('sqlexception.php');
 
 class SQL extends mysqli {
