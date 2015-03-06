@@ -1,0 +1,25 @@
+DELIMITER ;;
+
+USE cygnus_rootnode;;
+
+DROP PROCEDURE IF EXISTS NC_PlanetCreate;;
+CREATE PROCEDURE NC_PlanetCreate(
+    p_SID INTEGER UNSIGNED,
+    p_type TINYINT UNSIGNED
+  )
+  LANGUAGE SQL
+  MODIFIES SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  DECLARE PlanetNum TINYINT UNSIGNED;
+  START TRANSACTION;
+
+  --Prevent other PlanetCreate in this system
+    SELECT 1 FROM NC_Starsystem WHERE SID=p_SID FOR UPDATE;
+
+  SELECT COUNT(*) INTO PlanetNum FROM NC_Planet WHERE SID=p_SID;
+  INSERT INTO NC_Planet(SID, Orbit, PlType) VALUES (p_SID, PlanetNum, p_type);
+  COMMIT;
+  SELECT LAST_INSERT_ID() AS Result;
+END;;
+

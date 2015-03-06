@@ -20,31 +20,47 @@ BEGIN
     ORDER BY RAND()
     LIMIT 1;
   UPDATE NC_Config_StarsystemName 
-    SET RingLevel=p_ring+10;
+    SET RingLevel=p_ring+10
     WHERE Name=StarName;
   INSERT INTO NC_Starsystem (X, Y, Name, MaxPlanets, OpenTime)
     VALUES (p_X, p_Y, StarName, p_MaxPlanets, p_OpenTime);
   SELECT LAST_INSERT_ID() AS Result;
 END;;
 
-
-DROP PROCEDURE IF EXISTS NC_GetRing;;
-CREATE PROCEDURE NC_GetRing()
-  LANGUAGE SQL
-  READS SQL DATA
-  SQL SECURITY INVOKER
-BEGIN
-  SELECT RingLevel AS Result FROM NC_Config;
-END;;
-
-DROP PROCEDURE IF EXISTS NC_GetRing;;
-CREATE PROCEDURE NC_SetRing(
-    NewRing TINYINT
+DROP PROCEDURE IF EXISTS NC_StarsystemCreateSpecial;;
+CREATE PROCEDURE NC_StarsystemCreateSpecial(
+    p_X SMALLINT,
+    p_Y SMALLINT,
+    p_MaxPlanets TINYINT UNSIGNED,
+    p_OpenTime INTEGER UNSIGNED,
+    p_Name VARCHAR(40),
+    p_Type TINYINT UNSIGNED
     )
   LANGUAGE SQL
   MODIFIES SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  UPDATE NC_Config SET RingLevel=NewRing;
+  INSERT INTO NC_Starsystem (X, Y, Name, MaxPlanets, OpenTime, StarType)
+    VALUES (p_X, p_Y, p_Name, p_OpenTime, p_MaxPlanets, p_Type);
+  SELECT LAST_INSERT_ID() AS Result;
+END;;
+
+DROP PROCEDURE IF EXISTS NC_StarsystemFindEmpty;;
+CREATE PROCEDURE NC_StarsystemFindEmpty(
+    p_time INTEGER UNSIGNED
+    )
+  LANGUAGE SQL
+  MODIFIES SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  SELECT S.SID AS Result
+    FROM NC_Starsystem S
+    NATURAL LEFT JOIN NC_Planet P
+    WHERE OpenTime<=p_time
+    AND StarType=0 --STAR_NORMAL
+    GROUP BY S.SID
+    HAVING COUNT(PLID)<S.MaxPlanets
+    ORDER BY RAND()
+    LIMIT 1 FOR UPDATE;
 END;;
 
