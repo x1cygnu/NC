@@ -4,11 +4,26 @@ include_once('sqlexception.php');
 
 class SQL extends mysqli {
   public $debug = false;
+  public $lastquery = '';
 
   public function __construct($host, $user, $pass, $dbname) {
     parent::__construct($host, $user, $pass, $dbname);
     if (mysqli_connect_error())
       throw new Exception("Failed to establish the database connection: " . $this->connect_error);
+  }
+
+  public function real_query($query) {
+    $this->lastquery = $query;
+    $result = parent::real_query($query);
+    $this->checkError();
+    return $result;
+  }
+
+  public function query($query) {
+    $this->lastquery = $query;
+    $result = parent::query($query);
+    $this->checkError();
+    return $result;
   }
 
   private function purge() {
@@ -22,7 +37,7 @@ class SQL extends mysqli {
 
   private function getresult() {
     $resultobj = $this->store_result();
-    $this->checkError($stmtstr);
+    $this->checkError();
     if ($resultobj) {
       $result = array();
       while(true) {
@@ -91,7 +106,6 @@ class SQL extends mysqli {
     if ($this->debug)
       print "<p>$stmtstr</p>";
     $this->real_query($stmtstr);
-    $this->checkError($stmtstr);
     return $this->getresult();
   }
 
@@ -104,24 +118,20 @@ class SQL extends mysqli {
     return $this->single($result);
   }
 
-  private function checkError($query) {
+  private function checkError() {
     if ($this->errno)
-      SQLThrowException($this,$query);
+      SQLThrowException($this,$this->lastquery);
   }
 
   public function setGlobal($name, $value) {
     if (is_string($value))
       $value = '"'.$this->real_escape_string($value).'"';
-    $stmtstr = "UPDATE $this->globalTable SET $name=$value";
-    $this->real_query($stmtstr);
-    $this->checkError($stmtstr);
+    $this->real_query("UPDATE $this->globalTable SET $name=$value");
     $this->getresult(); //ignore result
   }
 
   public function getGlobal($name) {
-    $stmtstr = "SELECT $name AS Result FROM $this->globalTable";
-    $this->real_query($stmtstr);
-    $this->checkError($stmtstr);
+    $this->real_query("SELECT $name AS Result FROM $this->globalTable");
     $result = $this->getresult();
     return $this->single($result);
   }

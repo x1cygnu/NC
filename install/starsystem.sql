@@ -53,13 +53,13 @@ CREATE PROCEDURE NC_StarsystemFindEmpty(
   MODIFIES SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  SELECT S.SID AS Result
-    FROM NC_Starsystem S
-    NATURAL LEFT JOIN NC_Planet P
+  SELECT S.SID AS SID, S.MaxPlanets AS `Max`
+    FROM NC_Starsystem AS S
+    NATURAL LEFT JOIN NC_Planet AS P
     WHERE OpenTime<=p_time
-    AND StarType=0 --STAR_NORMAL
+    AND StarType=0 -- STAR_NORMAL
     GROUP BY S.SID
-    HAVING COUNT(PLID)<S.MaxPlanets
+    HAVING COUNT(P.PLID)<S.MaxPlanets
     ORDER BY RAND()
     LIMIT 1 FOR UPDATE;
 END;;

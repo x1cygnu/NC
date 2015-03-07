@@ -14,7 +14,7 @@ BEGIN
   DECLARE PlanetNum TINYINT UNSIGNED;
   START TRANSACTION;
 
-  --Prevent other PlanetCreate in this system
+  -- Prevent other PlanetCreate in this system
     SELECT 1 FROM NC_Starsystem WHERE SID=p_SID FOR UPDATE;
 
   SELECT COUNT(*) INTO PlanetNum FROM NC_Planet WHERE SID=p_SID;

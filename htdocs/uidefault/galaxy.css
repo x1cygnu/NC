@@ -1,0 +1,16 @@
+div.map {
+  margin: auto;
+  border : white 1px solid;
+}
+.mapelem {
+  width: 25px;
+  height: 25px;
+}
+.mapcoord {
+width: 25px;
+height: 25px;
+text-align: center;
+line-height: 25px;
+font-size: 9px;
+background-color: #202040;
+}

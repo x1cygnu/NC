@@ -14,6 +14,7 @@ class Cell extends Node {
       $this->setAttribute("rowspan",$this->rowSpan);
     if ($this->colSpan>1)
       $this->setAttribute("colspan",$this->colSpan);
+    parent::prepare();
   }
 
   public function span($dy, $dx) {

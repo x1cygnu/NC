@@ -19,9 +19,13 @@ $FieldMap = array(
     'news_count' => 'c',
     'news_fromtime' => 't',
 
+    'map_x' => 'x',
+    'map_y' => 'y',
+    'map_range' => 'r',
+
     'submit_login' => 'sl',
     'submit_register' => 'sreg',
-    'submit_player_create' => 'spc'
+    'submit_player_create' => 'spc',
     );
 
 

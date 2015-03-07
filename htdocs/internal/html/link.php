@@ -8,7 +8,7 @@ class Ref extends Node {
   public function __construct($url) {
     parent::__construct('a');
     $this->url = $url;
-    $params = array();
+    $this->params = array();
   }
   public function addParam($key, $value) {
     $params[$key]=$value;
@@ -26,6 +26,7 @@ class Ref extends Node {
       $addr .= rawurlencode($key).'='.rawurlencode($value);
     }
     $this->setAttribute('href',$addr);
+    parent::prepare();
   }
 
 };

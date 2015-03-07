@@ -4,6 +4,7 @@ include_once("./internal/html/table.php");
 include_once("./internal/html/image.php");
 include_once("./internal/html/form.php");
 include_once("./internal/html/small.php");
+include_once("./internal/html/frame.php");
 include_once("./internal/html/link.php");
 include_once("./internal/html/as.php");
 include_once("./internal/exception.php");
@@ -26,9 +27,9 @@ if (isset($_COOKIE['UI'])) {
   $UI = 'uidefault';
 }
 $H = new HTML("Northern Cross - Free Online Somewhat-Massive Multiplayer Game");
-$H->addStyle($UI.'/basic.css');
-$H->addStyle($UI.'/table.css');
-$H->addStyle($UI.'/common.css');
+$H->addStyleFile($UI.'/basic.css');
+$H->addStyleFile($UI.'/table.css');
+$H->addStyleFile($UI.'/common.css');
 
 include('./gopart.php');
 echo $H;

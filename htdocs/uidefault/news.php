@@ -2,7 +2,7 @@
 include_once('./uidefault/menu.php');
 include('./uidefault/messages.php');
 
-$H->addStyle($UI.'/news.css');
+$H->addStyleFile($UI.'/news.css');
 
 $T=new Table();
 $T(1,1)->_("News")->setClass('title')->span(1,2);

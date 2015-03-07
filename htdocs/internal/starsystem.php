@@ -17,30 +17,30 @@ function starsystem_cluster_create($sql, $x, $y, $ring, $numSattelite) {
 }
 
 function starsystem_special_create($sql, $x, $y, $name) {
-  $SID=$sql->NC_StarsystemCreateSpecial($x, $y, 12, now(), STAR_SPECIAL);
-  planet_create($SID, PLANET_CORONA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
+  $SID=$sql->NC_StarsystemCreateSpecial($x, $y, 12, now(), $name, STAR_SPECIAL);
+  planet_create($sql, $SID, PLANET_CORONA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
+  planet_create($sql, $SID, PLANET_GAIA);
 }
 
 function starsystem_spawn_ring($sql) {
   $ring = $sql->getGlobal('RingLevel');
-  if ($ringlvl==0) {
+  if ($ring==0) {
     starsystem_special_create($sql, 7, -5, "Albireo A");
     starsystem_special_create($sql, -7, 5, "Albireo B");
     //make special systems
   } else {
     $translation=0;
-    for ($i=0; $i<$ringlvl; ++$i)
+    for ($i=0; $i<$ring; ++$i)
       $translation+=0.25*PI/($i+1);
 
     $radfrom = -PI/pow(($ring+20)/10.0,2.3)+$translation;
@@ -53,7 +53,7 @@ function starsystem_spawn_ring($sql) {
     if ($numstars == 0)
       $numstars=1;
 
-    for ($i=0; $i<$ringnumofstars; ++$i) {
+    for ($i=0; $i<$numstars; ++$i) {
       $angle=$radfrom+($raddiff*$i)/$ringnumofstars;
       $x=round($ring*3*cos($angle)+mt_rand(-1,+1));
       $y=round($ring*3*sin($angle)+mt_rand(-1,+1));
@@ -63,7 +63,7 @@ function starsystem_spawn_ring($sql) {
       starsystem_cluster_create($sql,$x,$y,$ring,$sattelite);
     }
 
-    for ($i=0; $i<$ringnumofstars; ++$i) {
+    for ($i=0; $i<$numstars; ++$i) {
       $angle=$radfrom+($raddiff*$i)/$ringnumofstars;
       $x=-round($ring*3*cos($angle)+mt_rand(-1,+1));
       $y=-round($ring*3*sin($angle)+mt_rand(-1,+1));
@@ -77,35 +77,41 @@ function starsystem_spawn_ring($sql) {
   $sql->setGlobal('RingLevel',$ring+1);
 }
 
-function starsystem_spawn_planets_for_player() {
+function starsystem_spawn_planets_for_player($sql) {
   $sql->query("START TRANSACTION");
-  $try = 0;
-  do {
-    $SID = $sql->NC_FindEmptySystem(now());
-    if (empty($SID)) {
-      ++$try;
-      if ($try>2) {
-        $sql->query("ROLLBACK");
-        throw NCException("Could not find suitable planet");
+  try {
+    $try = 0;
+    do {
+      $EmptySystem = $sql->NC_StarsystemFindEmpty(now());
+      if (empty($EmptySystem)) {
+        ++$try;
+        if ($try>2) {
+          $sql->query("ROLLBACK");
+          throw new NCException("Could not find suitable planet");
+        }
+        starsystem_spawn_ring($sql);
       }
-      starsystem_spawn_ring($sql);
+    } while (empty($EmptySystem));
+    $SID = $EmptySystem['SID'];
+    $size = NC_StarsystemSize($SID);
+    if ($size<1)
+      planet_create($sql, $SID, PLANET_CORONA);
+    if ($size<3) {
+      planet_create($sql, $SID, PLANET_GAIA);
+      planet_create($sql, $SID, PLANET_GAIA);
     }
-  } while (empty($SID))
-  $size = NC_StarsystemSize($SID);
-  if ($size<1)
-    planet_create($SID, PLANET_CORONA);
-  if ($size<3) {
-    planet_create($SID, PLANET_GAIA);
-    planet_create($SID, PLANET_GAIA);
+    if ((mt_rand(1,10)<4) and $size<6)
+      planet_create($sql, $SID, PLANET_GAIA);
+    planet_create($sql, $SID, PLANET_GAIA);
+    $here = planet_create($sql, $SID, PLANET_GAIA);
+    planet_create($sql, $SID, PLANET_GAIA);
+    if ($mt_rand(1,10)<4)
+      planet_create($sql, $SID, PLANET_GAIA);
+    $sql->query("COMMIT");
+  } catch (Exception $e) {
+    $sql->query("ROLLBACK");
+    throw $e;
   }
-  if ((mt_rand(1,10)<4) and $size<6)
-    planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  $here = planet_create($SID, PLANET_GAIA);
-  planet_create($SID, PLANET_GAIA);
-  if ($mt_rand(1,10)<4)
-    planet_create($SID, PLANET_GAIA);
-  $sql->query("COMMIT");
   return $here;
 }
 

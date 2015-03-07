@@ -5,6 +5,7 @@ class Node implements ArrayAccess {
   protected $attribute;
   protected $content;
   public $big;
+  public $style = array();
 
   static private $voidTags = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr');
 
@@ -45,6 +46,13 @@ class Node implements ArrayAccess {
   }
 
   protected function prepare() {
+    $style = '';
+    foreach ($this->style as $key => $value) {
+      if ($style)
+        $style.='; ';
+      $style .= "$key:$value";
+    }
+    $this->setAttribute('style',$style);
   }
 
   public function __toString() {
@@ -97,7 +105,6 @@ class Node implements ArrayAccess {
   function setClass($class) {$this->setAttribute('class',$class); return $this; }
   function addClass($class) {$this->addAttribute('class',$class); return $this; }
   function setId($id) {$this->setAttribute('id',$id); return $this; }
-  function setStyle($style) {$this->setAttribute('style',$style); return $this; }
 
   public function _($entry) {
     $this->content[] = $entry;

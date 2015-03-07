@@ -23,6 +23,7 @@ class Image extends Node {
       $this->addAttribute('width',$this->width);
     if ($this->height > 0)
       $this->addAttribute('height',$this->height);
+    parent::prepare();
   }
 
 }

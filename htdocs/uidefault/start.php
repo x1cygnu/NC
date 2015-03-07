@@ -40,7 +40,7 @@ $row = $T->maxRows;
 $T($row+1, 1)->_(Submit(field('submit_player_create'),'Create race'))->span(1,10)->setClass("buttons");
 
 $H[]=$F;
-$H->addStyle($UI.'/race.css');
+$H->addStyleFile($UI.'/race.css');
 $H->addScriptFile($UI.'/js/radio.js');
 }
 ?>

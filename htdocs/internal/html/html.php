@@ -3,7 +3,7 @@ include_once("node.php");
 
 class HTML extends Node {
   protected $meta;
-  protected $style;
+  protected $stylefile;
   protected $scriptfile;
   protected $script;
 
@@ -12,7 +12,7 @@ class HTML extends Node {
     parent::__construct('body');
     $this->title=htmlentities($title, ENT_HTML5);
     $this->meta = array();
-    $this->style = array();
+    $this->stylefile = array();
     $this->scriptfile = array();
     $this->script = '';
   }
@@ -23,7 +23,7 @@ class HTML extends Node {
       $metas .= "  <meta name=\"$key\" content=\"$value\"/>\n";
 
     $styles = '';
-    foreach ($this->style as $filename)
+    foreach ($this->stylefile as $filename)
       $styles .= "  <link rel=\"stylesheet\" href=\"$filename\"/>\n";
 
     $scripts = "";
@@ -54,9 +54,9 @@ END;
     $this->meta[$enckey] = $encvalue;
   }
 
-  public function addStyle($filename) {
+  public function addStyleFile($filename) {
     $encname = htmlspecialchars($filename, ENT_COMPAT | ENT_HTML5);
-    $this->style[] = $encname;
+    $this->stylefile[] = $encname;
   }
 
   public function addScriptFile($filename) {

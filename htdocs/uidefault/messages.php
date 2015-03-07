@@ -1,6 +1,6 @@
 <?php
 if (count($Messages)>0)
-  $H->addStyle($UI.'/messages.css');
+  $H->addStyleFile($UI.'/messages.css');
 foreach ($Messages as $Message) {
   switch ($Message->type) {
     case MessageInfo: $H[] = Paragraph()->_("$Message->msg")->setClass('msginfo'); break;

@@ -14,6 +14,7 @@ class Form extends Node {
   protected function prepare() {
     $this->setAttribute('action',$this->target);
     $this->setAttribute('method',$this->post?'post':'get');
+    parent::prepare();
   }
 }
 function Form($target, $post=true) { return new Form($target, $post); }
@@ -37,6 +38,7 @@ class Input extends Node {
       $this->setAttribute('name',$this->name);
     if ($this->value !== '')
       $this->setAttribute('value',$this->value);
+    parent::prepare();
   }
 }
 function Input($type, $name, $value='') { return new Input($type, $name, $value); }
@@ -82,9 +84,9 @@ class RadioInput extends Input {
     parent::__construct('radio', $name, $value);
   }
   public function prepare() {
-    parent::prepare();
     if ($this->checked)
       $this->enableAttribute('checked');
+    parent::prepare();
   }
 }
 function RadioInput($name, $value='') { return new RadioInput($name, $value); }
@@ -95,9 +97,9 @@ class CheckboxInput extends Input {
     parent::__construct('checkbox', $name, $value);
   }
   public function prepare() {
-    parent::prepare();
     if ($this->checked)
       $this->enableAttribute('checked');
+    parent::prepare();
   }
 }
 function CheckboxInput($name, $value='') { return new CheckboxInput($name, $value); }
