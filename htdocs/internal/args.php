@@ -23,6 +23,8 @@ $FieldMap = array(
     'map_y' => 'y',
     'map_range' => 'r',
 
+    'sid' => 'st',
+
     'submit_login' => 'sl',
     'submit_register' => 'sreg',
     'submit_player_create' => 'spc',

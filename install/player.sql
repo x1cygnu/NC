@@ -15,7 +15,7 @@ BEGIN
   INSERT INTO NC_Player(`AID`,`LastUpdate`) VALUES(p_account, p_time);
   SELECT LAST_INSERT_ID() INTO Result;
   UPDATE NC_Account SET `PID`=Result WHERE `AID`=p_account;
-  SELECT Result;
+  SELECT Result AS `Result`;
 END;;
 
 DROP PROCEDURE IF EXISTS NC_AID_to_PID;;

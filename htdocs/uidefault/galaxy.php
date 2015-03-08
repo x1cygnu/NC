@@ -24,7 +24,10 @@ foreach ($stars as $star) {
     $img='IMG/ssp.gif';
   else
     $img='IMG/s1.png';
-  $T->_($star['X']*ElemSize,$star['Y']*ElemSize,new Image($img));
+  $img = Ref("system.php")
+    ->_(new Image($img))
+    ->addParam(field('sid'),$star['SID']);
+  $T->_($star['X']*ElemSize,$star['Y']*ElemSize,$img);
 }
 
 $H[]=$T;

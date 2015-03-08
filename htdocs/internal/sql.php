@@ -26,18 +26,17 @@ class SQL extends mysqli {
     return $result;
   }
 
-  private function purge() {
-    while ($this->more_results()) {
-      $this->next_result();
-      $obj = $this->store_result();
-      if ($obj)
-        $obj->free();
-    }
-  }
-
   private function getresult() {
     $resultobj = $this->store_result();
     $this->checkError();
+    while ($this->more_results()) {
+      $this->next_result();
+      $nextresult = $this->store_result();
+      if ($nextresult) {
+        $resultobj->free();
+        $resultobj = $nextresult;
+      }
+    }
     if ($resultobj) {
       $result = array();
       while(true) {
@@ -47,7 +46,6 @@ class SQL extends mysqli {
         $result[] = $row;
       }
       $resultobj->free();
-      $this->purge();
       if ($this->debug) {
         if (count($result)==0)
           print "<p>empty table</p>";
@@ -72,7 +70,6 @@ class SQL extends mysqli {
       }
       return $result;
     }
-    $this->purge();
     if ($this->debug)
       print "<p>null</p>";
     return null;

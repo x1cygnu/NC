@@ -34,7 +34,7 @@ function process_news($data) {
     if (!isset($n) or $n->NID != $row['NID']) {
       $n = new News();
       $n->NID = $row['NID'];
-      $n->owner = $row['Owner'];
+      $n->owner = $row['PID'];
       $n->type = $row['NewsType'];
       $n->showtime = $row['ShowTime'];
       $result[] = $n;

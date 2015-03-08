@@ -11,7 +11,7 @@ class Ref extends Node {
     $this->params = array();
   }
   public function addParam($key, $value) {
-    $params[$key]=$value;
+    $this->params[$key]=$value;
     return $this;
   }
   protected function prepare() {

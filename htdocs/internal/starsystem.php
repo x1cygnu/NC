@@ -103,7 +103,7 @@ function starsystem_spawn_planets_for_player($sql) {
     if ((mt_rand(1,10)<4) and $size<6)
       planet_create($sql, $SID, PLANET_GAIA);
     planet_create($sql, $SID, PLANET_GAIA);
-    $here = planet_create($sql, $SID, PLANET_GAIA);
+    $here = intval(planet_create($sql, $SID, PLANET_GAIA));
     planet_create($sql, $SID, PLANET_GAIA);
     if (mt_rand(1,10)<4)
       planet_create($sql, $SID, PLANET_GAIA);
@@ -113,6 +113,10 @@ function starsystem_spawn_planets_for_player($sql) {
     throw $e;
   }
   return $here;
+}
+
+function starsystem_get($sql, $sid) {
+  return $sql->NC_StarsystemGet($sid);
 }
 
 ?>
