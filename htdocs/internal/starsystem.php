@@ -54,9 +54,9 @@ function starsystem_spawn_ring($sql) {
       $numstars=1;
 
     for ($i=0; $i<$numstars; ++$i) {
-      $angle=$radfrom+($raddiff*$i)/$ringnumofstars;
-      $x=round($ring*3*cos($angle)+mt_rand(-1,+1));
-      $y=round($ring*3*sin($angle)+mt_rand(-1,+1));
+      $angle=$radfrom+($raddiff*$i)/$numstars;
+      $x=round($ring*4*cos($angle)+mt_rand(-1,+1));
+      $y=round($ring*4*sin($angle)+mt_rand(-1,+1));
       $sattelite=mt_rand(0,1);
       if ($i==0) $sattelite+=2;
       if ($i==$numstars-1) $sattelite+=1;
@@ -64,9 +64,9 @@ function starsystem_spawn_ring($sql) {
     }
 
     for ($i=0; $i<$numstars; ++$i) {
-      $angle=$radfrom+($raddiff*$i)/$ringnumofstars;
-      $x=-round($ring*3*cos($angle)+mt_rand(-1,+1));
-      $y=-round($ring*3*sin($angle)+mt_rand(-1,+1));
+      $angle=$radfrom+($raddiff*$i)/$numstars;
+      $x=-round($ring*4*cos($angle)+mt_rand(-1,+1));
+      $y=-round($ring*4*sin($angle)+mt_rand(-1,+1));
       $sattelite=mt_rand(0,1);
       if ($i==0) $sattelite+=2;
       if ($i==$numstars-1) $sattelite+=1;
@@ -93,7 +93,7 @@ function starsystem_spawn_planets_for_player($sql) {
       }
     } while (empty($EmptySystem));
     $SID = $EmptySystem['SID'];
-    $size = NC_StarsystemSize($SID);
+    $size = $sql->NC_StarsystemSize($SID);
     if ($size<1)
       planet_create($sql, $SID, PLANET_CORONA);
     if ($size<3) {
@@ -105,7 +105,7 @@ function starsystem_spawn_planets_for_player($sql) {
     planet_create($sql, $SID, PLANET_GAIA);
     $here = planet_create($sql, $SID, PLANET_GAIA);
     planet_create($sql, $SID, PLANET_GAIA);
-    if ($mt_rand(1,10)<4)
+    if (mt_rand(1,10)<4)
       planet_create($sql, $SID, PLANET_GAIA);
     $sql->query("COMMIT");
   } catch (Exception $e) {

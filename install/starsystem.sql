@@ -7,6 +7,7 @@ CREATE PROCEDURE NC_StarsystemCreate(
     p_ring TINYINT,
     p_X SMALLINT,
     p_Y SMALLINT,
+    p_Type TINYINT UNSIGNED,
     p_MaxPlanets TINYINT UNSIGNED,
     p_OpenTime INTEGER UNSIGNED
     )
@@ -15,15 +16,15 @@ CREATE PROCEDURE NC_StarsystemCreate(
   SQL SECURITY INVOKER
 BEGIN
   DECLARE StarName VARCHAR(40);
-  SELECT Name INTO StarName FROM NC_Config_StarsystemName
+  SELECT Name INTO StarName FROM NC_Config_StarsystemNames
     WHERE RingLevel<p_ring
     ORDER BY RAND()
     LIMIT 1;
-  UPDATE NC_Config_StarsystemName 
+  UPDATE NC_Config_StarsystemNames
     SET RingLevel=p_ring+10
     WHERE Name=StarName;
-  INSERT INTO NC_Starsystem (X, Y, Name, MaxPlanets, OpenTime)
-    VALUES (p_X, p_Y, StarName, p_MaxPlanets, p_OpenTime);
+  INSERT INTO NC_Starsystem (X, Y, Name, MaxPlanets, OpenTime, StarType)
+    VALUES (p_X, p_Y, StarName, p_MaxPlanets, p_OpenTime, p_Type);
   SELECT LAST_INSERT_ID() AS Result;
 END;;
 
@@ -62,5 +63,18 @@ BEGIN
     HAVING COUNT(P.PLID)<S.MaxPlanets
     ORDER BY RAND()
     LIMIT 1 FOR UPDATE;
+END;;
+
+DROP PROCEDURE IF EXISTS NC_StarsystemSize;;
+CREATE PROCEDURE NC_StarsystemSize(
+    p_SID INTEGER UNSIGNED
+    )
+  LANGUAGE SQL
+  READS SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  SELECT COUNT(*) AS Result
+    FROM NC_Planet
+    WHERE SID=p_SID;
 END;;
 
