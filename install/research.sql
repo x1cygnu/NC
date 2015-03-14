@@ -1,0 +1,16 @@
+DELIMITER ;;
+
+USE cygnus_rootnode;;
+
+DROP PROCEDURE IF EXISTS NC_ResearchGet;;
+CREATE PROCEDURE NC_ResearchGet(
+    p_PID INTEGER UNSIGNED,
+    p_Type SMALLINT UNSIGNED
+  )
+  LANGUAGE SQL
+  READS SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  SELECT `Level`, `Progress` FROM NC_PlayerResearch WHERE PID=p_PID AND `Type`=p_Type;
+END;;
+

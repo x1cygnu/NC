@@ -54,7 +54,7 @@ CREATE PROCEDURE NC_StarsystemFindEmpty(
   MODIFIES SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  SELECT S.SID AS SID, S.MaxPlanets AS `Max`
+  SELECT S.SID AS SID, S.MaxPlanets AS `Max`, S.X AS X, S.Y As Y
     FROM NC_Starsystem AS S
     NATURAL LEFT JOIN NC_Planet AS P
     WHERE OpenTime<=p_time

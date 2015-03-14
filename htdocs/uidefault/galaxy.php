@@ -19,6 +19,9 @@ for ($i = -$range; $i<= +$range; ++$i) {
   $T->_($BR-ElemSize,$i*ElemSize,$num);
 }
 
+$T->setOffset(($range+1-$mapx)*ElemSize,
+              ($range+1-$mapy)*ElemSize);
+
 foreach ($stars as $star) {
   if ($star['StarType']==STAR_SPECIAL)
     $img='IMG/ssp.gif';
@@ -28,6 +31,15 @@ foreach ($stars as $star) {
     ->_(new Image($img))
     ->addParam(field('sid'),$star['SID']);
   $T->_($star['X']*ElemSize,$star['Y']*ElemSize,$img);
+}
+
+foreach ($viewranges as $view) {
+  $div = $T->div(($view['HomeX']-$view['Range'])*ElemSize,
+                 ($view['HomeY']-$view['Range'])*ElemSize);
+  $size = ($view['Range']*2+1)*ElemSize;
+  $div->style['width'] = $size;
+  $div->style['height'] = $size;
+  $div->setClass('view');
 }
 
 $H[]=$T;

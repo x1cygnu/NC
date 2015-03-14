@@ -112,7 +112,8 @@ function starsystem_spawn_planets_for_player($sql) {
     $sql->query("ROLLBACK");
     throw $e;
   }
-  return $here;
+  $EmptySystem['PID']=$here;
+  return $EmptySystem;
 }
 
 function starsystem_get($sql, $sid) {

@@ -32,7 +32,14 @@ class Frame extends Div {
     $this[] = $div;
     return $this;
   }
-
+  public function div($x,$y) {
+    $div = new Div();
+    $div->style['position']='absolute';
+    $div->style['left']=($x+$this->offsetx).'px';
+    $div->style['top']=($y+$this->offsety).'px';
+    $this[] = $div;
+    return $div;
+  }
 }
 function Frame($width, $height) { return new Frame($width, $height); }
 

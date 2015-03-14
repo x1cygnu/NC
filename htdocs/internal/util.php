@@ -14,4 +14,8 @@ function str_or_empty(&$val) {
   return '';
 }
 
+function makeint(&$var) {
+  settype($var, 'integer');
+}
+
 ?>
