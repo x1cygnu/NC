@@ -13,7 +13,7 @@ table {
   text-align: center;
   margin: auto;
   font-size: 10pt;
-  background-color: black;
+  background-color: #303030;
   border-collapse: collapse;
   border: 1px;
 }
@@ -21,7 +21,7 @@ table tr {
   text-align: left;
 }
 table td {
-padding: 0pt;
+  padding: 0pt;
 }
 
 input[type=text],

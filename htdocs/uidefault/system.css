@@ -1,0 +1,21 @@
+.porbit {
+  text-align: right;
+  padding-left: 5pt;
+  padding-right: 5pt;
+}
+.ptype {
+  width: 60px;
+  text-align: center;
+  font-size: 8pt;
+}
+.ppop {
+  width: 30px;
+  text-align: right;
+  padding-left: 5pt;
+  padding-right: 5pt;
+}
+.powner {
+  width: 200px;
+  text-align: center;
+}
+

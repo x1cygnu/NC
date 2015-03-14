@@ -25,9 +25,24 @@ class Cell extends Node {
 }
 function Cell() { return new Cell(); }
 
+class Row extends Node {
+  public function __construct() {
+    parent::__construct('tr',true);
+  }
+
+  public function getHeader() {
+    return parent::getHeader();
+  }
+  public function getFooter() {
+    return parent::getFooter();
+  }
+}
+
 class Table extends Node {
   public $maxRows = 0; //x coordinate
   public $maxCols = 0; //y coordinate
+
+  public $rows = array();
 
   public function __construct() {
     parent::__construct('table',true);
@@ -55,6 +70,14 @@ class Table extends Node {
     return $this->content[$row][$col];
   }
 
+  public function row($row) {
+    if ($this->maxRows < $row)
+      $this->maxRows = $row;
+    if (!isset($this->rows[$row]))
+      $this->rows[$row] = new Row();
+    return $this->rows[$row];
+  }
+
   public function __invoke($row, $col) {
     if ($this->maxRows < $row)
       $this->maxRows = $row;
@@ -72,7 +95,11 @@ class Table extends Node {
     $S = '';
     $exclusion = array();
     for ($row = 1; $row<=$this->maxRows; ++$row) {
-      $S .= "<tr>";
+      $rownode = get_or_default($this->rows[$row],null);
+      if (isset($rownode))
+        $S .= $rownode->getHeader();
+      else
+        $S .= "<tr>";
       for ($col = 1; $col<=$this->maxCols; ++$col) {
         if (isset($exclusion[$row][$col]))
           continue;
@@ -88,7 +115,10 @@ class Table extends Node {
         }
         $S .= $cell;
       }
-      $S .= "</tr>\n";
+      if (isset($rownode))
+        $S .= $rownode->getFooter();
+      else
+        $S .= "</tr>\n";
     }
     return $S;
   }
