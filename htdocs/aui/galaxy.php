@@ -21,7 +21,6 @@ $sql = openSQL();
 $home = player_get_home($sql, $PID);
 $sensory = research_get($sql, $PID, NC_RESEARCH_SENSORY);
 $home['Range'] = $sensory['Level']/2;
-var_dump($home);
 
 $mapx = get_or_default($mapx,$home['HomeX']);
 $mapy = get_or_default($mapy,$home['HomeY']);
@@ -30,6 +29,8 @@ $stars = galaxy_get($sql, $mapx, $mapy, $range);
 
 $viewranges = array();
 $viewranges[] = $home;
+
+$background = galaxy_get_background($sql, $mapx, $mapy, $range);
 
 $sql->close();
 

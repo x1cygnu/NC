@@ -23,7 +23,7 @@ class Frame extends Div {
   }
   public function _($x,$y,$obj) {
     if ($obj instanceof Node)
-      $div = clone $obj;
+      $div = $obj;
     else
       $div = Div()->_($obj);
     $div->style['position']='absolute';

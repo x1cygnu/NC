@@ -1,6 +1,7 @@
 div.map {
   margin: auto;
-  border : white 1px solid;
+  border: white 1px solid;
+  overflow: hidden;
 }
 .mapelem {
   width: 25px;
