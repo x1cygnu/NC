@@ -20,6 +20,7 @@ $T(5,1)->_(Submit(field('submit_login'),'Enter'))->span(1,2)->setClass('buttons'
 
 $H[]=Form('login.php')->_($T);
 
+$H->_(Paragraph()->_("Working: Science screen"));
 $H->_(Paragraph()->_("30% working: Starsystem map"));
 $H->_(Paragraph()->_("80% working: Galaxy map with background"));
 $H->_(Paragraph()->_("Working: Player spawning"));

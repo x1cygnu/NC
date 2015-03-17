@@ -29,6 +29,7 @@ foreach (RESEARCH_SCIENCES() as $type) {
   $T->row($row)->addClass('science');
   if ($type == $selected)
     $T->row($row)->addClass('selected');
+  asLink($T->row($row),'science.php?'.field('science_switch').'='.$type,false);
 }
 
 $H[] = $T;

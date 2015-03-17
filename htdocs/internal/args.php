@@ -25,6 +25,8 @@ $FieldMap = array(
 
     'sid' => 'st',
 
+    'science_switch' => 'ssw',
+
     'submit_login' => 'sl',
     'submit_register' => 'sreg',
     'submit_player_create' => 'spc',

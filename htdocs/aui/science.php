@@ -9,9 +9,19 @@ $PID = $_SESSION['PID'];
 include_once('./internal/research.php');
 include_once('./internal/player.php');
 
+$selected = get('science_switch','integer');
+if (isset($selected)) {
+  if ($selected<1 or $selected>6)
+    unset($selected);
+}
+
+
 $sql = openSQL();
+if (isset($selected))
+  player_set_selected_research($sql, $PID, $selected);
+else
+  $selected = player_get_selected_research($sql, $PID);
 $science = research_get_all_science($sql, $PID);
-$selected = player_get_selected_research($sql, $PID);
 $sql->close();
 
 ?>

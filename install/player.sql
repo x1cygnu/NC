@@ -53,3 +53,15 @@ BEGIN
   SELECT Research AS Result FROM NC_Player WHERE PID=p_PID;
 END;;
 
+DROP PROCEDURE IF EXISTS NC_PlayerSetSelectedResearch;;
+CREATE PROCEDURE NC_PlayerSetSelectedResearch(
+    p_PID INTEGER UNSIGNED,
+    p_Selected SMALLINT UNSIGNED
+    )
+  LANGUAGE SQL
+  MODIFIES SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  UPDATE NC_Player SET Research=p_Selected WHERE PID=p_PID;
+END;;
+
