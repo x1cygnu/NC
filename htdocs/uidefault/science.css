@@ -1,0 +1,15 @@
+.science:hover td {
+  background-color: #676799;
+}
+.science td {
+  padding: 1px;
+}
+.level {
+  padding-left: 5pt;
+  padding-right: 5pt;
+  text-align: right;
+  width: 30px;
+}
+.selected {
+  background-color: #308060;
+}

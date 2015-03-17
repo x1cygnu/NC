@@ -6,6 +6,7 @@ include_once("./internal/html/form.php");
 include_once("./internal/html/small.php");
 include_once("./internal/html/frame.php");
 include_once("./internal/html/link.php");
+include_once("./internal/html/progress.php");
 include_once("./internal/html/as.php");
 include_once("./internal/exception.php");
 include_once("./internal/util.php");

@@ -25,4 +25,8 @@ function player_get_home($sql, $pid) {
   return $result;
 }
 
+function player_get_selected_research($sql, $pid) {
+  return intval($sql->NC_PlayerGetSelectedResearch($pid));
+}
+
 ?>
