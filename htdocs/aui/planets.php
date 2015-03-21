@@ -7,9 +7,13 @@ if (!isset($_SESSION['PID']))
 $PID = $_SESSION['PID'];
 
 include_once('./internal/ownplanets.php');
+include_once('./internal/level.php');
 
 $sql = openSQL();
 $planets = own_planets_get($sql, $PID);
+foreach ($planets as &$planet) {
+  $planet['Link'] = 'planet.php?' . field('owned_planet').'='.$planet['PLID'];
+}
 $sql->close();
 
 ?>

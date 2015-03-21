@@ -22,7 +22,7 @@ foreach ($planets as $planet) {
   $row = $planet['Orbit']+3;
   $T($row,1)->_($planet['Orbit'])->setClass('porbit');
   $T($row,2)->_($planet['TypeName'])->setClass('ptype');
-  $T($row,3)->_($planet['Population'])->setClass('ppop');
+  $T($row,3)->_(pop_lvl($planet['Pop']))->setClass('ppop');
   $T($row,4)->_($planet['Name'])->setClass('powner');
 }
 

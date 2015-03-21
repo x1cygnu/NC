@@ -14,15 +14,13 @@ BEGIN
     P.PLID AS PLID,
     P.Orbit AS Orbit,
     S.Name AS Name,
-    PD.Value AS Population,
-    PD.Progress AS PopulationFraction
+    P.Pop AS Pop
   FROM
     NC_Planet P
     NATURAL JOIN NC_Starsystem S
-    JOIN NC_PlanetData PD ON PD.PLID=P.PLID AND ItemType=1
   WHERE
     P.Owner = p_PID
   ORDER BY
-    Population DESC, PopulationFraction DESC;
+    Pop DESC;
 END;;
 

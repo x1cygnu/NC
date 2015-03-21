@@ -20,7 +20,9 @@ $row=2;
 foreach ($planets as $planet) {
   ++$row;
   $T($row,2)->_($planet['Name'].' '.$planet['Orbit'])->setClass('pname');
-  $T($row,3)->_($planet['Population'])->setClass('ppop');
+  $T($row,3)->_(pop_lvl($planet['Pop']))->setClass('ppop');
+  $T->row($row)->addClass('planet');
+  asLink($T->row($row),$planet['Link']);
 }
 
 $H[]=$T;

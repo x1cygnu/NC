@@ -32,34 +32,40 @@ CREATE PROCEDURE NC_PlanetChangeOwner(
   MODIFIES SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  UPDATE NC_Planet SET Owner=p_PID WHERE PLID=p_PLID;
-  INSERT INTO NC_PlanetData VALUES (p_PLID, 1, 1, 0) -- populationset to 1
-    ON DUPLICATE KEY UPDATE Value=1, Progress=0;
+  UPDATE NC_Planet SET Owner=p_PID, Pop=1 WHERE PLID=p_PLID;
 END;;
 
-DROP PROCEDURE IF EXISTS NC_PlanetSetAttribute;;
-CREATE PROCEDURE NC_PlanetSetAttribute(
-    p_PLID INTEGER UNSIGNED,
-    p_Item SMALLINT UNSIGNED,
-    p_Value INTEGER,
-    p_Progress Integer
-  )
-  LANGUAGE SQL
-  MODIFIES SQL DATA
-  SQL SECURITY INVOKER
-BEGIN
-  INSERT INTO NC_PlanetData VALUES (p_PLID, p_Item, p_Value, p_Progress)
-    ON DUPLICATE KEY UPDATE Value=p_Value, Progress=p_Progress;
-END;;
 
-DROP PROCEDURE IF EXISTS NC_PlanetGetAttributes;;
-CREATE PROCEDURE NC_PlanetGetAttributes(
+DROP PROCEDURE IF EXISTS NC_PlanetGetOwner;;
+CREATE PROCEDURE NC_PlanetGetOwner(
     p_PLID INTEGER UNSIGNED
   )
   LANGUAGE SQL
-  MODIFIES SQL DATA
+  READS SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  SELECT ItemType, Value, Progress FROM NC_PlanetData
+  SELECT Owner AS Result
+  FROM NC_Planet
   WHERE PLID=p_PLID;
 END;;
+
+
+DROP PROCEDURE IF EXISTS NC_PlanetGet;;
+CREATE PROCEDURE NC_PlanetGet(
+    p_PLID INTEGER UNSIGNED
+  )
+  LANGUAGE SQL
+  READS SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  SELECT
+    S.Name AS Name,
+    P.Orbit AS Orbit,
+    P.Pop AS Pop
+  FROM
+    NC_Planet P
+    NATURAL JOIN NC_Starsystem S
+  WHERE
+    P.PLID = p_PLID;
+END;;
+

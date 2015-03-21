@@ -27,6 +27,8 @@ $FieldMap = array(
 
     'science_switch' => 'ssw',
 
+    'owned_planet' => 'op',
+
     'submit_login' => 'sl',
     'submit_register' => 'sreg',
     'submit_player_create' => 'spc',

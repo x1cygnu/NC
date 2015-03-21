@@ -8,6 +8,7 @@ $PID = $_SESSION['PID'];
 
 include_once('./internal/starsystem.php');
 include_once('./internal/system.php');
+include_once('./internal/level.php');
 
 $sid = get('sid','integer');
 if (!isset($sid))
