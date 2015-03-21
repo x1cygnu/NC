@@ -1,5 +1,6 @@
 <?php
 include_once('./internal/util.php');
+include_once('./internal/level.php');
 
 const NC_RESEARCH_SENSORY = 1;
 const NC_RESEARCH_ENGINEERING = 2;
@@ -25,29 +26,30 @@ function research_is_science($type) {
 }
 
 $RESEARCH_COST = array(
-    NC_RESEARCH_SENSORY => 24,
-    NC_RESEARCH_ENGINEERING => 24,
-    NC_RESEARCH_MATHEMATICS => 24,
-    NC_RESEARCH_PHYSICS => 24,
-    NC_RESEARCH_WARP => 24,
-    NC_RESEARCH_URBAN => 24
+    NC_RESEARCH_SENSORY => 86400,
+    NC_RESEARCH_ENGINEERING => 86400,
+    NC_RESEARCH_MATHEMATICS => 86400,
+    NC_RESEARCH_PHYSICS => 86400,
+    NC_RESEARCH_WARP => 86400,
+    NC_RESEARCH_URBAN => 86400
     );
 function RESEARCH_COST() {
   return $GLOBALS['RESEARCH_COST'];
 }
 
-function research_get_cost($type,$level) {
-  return RESEARCH_COST()[$type];
-}
 
 function research_get($sql, $pid, $type) {
-  $result = $sql->NC_ResearchGet($pid, $type);
+  $val = $sql->NC_ResearchGet($pid, $type);
   if (empty($result))
-    $result = array('Level' => 0, 'Progress' => 0);
-  makeint($result['Level']);
-  makeint($result['Progress']);
-  $result['Max'] = research_get_cost($type, $result['Level']);
-  $result['Remain'] = $result['Max'] - $result['Progress'];
+    $val = 0;
+  else
+    $val = intval($result);
+  $lvl = sci_lvl($type, $val);
+  $result['Level'] = $lvl;
+  $result['Progress'] = sci_towards_next_lvl($type, $val);
+  $result['Max'] = sci_for_next_lvl($type, $lvl);
+  $result['Remain'] = sci_next_lvl_remain($type, $lvl);
+  $result['Points'] = $val;
   return $result;
 }
 
@@ -57,19 +59,21 @@ function research_get_all_science($sql, $pid) {
   $science = array();
   foreach ($results as $result) {
     $type = intval($result['Type']);
-    $level = intval($result['Level']);
-    $progress = intval($result['Progress']);
-    $max = research_get_cost($type, $level);
-    $science[$type]['Level'] = $level;
-    $science[$type]['Progress'] = $progress;
-    $science[$type]['Max'] = $max;
-    $science[$type]['Remain'] = $max-$progress;
+    $val = intval($result['Progress']);
+    $lvl = sci_lvl($type, $val);
+    $science[$type]['Level'] = $lvl;
+    $science[$type]['Progress'] = sci_towards_next_lvl($type, $val);
+    $science[$type]['Max'] = sci_for_next_lvl($type, $lvl);
+    $science[$type]['Remain'] = sci_next_lvl_remain($type, $lvl);
+    $science[$type]['Points'] = $val;
   }
   foreach (RESEARCH_SCIENCES() as $sciType) {
     if (!isset($science[$sciType])) {
       $science[$sciType]['Level'] = 0;
       $science[$sciType]['Progress'] = 0;
-      $science[$sciType]['Remain'] = $science[$sciType]['Max'] = research_get_cost($sciType, 0);
+      $science[$type]['Max'] = sci_for_next_lvl($type, 0);
+      $science[$type]['Remain'] = sci_next_lvl_remain($type, 0);
+      $science[$type]['Points'] = 0;
     }
   }
   return $science;

@@ -11,7 +11,7 @@ CREATE PROCEDURE NC_ResearchGet(
   READS SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  SELECT `Level`, `Progress` FROM NC_PlayerResearch WHERE PID=p_PID AND `Type`=p_Type;
+  SELECT `Progress` AS Result FROM NC_PlayerResearch WHERE PID=p_PID AND `Type`=p_Type;
 END;;
 
 DROP PROCEDURE IF EXISTS NC_ResearchGetBelow;;
@@ -23,6 +23,6 @@ CREATE PROCEDURE NC_ResearchGetBelow(
   READS SQL DATA
   SQL SECURITY INVOKER
 BEGIN
-  SELECT `Type`, `Level`, `Progress` FROM NC_PlayerResearch WHERE PID=p_PID AND `Type`<p_Type ORDER BY `Type`;
+  SELECT `Type`, `Progress` FROM NC_PlayerResearch WHERE PID=p_PID AND `Type`<p_Type ORDER BY `Type`;
 END;;
 

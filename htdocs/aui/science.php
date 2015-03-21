@@ -24,4 +24,8 @@ else
 $science = research_get_all_science($sql, $PID);
 $sql->close();
 
+foreach (RESEARCH_SCIENCES() as $type) {
+  $science[$type]['Link'] = 'science.php?'.field('science_switch').'='.$type;
+}
+
 ?>
