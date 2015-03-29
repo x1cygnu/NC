@@ -1,0 +1,19 @@
+.buildbox {
+  width: 100px;
+}
+.buildboxrow {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.buildboxtop {
+  height: 25pt;
+}
+.buildboxmain {
+  font-size: 24pt;
+  text-align: center;
+}
+.buildboxsub {
+  font-size: 8pt;
+  text-align: center;
+}
+

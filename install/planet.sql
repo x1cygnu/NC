@@ -61,11 +61,32 @@ BEGIN
   SELECT
     S.Name AS Name,
     P.Orbit AS Orbit,
-    P.Pop AS Pop
+    P.Owner AS Owner,
+    P.Pop AS Pop,
+    P.Minerals AS Minerals
   FROM
     NC_Planet P
     NATURAL JOIN NC_Starsystem S
   WHERE
     P.PLID = p_PLID;
 END;;
+
+DROP PROCEDURE IF EXISTS NC_PlanetGetPossibleConstructs;;
+CREATE PROCEDURE NC_PlanetGetPossibleConstructs(
+    p_PLID INTEGER UNSIGNED
+  )
+  LANGUAGE SQL
+  READS SQL DATA
+  SQL SECURITY INVOKER
+BEGIN
+  SELECT
+    Con.ItemType AS ItemType,
+    Con.BaseCost AS BaseCost
+  FROM
+    NC_Planet P
+    NATURAL JOIN NC_PlanetTypeConstruct as Con
+  WHERE
+    P.PLID = p_PLID;
+END;;
+
 

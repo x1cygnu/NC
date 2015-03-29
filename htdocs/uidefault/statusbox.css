@@ -1,0 +1,19 @@
+.statbox {
+  width: 150px;
+}
+.statboxrow {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.statboxtop {
+  height: 25pt;
+}
+.statboxmain {
+  font-size: 24pt;
+  text-align: center;
+}
+.statboxsub {
+  font-size: 8pt;
+  text-align: center;
+}
+
